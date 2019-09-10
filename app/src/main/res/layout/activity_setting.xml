@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/GhostWhite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:id="@+id/setting_mStatusBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/linaColor1"
+            android:visibility="gone"
+            tools:visibility="visible" />
+        <com.shenjing.mytextapp.widgte.TitleBar
+            android:id="@+id/setting_titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/bgColor_overlay" />
+    </LinearLayout>
+    <RelativeLayout
+        android:background="@color/linaColor1"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <ImageView
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_main"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/setting_changePassWord"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="修改密码"
+                android:textColor="@color/textColor"
+                android:textSize="14dp"
+                android:drawableLeft="@drawable/icon_pass"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_gray"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+        </RelativeLayout>
+            <View
+                android:layout_marginLeft="10dp"
+               android:layout_marginRight="10dp"
+                android:background="@color/linaColor1"
+                android:layout_width="match_parent"
+                android:layout_height="1sp"/>
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="联系客服"
+                android:textColor="@color/textColor"
+                android:textSize="14dp"
+                android:drawableLeft="@drawable/icon_customer_service"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/linaColor1"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"/>
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="清除缓存"
+                android:textColor="@color/textColor"
+                android:textSize="14dp"
+                android:drawableLeft="@drawable/icon_clear"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:gravity="center_vertical"
+                android:drawableRight="@drawable/right_gray"
+                android:layout_alignParentRight="true"
+                android:textSize="14dp"
+                android:textColor="@color/textColor"
+                android:text="3.6M"
+                android:layout_centerVertical="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+        </RelativeLayout>
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/linaColor1"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"/>
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center_vertical"
+                android:drawablePadding="10dp"
+                android:text="版本信息"
+                android:textColor="@color/textColor"
+                android:textSize="14dp"
+                android:drawableLeft="@drawable/icon_version_meassage"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:textSize="14dp"
+                android:textColor="@color/textColor"
+                android:text="1.3.0"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/linaColor1"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/setting_exit"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/submit_button_selector"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:text="安全退出"
+        android:letterSpacing="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

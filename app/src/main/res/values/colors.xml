@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App bar颜色 -->
+    <color name="colorPrimary">#dc002a</color>
+    <!-- 状态栏颜色(Lollipop - API Level 21 以上) -->
+    <color name="colorPrimaryDark">#dc002a</color>
+    <!-- 控件的主色调(光标颜色、checkbox背景色等) -->
+    <color name="colorAccent">#FF5256</color>
+    <color name="white">#ffffff</color>
+
+    <!--页面背景颜色-->
+    <color name="base_background">#f2f2f2</color>
+    <color name="base_statusBar">#dc002a</color>
+    <color name="base_background2">#F0F0F0</color>
+    <color name="transparent">#00000000</color>
+    <color name="GhostWhite">#F8F8FF</color>
+    <color name="bg_color">#F2F2F2</color>
+
+    <!--文字颜色-->
+    <color name="textColor">#333333</color>
+    <color name="textColor2">#A5A5A5</color>
+    <color name="textColor3">#F57319</color>
+    <color name="textColor4">#FDBA12</color>
+    <color name="textColor5">#ABACAE</color>
+    <color name="textColor6">#D9D9D9</color>
+    <color name="textColor7">#747474</color>
+    <!--页面显示的文字颜色-->
+    <color name="base_light_text_color">#666666</color>
+    <color name="base_hint_text_color">#999999</color>
+
+    <!-- 首页 tab 文字颜色 -->
+    <color name="tab_bg">#ffffff</color>
+    <color name="tab_text_normal">#666666</color>
+    <color name="tab_text_select">#4C516A</color>
+    <color name="tv_bg_verify">#e14356</color>
+
+    <!--线条颜色-->
+    <color name="linaColor1">#E0E0E0</color>
+    <color name="linaColor2">#F5F5F5</color>
+    <color name="blue1">#47A6FF</color>
+    <color name="blue2">#469DDB</color>
+    <color name="blue3">#007DED</color>
+    <color name="blue4">#3E41BF</color>
+
+</resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--圆形图片-->
+    <declare-styleable name="CircularImageView">
+        <attr name="border" format="boolean"/>
+        <attr name="border_width" format="dimension"/>
+        <attr name="border_color" format="color"/>
+        <attr name="shadow" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="Theme">
+        <attr name="circularImageViewStyle" format="reference"></attr>
+    </declare-styleable>
+
+
+
+    <!--验证码计时器-->
+    <declare-styleable name="TimingButton">
+        <!--计时前的文字-->
+        <attr name="tb_before_text" format="string"/>
+        <!--结束后的文字-->
+        <attr name="tb_after_text" format="string" />
+        <!--计时总时长，毫秒-->
+        <attr name="tb_totalTime" format="integer" />
+        <!--计时时间间隔，毫秒-->
+        <attr name="tb_timeInterval" format="integer" />
+        <!--按钮样式-->
+        <attr name="tb_background" format="reference"/>
+        <!--文字颜色-->
+        <attr name="tb_text_color" format="color"/>
+        <!--文字大小-->
+        <attr name="tb_text_size" format="float"/>
+    </declare-styleable>
+
+    <!--底部出和消失-->
+    <style name="bottom_in_out_animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+    <!--头部弹出和消失-->
+    <style name="top_in_out_animation">
+        <item name="android:windowEnterAnimation">@anim/push_top_in</item>
+        <item name="android:windowExitAnimation">@anim/push_top_out</item>
+    </style>
+    <!--中间弹出和消失-->
+    <style name="center_in_out_animation">
+        <item name="android:windowEnterAnimation">@anim/push_center_in</item>
+        <item name="android:windowExitAnimation">@anim/push_center_out</item>
+    </style>
+
+</resources>
