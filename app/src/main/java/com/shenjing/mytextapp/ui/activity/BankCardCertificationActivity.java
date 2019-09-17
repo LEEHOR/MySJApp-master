@@ -36,7 +36,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     @Override
     protected void initInjector() {
         ARouter.getInstance().inject(this);
-        mActivityComponent.inject(this);
+        initActivityComponent().inject(this);
     }
 
     @Override

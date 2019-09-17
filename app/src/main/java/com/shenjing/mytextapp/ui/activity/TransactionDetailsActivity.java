@@ -46,7 +46,7 @@ public class TransactionDetailsActivity extends BaseActivity<TransactionDetailsA
     @Override
     protected void initInjector() {
         ARouter.getInstance().inject(this);
-        mActivityComponent.inject(this);
+        initActivityComponent().inject(this);
 
     }
 

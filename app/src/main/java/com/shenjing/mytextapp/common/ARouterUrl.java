@@ -1,6 +1,8 @@
 package com.shenjing.mytextapp.common;
 
 
+import retrofit2.http.PUT;
+
 /**
  * author : Leehor
  * date   : 2019/7/2611:51
@@ -48,5 +50,11 @@ public  class  ARouterUrl {
     public static final String CreditInquiryRecordActivityUrl="/activity/CreditInquiryRecordActivity";
 
     public static final String AnnouncementActivityUrl="/activity/AnnouncementActivity";
+
+    public static final String RegisterActivityUrl="/activity/RegisterActivity";
+
+    public static final String LostPassActivityUrl="/activity/LostPassActivity";
+
+    public static final String WebViewActivityUrl="/activity/WebViewActivity";
 
 }

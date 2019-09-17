@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.shenjing.mytextapp.R;
 import com.shenjing.mytextapp.base.BaseActivity;
 import com.shenjing.mytextapp.common.ARouterUrl;
@@ -36,6 +38,7 @@ public class SettingActivity extends BaseActivity<SettingActivityPresenter> impl
     RelativeLayout settingChangePassWord;
     @BindView(R.id.setting_exit)
     TextView settingExit;
+    private SPUtils spUtils;
 
     @Override
     protected int getLayoutId() {
@@ -45,7 +48,7 @@ public class SettingActivity extends BaseActivity<SettingActivityPresenter> impl
     @Override
     protected void initInjector() {
         ARouter.getInstance().inject(this);
-        mActivityComponent.inject(this);
+        initActivityComponent().inject(this);
     }
 
     @Override
@@ -65,7 +68,7 @@ public class SettingActivity extends BaseActivity<SettingActivityPresenter> impl
 
     @Override
     protected void initFunc() {
-
+        spUtils = SPUtils.getInstance();
     }
 
     @OnClick({R.id.setting_changePassWord,R.id.setting_exit})
@@ -75,11 +78,35 @@ public class SettingActivity extends BaseActivity<SettingActivityPresenter> impl
                 ARouter.getInstance().build(ARouterUrl.ChangePassWordActivityUrl).navigation(this, new LoginNavigationCallback());
                 break;
             case R.id.setting_exit:
-                SPUtils spUtils = SPUtils.getInstance();
-                spUtils.remove(BaseParams.USER_NAME_KEY,true);
-                spUtils.remove(BaseParams.USER_TOKEN_KEY,false);
+                String userId = spUtils.getString(BaseParams.USER_ID_KEY);
+                if (!StringUtils.isSpace(userId)
+                        && !StringUtils.isSpace(spUtils.getString(BaseParams.USER_TOKEN_KEY))
+                        && !StringUtils.isSpace(spUtils.getString(BaseParams.USER_NAME_KEY))
+                        && !StringUtils.isSpace(spUtils.getString(BaseParams.USER_NAME_KEY))){
+                    mPresenter.loginOut(userId);
+                } else {
+                    ToastUtils.showLong("当前没有登陆");
+                }
                 break;
         }
     }
 
+    @Override
+    public void LoginOutSuccess() {
+        spUtils.remove(BaseParams.USER_ID_KEY,true);
+        spUtils.remove(BaseParams.USER_NAME_KEY,true);
+        spUtils.remove(BaseParams.USER_TOKEN_KEY,false);
+        BaseParams.userToken="";
+        BaseParams.userId="";
+        BaseParams.userName="";
+        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
+                .withInt(BaseParams.Router_type,BaseParams.SettingActivity_Type)
+                .navigation();
+        releaseMemory();
+    }
+
+    @Override
+    public void LoginOutFailure() {
+
+    }
 }

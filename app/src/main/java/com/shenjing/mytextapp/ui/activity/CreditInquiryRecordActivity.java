@@ -36,7 +36,7 @@ public class CreditInquiryRecordActivity extends BaseActivity<CreditInquiryRecor
     @Override
     protected void initInjector() {
         ARouter.getInstance().inject(this);
-        mActivityComponent.inject(this);
+        initActivityComponent().inject(this);
     }
 
     @Override

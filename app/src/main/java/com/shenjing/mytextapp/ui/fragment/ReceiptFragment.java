@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.blankj.utilcode.util.EmptyUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.StringUtils;
 import com.shenjing.mytextapp.R;
 import com.shenjing.mytextapp.base.BaseFragment;
 import com.shenjing.mytextapp.entity.ReceiptBean;
@@ -34,7 +34,7 @@ import butterknife.BindView;
  * author : Leehor
  * date   : 2019/8/1216:29
  * version: 1.0
- * desc   :收款
+ * desc   :收款页面
  */
 public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> implements ReceiptFragmentContract.View, GalleryLayoutManager.OnItemSelectedListener {
 
@@ -63,7 +63,7 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
 
     @Override
     protected void initInjector() {
-        mFragmentComponent.inject(this);
+        initFragmentComponent().inject(this);
         ARouter.getInstance().inject(this);
     }
 
@@ -78,8 +78,6 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
 
     @Override
     protected void initFunc() {
-
-
         receiptNumberKey.setOnNumberClickListener(new FullScreenNumberKeyboardView.OnNumberClickListener() {
             StringBuilder builder1 = new StringBuilder();
 
@@ -90,8 +88,16 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
                     return;
                 }
                 //只能有一个 "."
-                if (builder1.length()>=0){
-                    if ((builder1.length()-builder1.toString().replace(".", "").length()>=1)){
+                if (builder1.length() >= 1) {
+                    if ((builder1.length() - builder1.toString().replace(".", "").length() > 1)) {
+                        return;
+                    }
+                }
+                //小数点后面只能有三位
+                if (builder1.toString().contains(".")) {
+                    String substring = builder1.toString().substring(builder1.toString().lastIndexOf(".")+1);
+                    LogUtils.d(substring);
+                    if (builder1.toString().substring(builder1.toString().lastIndexOf(".")+1).length() >= 3) {
                         return;
                     }
                 }
@@ -107,7 +113,7 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
             public void onNumberDelete() {
                 if (builder1.length() >= 1) {
                     builder1.deleteCharAt(builder1.length() - 1);
-                    BigDecimal bigDecimal = new BigDecimal(EmptyUtils.isNotEmpty(builder1.toString()) ? builder1.toString() : "0.00");
+                    BigDecimal bigDecimal = new BigDecimal(!StringUtils.isEmpty(builder1.toString()) ? builder1.toString() : "0.00");
                     bigDecimal.setScale(3, BigDecimal.ROUND_HALF_EVEN);
                     NumberFormat nf = new DecimalFormat("###,##0.00");
                     String format = nf.format(bigDecimal);
@@ -164,5 +170,13 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
     public void onItemSelected(RecyclerView recyclerView, View item, int position) {
         RecyclerViewHolder viewHolderForAdapterPosition = (RecyclerViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
         LogUtils.d("点击2", position);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            LogUtils.d("showFragment--receipt");
+        }
     }
 }

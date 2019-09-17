@@ -36,7 +36,7 @@ public class AnnouncementActivity extends BaseActivity<AnnouncementActivityPrese
     @Override
     protected void initInjector() {
         ARouter.getInstance().inject(this);
-        mActivityComponent.inject(this);
+        initActivityComponent().inject(this);
     }
 
     @Override

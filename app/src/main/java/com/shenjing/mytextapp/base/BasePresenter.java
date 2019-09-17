@@ -1,6 +1,5 @@
 package com.shenjing.mytextapp.base;
 
-
 public class BasePresenter<T extends BaseContract.BaseView> implements BaseContract.BasePresenter<T> {
     protected T mView;
 

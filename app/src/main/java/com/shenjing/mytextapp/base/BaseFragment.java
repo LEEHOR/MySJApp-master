@@ -2,6 +2,7 @@ package com.shenjing.mytextapp.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -27,6 +28,8 @@ import com.shenjing.mytextapp.widgte.TitleBar;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -38,7 +41,6 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     @Nullable
     @Inject
     protected T mPresenter;
-    protected FragmentComponent mFragmentComponent;
     private Unbinder unbinder;
     private View mRootView, mErrorView, mEmptyView;
 
@@ -58,15 +60,11 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initFragmentComponent();
-        ARouter.getInstance().inject(this);
-        initInjector();
-        attachView();
         mContext=getActivity();
         if (!NetworkUtils.isConnected()) showNoNet();
         if (savedInstanceState != null) {
             boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getFragmentManager() != null ? getFragmentManager().beginTransaction() : null;
             if (isSupportHidden) {
                 ft.hide(this);
             } else {
@@ -75,6 +73,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
             ft.commit();
         }
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -85,11 +84,20 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflaterView(inflater, container);
-        unbinder = ButterKnife.bind(this, mRootView);
-        initView();
-        initFunc();
         return mRootView;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        unbinder = ButterKnife.bind(this, mRootView);
+        initInjector();
+        attachView();
+        initView();
+        initFunc();
+
+    }
+
 
 
     @Override
@@ -104,7 +112,8 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     public void showLoading() {
         mProgressDialog=new ProgressDialog(getActivity());
         if (mProgressDialog != null) {
-            mProgressDialog.setMessage("正在加载数据....");
+            mProgressDialog.setMessage("正在加载..");
+            mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.show();
         }
     }
@@ -122,7 +131,7 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     }
 
     @Override
-    public void showFaild(String errorMsg) {
+    public void showFail(String errorMsg) {
         ToastUtils.showShort(errorMsg);
     }
 
@@ -145,9 +154,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     /**
      * 初始化FragmentComponent
      */
-    private void initFragmentComponent() {
-        mFragmentComponent = DaggerFragmentComponent.builder()
-                .applicationComponent(((App) getActivity().getApplication()).getApplicationComponent())
+    protected FragmentComponent initFragmentComponent() {
+        return DaggerFragmentComponent.builder()
+                .applicationComponent(App.getInstance().getApplicationComponent())
                 .fragmentModule(new FragmentModule(this))
                 .build();
     }
@@ -197,10 +206,12 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
      * @param color
      */
     protected  void  setStatusBarTextColor(int color){
-        BarUtils.setStatusBarColor(getActivity(),getResources().getColor(color,null));
+        BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()),getResources().getColor(color,null));
     }
     protected  void  setStatusBarTextAlpha(int alpha){
-        BarUtils.setStatusBarAlpha(getActivity(),alpha,true);
+        BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()), Color.argb(alpha, 0, 0, 0));
+      //  BarUtils.setStatusBarVisibility(getActivity(),true);
+        //BarUtils.setStatusBarAlpha(getActivity(),alpha,true);
     }
 
     protected void hideTitleBar(TitleBar titleBar) {
@@ -286,6 +297,5 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         if (mPresenter != null) mPresenter.detachView();
         ViewUtils.clearAllChildViews(getActivity());
     }
-
 
 }

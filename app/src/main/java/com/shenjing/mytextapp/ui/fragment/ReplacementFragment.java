@@ -3,6 +3,7 @@ package com.shenjing.mytextapp.ui.fragment;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.LogUtils;
 import com.shenjing.mytextapp.R;
 import com.shenjing.mytextapp.base.BaseFragment;
 import com.shenjing.mytextapp.ui.contract.ReplacementFragmentContract;
@@ -37,7 +38,7 @@ public class ReplacementFragment extends BaseFragment<ReplacementFragmentPresent
 
     @Override
     protected void initInjector() {
-        mFragmentComponent.inject(this);
+        initFragmentComponent().inject(this);
         ARouter.getInstance().inject(this);
     }
 
@@ -51,5 +52,13 @@ public class ReplacementFragment extends BaseFragment<ReplacementFragmentPresent
     @Override
     protected void initFunc() {
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            LogUtils.d("showFragment--replacement");
+        }
     }
 }

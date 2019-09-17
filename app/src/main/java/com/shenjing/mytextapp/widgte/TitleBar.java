@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.blankj.utilcode.util.EmptyUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.shenjing.mytextapp.R;
 
 
@@ -108,13 +108,13 @@ public class TitleBar extends RelativeLayout {
      */
     final public void setLeftText(String leftText,int color,OnOnceClickListener onceClickListener) {
 
-        if (EmptyUtils.isNotEmpty(leftText)) {
+        if (ObjectUtils.isNotEmpty(leftText)) {
             mLeftMenu.setVisibility(VISIBLE);
             tvLeft.setVisibility(VISIBLE);
             tvLeft.setText(leftText);
             tvLeft.setTextColor(color);
         }
-        if (EmptyUtils.isNotEmpty(onceClickListener)) {
+        if (ObjectUtils.isNotEmpty(onceClickListener)) {
             mLeftMenu.setOnClickListener(onceClickListener);
         }
     }
@@ -126,13 +126,13 @@ public class TitleBar extends RelativeLayout {
      */
     final public void setLeftText(int leftText,int color,OnOnceClickListener onceClickListener) {
 
-        if (EmptyUtils.isNotEmpty(leftText)) {
+        if (ObjectUtils.isNotEmpty(leftText)) {
             mLeftMenu.setVisibility(VISIBLE);
             tvLeft.setVisibility(VISIBLE);
             tvLeft.setText(leftText);
             tvLeft.setTextColor(color);
         }
-        if (EmptyUtils.isNotEmpty(onceClickListener)) {
+        if (ObjectUtils.isNotEmpty(onceClickListener)) {
             mLeftMenu.setOnClickListener(onceClickListener);
         }
     }
@@ -145,20 +145,20 @@ public class TitleBar extends RelativeLayout {
      */
     final public void setLeftMenu(int leftIcon, String leftText,int color, OnOnceClickListener onceClickListener) {
         mLeftMenu.setVisibility(VISIBLE);
-        if (EmptyUtils.isNotEmpty(leftIcon)) {
+        if (ObjectUtils.isNotEmpty(leftIcon)) {
             ivLeft.setVisibility(VISIBLE);
             ivLeft.setImageResource(leftIcon);
         } else {
             ivLeft.setVisibility(GONE);
         }
 
-        if (EmptyUtils.isNotEmpty(leftText)) {
+        if (ObjectUtils.isNotEmpty(leftText)) {
             tvLeft.setVisibility(VISIBLE);
             tvLeft.setText(leftText);
             tvLeft.setTextColor(color);
         }
 
-        if (EmptyUtils.isNotEmpty(onceClickListener)) {
+        if (ObjectUtils.isNotEmpty(onceClickListener)) {
             mLeftMenu.setOnClickListener(onceClickListener);
         }
     }
@@ -171,13 +171,13 @@ public class TitleBar extends RelativeLayout {
      */
     final public void setRightText(String rightText,int color,OnOnceClickListener onceClickListener) {
 
-        if (EmptyUtils.isNotEmpty(rightText)) {
+        if (ObjectUtils.isNotEmpty(rightText)) {
             mRightMenu.setVisibility(VISIBLE);
             tvRight.setVisibility(VISIBLE);
             tvRight.setText(rightText);
             tvRight.setTextColor(color);
         }
-        if (EmptyUtils.isNotEmpty(onceClickListener)) {
+        if (ObjectUtils.isNotEmpty(onceClickListener)) {
             mRightMenu.setOnClickListener(onceClickListener);
         }
 
@@ -190,7 +190,7 @@ public class TitleBar extends RelativeLayout {
      */
     final public void setRightText(int rightText) {
 
-        if (EmptyUtils.isNotEmpty(rightText)) {
+        if (ObjectUtils.isNotEmpty(rightText)) {
             mRightMenu.setVisibility(VISIBLE);
             tvRight.setVisibility(VISIBLE);
             tvRight.setText(rightText);
@@ -206,21 +206,21 @@ public class TitleBar extends RelativeLayout {
     final public void setRightMenu(int rightIcon, String rightText, OnOnceClickListener onceClickListener) {
 
         mRightMenu.setVisibility(VISIBLE);
-        if (EmptyUtils.isNotEmpty(rightIcon) && rightIcon != -1) {
+        if (ObjectUtils.isNotEmpty(rightIcon) && rightIcon != -1) {
             ivRight.setVisibility(VISIBLE);
             ivRight.setImageResource(rightIcon);
         } else {
             ivRight.setVisibility(GONE);
         }
 
-        if (EmptyUtils.isNotEmpty(rightText)) {
+        if (ObjectUtils.isNotEmpty(rightText)) {
             tvRight.setVisibility(VISIBLE);
             tvRight.setText(rightText);
         } else {
             tvRight.setVisibility(GONE);
         }
 
-        if (EmptyUtils.isNotEmpty(onceClickListener)) {
+        if (ObjectUtils.isNotEmpty(onceClickListener)) {
             mRightMenu.setOnClickListener(onceClickListener);
         }
     }
@@ -230,28 +230,28 @@ public class TitleBar extends RelativeLayout {
      */
     final public void setRightMenu(int rightIcon, OnOnceClickListener onceClickListener) {
         mRightMenu.setVisibility(VISIBLE);
-        if (EmptyUtils.isNotEmpty(rightIcon) && rightIcon != -1) {
+        if (ObjectUtils.isNotEmpty(rightIcon) && rightIcon != -1) {
             ivRight3.setVisibility(VISIBLE);
             ivRight3.setImageResource(rightIcon);
         } else {
             ivRight3.setVisibility(GONE);
         }
         tvRight.setVisibility(GONE);
-        if (EmptyUtils.isNotEmpty(onceClickListener)) {
+        if (ObjectUtils.isNotEmpty(onceClickListener)) {
             mRightMenu.setOnClickListener(onceClickListener);
         }
     }
 
     final  public void setRightImage(int rightIcon, OnOnceClickListener onceClickListener){
         mRightMenu.setVisibility(VISIBLE);
-        if (EmptyUtils.isNotEmpty(rightIcon) && rightIcon != -1) {
+        if (ObjectUtils.isNotEmpty(rightIcon) && rightIcon != -1) {
             ivRight4.setVisibility(VISIBLE);
             ivRight4.setImageResource(rightIcon);
         } else {
             ivRight4.setVisibility(GONE);
         }
         tvRight.setVisibility(GONE);
-        if (EmptyUtils.isNotEmpty(onceClickListener)) {
+        if (ObjectUtils.isNotEmpty(onceClickListener)) {
             mRightMenu.setOnClickListener(onceClickListener);
         }
     }
@@ -262,7 +262,7 @@ public class TitleBar extends RelativeLayout {
      * @param titleText 页面标题文字
      */
     final public void setTitleText(int titleText) {
-        if (EmptyUtils.isNotEmpty(titleText)) {
+        if (ObjectUtils.isNotEmpty(titleText)) {
             mCenterMenu.setVisibility(VISIBLE);
             tvCenter.setVisibility(VISIBLE);
             tvCenter.setText(titleText);
@@ -275,13 +275,13 @@ public class TitleBar extends RelativeLayout {
      * @param titleText 页面标题文字
      */
     final public void setTitleText(int titleText, int Color) {
-        if (EmptyUtils.isNotEmpty(titleText)) {
+        if (ObjectUtils.isNotEmpty(titleText)) {
             mCenterMenu.setVisibility(VISIBLE);
             tvCenter.setVisibility(VISIBLE);
             tvCenter.setText(titleText);
         }
 
-        if (EmptyUtils.isNotEmpty(Color)) {
+        if (ObjectUtils.isNotEmpty(Color)) {
             tvCenter.setTextColor(Color);
         }
     }
@@ -293,11 +293,11 @@ public class TitleBar extends RelativeLayout {
      * @param titleText 页面标题文字
      */
     final public void setTitleText(String titleText, int Color) {
-        if (EmptyUtils.isNotEmpty(titleText)) {
+        if (ObjectUtils.isNotEmpty(titleText)) {
             mCenterMenu.setVisibility(VISIBLE);
             tvCenter.setVisibility(VISIBLE);
             tvCenter.setText(titleText);
-            if (EmptyUtils.isNotEmpty(Color)) {
+            if (ObjectUtils.isNotEmpty(Color)) {
                 tvCenter.setTextColor(Color);
             }
         }
@@ -309,7 +309,7 @@ public class TitleBar extends RelativeLayout {
      * @param titleText 页面标题文字和颜色
      */
     final public void setTitleText(String titleText) {
-        if (EmptyUtils.isNotEmpty(titleText)) {
+        if (ObjectUtils.isNotEmpty(titleText)) {
             mCenterMenu.setVisibility(VISIBLE);
             tvCenter.setVisibility(VISIBLE);
             tvCenter.setText(titleText);

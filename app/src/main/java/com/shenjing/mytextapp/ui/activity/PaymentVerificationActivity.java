@@ -36,7 +36,7 @@ public class PaymentVerificationActivity extends BaseActivity<PaymentVerificatio
     @Override
     protected void initInjector() {
         ARouter.getInstance().inject(this);
-        mActivityComponent.inject(this);
+        initActivityComponent().inject(this);
     }
 
     @Override

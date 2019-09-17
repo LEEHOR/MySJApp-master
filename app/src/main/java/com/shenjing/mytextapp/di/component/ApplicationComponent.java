@@ -3,15 +3,15 @@ package com.shenjing.mytextapp.di.component;
 import android.content.Context;
 
 import com.shenjing.mytextapp.di.module.ApplicationModule;
-import com.shenjing.mytextapp.di.scope.ContextLife;
-import com.shenjing.mytextapp.di.scope.PerApp;
+
+import javax.inject.Singleton;
 
 import dagger.Component;
 
 
-@PerApp
+@Singleton
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
-    @ContextLife("Application")
     Context getApplication();
 }
+

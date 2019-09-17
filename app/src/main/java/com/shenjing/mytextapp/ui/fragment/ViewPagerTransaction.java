@@ -3,6 +3,7 @@ package com.shenjing.mytextapp.ui.fragment;
 import android.os.Bundle;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.LogUtils;
 import com.shenjing.mytextapp.R;
 import com.shenjing.mytextapp.base.BaseFragment;
 import com.shenjing.mytextapp.ui.contract.ViewPagerTransactionContract;
@@ -33,7 +34,7 @@ public class ViewPagerTransaction extends BaseFragment<ViewPageTransactionPresen
 
     @Override
     protected void initInjector() {
-        mFragmentComponent.inject(this);
+        initFragmentComponent().inject(this);
         ARouter.getInstance().inject(this);
     }
 
@@ -45,5 +46,13 @@ public class ViewPagerTransaction extends BaseFragment<ViewPageTransactionPresen
     @Override
     protected void initFunc() {
 
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            LogUtils.d("showFragment--viewPager");
+        }
     }
 }

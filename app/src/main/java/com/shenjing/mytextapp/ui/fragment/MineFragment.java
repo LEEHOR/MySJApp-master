@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.shenjing.mytextapp.R;
 import com.shenjing.mytextapp.base.BaseFragment;
 import com.shenjing.mytextapp.common.ARouterUrl;
@@ -58,7 +59,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     @Override
     protected void initInjector() {
-        mFragmentComponent.inject(this);
+        initFragmentComponent().inject(this);
         ARouter.getInstance().inject(this);
     }
 
@@ -67,7 +68,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
         //沉浸式标题栏
         setStatusBarTextColor(R.color.white);
         setStatusBarTextAlpha(0);
-        int i = ConvertUtils.px2sp(BarUtils.getActionBarHeight(getActivity()));
+        int i = ConvertUtils.px2sp(BarUtils.getActionBarHeight());
         mineToolbar.setPadding(0, i, 0, 0);
     }
 
@@ -77,6 +78,13 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
 
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            LogUtils.d("showFragment--mine");
+        }
+    }
     @OnClick({R.id.mine_setting_iv, R.id.mine_transaction_detail, R.id.mine_customer, R.id.mine_share,
             R.id.mine_certification, R.id.mine_card_certification, R.id.mine_operation_manual, R.id.mine_cash_withdrawal})
     public void onClick(View view) {

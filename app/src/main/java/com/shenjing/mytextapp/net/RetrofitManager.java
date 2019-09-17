@@ -1,6 +1,8 @@
 package com.shenjing.mytextapp.net;
 
 
+import androidx.annotation.NonNull;
+
 import com.shenjing.mytextapp.BuildConfig;
 
 import java.util.concurrent.TimeUnit;
@@ -20,9 +22,9 @@ public class RetrofitManager {
     //连接超时
     private static long CONNECT_TIMEOUT = 60L;
     //阅读超时
-    private static long READ_TIMEOUT = 10L;
+    private static long READ_TIMEOUT = 30L;
     //写入超时
-    private static long WRITE_TIMEOUT = 10L;
+    private static long WRITE_TIMEOUT = 30L;
 
     private static volatile OkHttpClient mOkHttpClient;
 
@@ -40,7 +42,9 @@ public class RetrofitManager {
                     builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
                     builder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
                     builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
-
+                    builder.addInterceptor(new CommonParametersInterceptor());
+                  //  builder.addInterceptor(new ReadCookiesInterceptor());
+                  //  builder.addInterceptor(new SaveCookiesInterceptor());
                     if (BuildConfig.DEBUG) {
                         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLogging());
                         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -59,7 +63,7 @@ public class RetrofitManager {
      */
     public static <T> T create(Class<T> clazz) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl(BaseUrl.BASE_URL)
                 .client(getOkHttpClient())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

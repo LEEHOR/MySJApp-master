@@ -4,7 +4,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 
 
 public interface BaseContract {
-    public interface BasePresenter<T extends BaseContract.BaseView> {
+    public interface BasePresenter<T> {
         void attachView(T view);
 
         void detachView();
@@ -21,7 +21,7 @@ public interface BaseContract {
         void showSuccess(String message);
 
         //失败重试
-        void showFaild(String message);
+        void showFail(String message);
 
         //显示当前网络不可用
         void showNoNet();

@@ -30,7 +30,9 @@ public class RouteInterceptor implements IInterceptor {
         } else {
             switch (path) {
                 case ARouterUrl.LoginActivityUrl:  // 不需要登录的直接进入这个页面
+                case ARouterUrl.RegisterActivityUrl:
                 case ARouterUrl.MainActivityUrl:
+                case ARouterUrl.LostPassActivityUrl:
                     callback.onContinue(postcard);
                     break;
                 default:

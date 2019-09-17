@@ -1,12 +1,8 @@
 package com.shenjing.mytextapp.ui.fragment;
 
-import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -14,15 +10,24 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.LogUtils;
-import com.shenjing.mytextapp.App;
+import com.donkingliang.banner.CustomBanner;
 import com.shenjing.mytextapp.R;
 import com.shenjing.mytextapp.base.BaseFragment;
 import com.shenjing.mytextapp.common.ARouterUrl;
+import com.shenjing.mytextapp.common.BaseParams;
+import com.shenjing.mytextapp.common.LoginNavigationCallback;
+import com.shenjing.mytextapp.respondModule.BannerModule;
+import com.shenjing.mytextapp.ui.activity.MainActivity;
 import com.shenjing.mytextapp.ui.contract.IndexFragmentContract;
 import com.shenjing.mytextapp.ui.presenter.IndexFragmentPresenter;
-import com.shenjing.mytextapp.utils.PhoneUtils;
+import com.shenjing.mytextapp.utils.SetCustomBannerUtils;
 import com.shenjing.mytextapp.widgte.OnOnceClickListener;
 import com.shenjing.mytextapp.widgte.TitleBar;
+import com.superluo.textbannerlibrary.ITextBannerItemClickListener;
+import com.superluo.textbannerlibrary.TextBannerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,8 +39,6 @@ import butterknife.OnClick;
  * desc   :首页
  */
 public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implements IndexFragmentContract.View {
-
-
     @BindView(R.id.index_mStatusBar)
     View mStatusBar;
     @BindView(R.id.index_titleBar)
@@ -46,6 +49,12 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     CardView indexCardEvaluation;
     @BindView(R.id.index_creditInquiry)
     CardView indexCreditInquiry;
+    @BindView(R.id.index_banner)
+    CustomBanner<String> indexBanner;
+    @BindView(R.id.index_bannerView)
+    TextBannerView indexBannerView;
+    private List<String> bannerList=new ArrayList<>();
+    private List<String> marqueeList=new ArrayList<>();
 
     public static IndexFragment newInstance() {
         IndexFragment fragment = new IndexFragment();
@@ -59,8 +68,9 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
 
     @Override
     protected void initInjector() {
-        mFragmentComponent.inject(this);
         ARouter.getInstance().inject(this);
+        initFragmentComponent().inject(this);
+
     }
 
     @Override
@@ -75,12 +85,26 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
             }
         });
         indexSwipe.setColorSchemeResources(R.color.blue4);
-
     }
 
     @Override
     protected void initFunc() {
+        mPresenter.Banner();
+        indexSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.Banner();
+            }
+        });
+    }
 
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            LogUtils.d("showFragment--index");
+        }
     }
 
     @OnClick({R.id.index_cardEvaluation, R.id.index_creditInquiry})
@@ -90,13 +114,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
                 ARouter.getInstance().build(ARouterUrl.CardEvaluationActivityUrl).navigation();
                 break;
             case R.id.index_creditInquiry:
-                // ARouter.getInstance().build(ARouterUrl.CreditInquiryActivityUrl).navigation();
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_PICK);
-                //ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
-                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-                intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-                startActivityForResult(intent, 100);
+                ARouter.getInstance().build(ARouterUrl.CreditInquiryActivityUrl).navigation();
                 break;
         }
     }
@@ -104,56 +122,84 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // LogUtils.d("通讯录",data.getData());
-        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            ContentResolver cr = App.getAppContext().getContentResolver();
-            LogUtils.d("地址", data.getData());
-            Cursor cursor = cr.query(data.getData(), null, null, null, null);
-            if (cursor != null) {
-                if (cursor.moveToFirst())
-                {
-                    int columnIndex = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA1);
-                    int columnIndex1 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA2);
-                    int columnIndex2 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA3);
-                    int columnIndex3 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA4);
-                    int columnIndex4 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA5);
-                    int columnIndex5 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA6);
-                    int columnIndex6 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA7);
-                    int columnIndex7 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA8);
-                    int columnIndex8 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA9);
-                    int columnIndex9 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA10);
-                    int columnIndex10 = cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA11);
-                    int columnIndex11= cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA12);
-                    int columnIndex12= cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA13);
-                    int columnIndex13= cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA14);
-                    int columnIndex14= cursor.getColumnIndex(ContactsContract.Contacts.Data.DATA15);
-                    int columnIndex15 = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                    String string1 = cursor.getString(columnIndex15);
-                    String string = cursor.getString(columnIndex);
-                    String string2= cursor.getString(columnIndex1);
-                    String string3= cursor.getString(columnIndex2);
-                    String string4= cursor.getString(columnIndex3);
-                    String string5= cursor.getString(columnIndex4);
-                    String string6= cursor.getString(columnIndex5);
-                    String string7= cursor.getString(columnIndex6);
-                    String string8= cursor.getString(columnIndex7);
-                    String string9= cursor.getString(columnIndex8);
-                    String string10= cursor.getString(columnIndex9);
-                    String string11= cursor.getString(columnIndex10);
-                    String string12= cursor.getString(columnIndex11);
-                    String string13= cursor.getString(columnIndex12);
-                    String string14= cursor.getString(columnIndex13);
-                    String string15= cursor.getString(columnIndex14);
-                    LogUtils.d("电话1",string+"/"+string2+"/"+string3+"/"+string4+"/"+string5+"/"+string6+"/"+string7+"/"+"/"+string8+"/"+string9+
-                            "/"+string10+"/"+string11+"/"+string12+"/"+string13+"/"+string14+"/"+string15+"/"+string1);
+    }
+
+
+    @Override
+    public void getBannerSuccess(BannerModule bannerModule) {
+        if (bannerModule.getData() != null) {
+            List<BannerModule.DataBean.BannerBean> banner = bannerModule.getData().getBanner();
+            if (banner != null) {
+                bannerList.clear();
+                for (BannerModule.DataBean.BannerBean b: banner
+                ) {
+                    bannerList.add(b.getPath());
                 }
-                cursor.close();
+                SetCustomBannerUtils.setCustomBanner(indexBanner,bannerList, ImageView.ScaleType.FIT_CENTER);
+                setBannerLister(banner,indexBanner);
+            }
+            List<String> marquee = bannerModule.getData().getMarquee();
+            if (marquee != null) {
+                marqueeList.clear();
+                marqueeList.addAll(marquee);
+            }
+            setTextBanner(indexBannerView,marqueeList);
+
+        }
+    }
+
+    @Override
+    public void getBannerFailure() {
+
+    }
+
+
+    @Override
+    public void Refresh(boolean Refresh) {
+        indexSwipe.setRefreshing(Refresh);
+    }
+
+    /**
+     * banner轮播点击监听
+     * @param bannerBean
+     * @param customBanner
+     */
+    private void setBannerLister(List<BannerModule.DataBean.BannerBean> bannerBean,CustomBanner customBanner){
+        customBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener() {
+            @Override
+            public void onPageClick(int i, Object o) {
+                ARouter.getInstance().build(ARouterUrl.WebViewActivityUrl)
+                        .withString(BaseParams.webViewTitle,bannerBean.get(i).getTitle())
+                        .withString(BaseParams.webViewUrl,bannerBean.get(i).getUrl())
+                        .navigation(getActivity(),new LoginNavigationCallback());
+            }
+        });
+    }
+
+    /**
+     * 轮播公告
+     * @param textBanner
+     * @param _marquee
+     */
+    private void setTextBanner(TextBannerView textBanner,List<String> _marquee){
+        textBanner.setDatas(_marquee);
+        textBanner.setItemOnClickListener(new ITextBannerItemClickListener() {
+            @Override
+            public void onItemClick(String data, int position) {
 
             }
-//                int columnIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-//                int columnIndex1 = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
-//                LogUtils.d("地址2",columnIndex,columnIndex1);
-//              //  String phoneNumber = cursor.getString(columnIndex1);
-        }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        indexBannerView.stopViewAnimator();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        indexBannerView.startViewAnimator();
     }
 }

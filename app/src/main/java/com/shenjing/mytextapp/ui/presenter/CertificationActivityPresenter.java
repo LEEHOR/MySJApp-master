@@ -1,9 +1,7 @@
 package com.shenjing.mytextapp.ui.presenter;
 
-import android.content.Context;
 
 import com.shenjing.mytextapp.base.BasePresenter;
-import com.shenjing.mytextapp.di.scope.ContextLife;
 import com.shenjing.mytextapp.ui.contract.CertificationActivityContract;
 import javax.inject.Inject;
 
@@ -13,13 +11,12 @@ import javax.inject.Inject;
  * version: 1.0
  * desc   :
  */
-public class CertificationActivityPresenter extends BasePresenter<CertificationActivityContract.View> implements CertificationActivityContract.Presenter {
-
-    private Context mContext;
+public class CertificationActivityPresenter extends BasePresenter<CertificationActivityContract.View>
+        implements CertificationActivityContract.Presenter {
 
     @Inject
-    public CertificationActivityPresenter(@ContextLife Context context) {
-        this.mContext = context;
+    public CertificationActivityPresenter() {
+
     }
 
 }

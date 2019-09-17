@@ -1,9 +1,7 @@
 package com.shenjing.mytextapp.ui.presenter;
 
-import android.content.Context;
 
 import com.shenjing.mytextapp.base.BasePresenter;
-import com.shenjing.mytextapp.di.scope.ContextLife;
 import com.shenjing.mytextapp.ui.contract.ReceiptFragmentContract;
 
 import javax.inject.Inject;
@@ -14,13 +12,14 @@ import javax.inject.Inject;
  * version: 1.0
  * desc   :
  */
-public class ReceiptFragmentPresenter extends BasePresenter<ReceiptFragmentContract.View> implements ReceiptFragmentContract.Presenter {
+public class ReceiptFragmentPresenter extends BasePresenter<ReceiptFragmentContract.View>
+        implements ReceiptFragmentContract.Presenter {
 
-    private Context mContext;
+
 
     @Inject
-    public ReceiptFragmentPresenter(@ContextLife Context context) {
-        this.mContext = context;
+    public ReceiptFragmentPresenter() {
+
     }
 
 }

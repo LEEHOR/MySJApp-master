@@ -12,6 +12,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.shenjing.mytextapp.R;
@@ -53,6 +54,7 @@ public class MainActivity extends BaseActivity {
     private SPUtils spUtils;
     private String user_name;
     private String user_token;
+    private String user_id;
     private long exitTime = 0;
 
     @Override
@@ -76,9 +78,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initFunc() {
-        spUtils = SPUtils.getInstance();
-        user_name = spUtils.getString(BaseParams.USER_NAME_KEY);
-        user_token = spUtils.getString(BaseParams.USER_TOKEN_KEY);
+        //     spUtils = SPUtils.getInstance();
+        //  user_name = spUtils.getString(BaseParams.USER_NAME_KEY);
+        //  user_token = spUtils.getString(BaseParams.USER_TOKEN_KEY);
     }
 
     private void hideAll() {
@@ -129,44 +131,48 @@ public class MainActivity extends BaseActivity {
                     showFragmentOne();
                     break;
                 case 1:
-                    if (!StringUtils.isSpace(user_name) && !StringUtils.isSpace(user_token)) {
+                    if (!StringUtils.isSpace(BaseParams.userName) && !StringUtils.isSpace(BaseParams.userToken)) {
                         showFragmentTwo();
                     } else {
-                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-                                .withInt(BaseParams.Router_position_mainActivity, 1)
-                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
+                        Arouter(1);
+//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
+//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
+//                                .withInt(BaseParams.Router_position_mainActivity, 1)
+//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
                     break;
                 case 2:
-                    if (!StringUtils.isSpace(user_name) && !StringUtils.isSpace(user_token)) {
+                    if (!StringUtils.isSpace(BaseParams.userName) && !StringUtils.isSpace(BaseParams.userToken)) {
                         showFragmentThree();
                     } else {
-                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-                                .withInt(BaseParams.Router_position_mainActivity, 2)
-                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
+                        Arouter(2);
+//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
+//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
+//                                .withInt(BaseParams.Router_position_mainActivity, 2)
+//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
 
                     break;
                 case 3:
-                    if (!StringUtils.isSpace(user_name) && !StringUtils.isSpace(user_token)) {
+                    if (!StringUtils.isSpace(BaseParams.userName) && !StringUtils.isSpace(BaseParams.userToken)) {
                         showFragmentFour();
                     } else {
-                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-                                .withInt(BaseParams.Router_position_mainActivity, 3)
-                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
+                        Arouter(3);
+//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
+//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
+//                                .withInt(BaseParams.Router_position_mainActivity, 3)
+//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
                     break;
                 case 4:
-                    if (!StringUtils.isSpace(user_name) && !StringUtils.isSpace(user_token)) {
+                    if (!StringUtils.isSpace(BaseParams.userName) && !StringUtils.isSpace(BaseParams.userToken)) {
                         showFragmentFive();
                     } else {
-                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-                                .withInt(BaseParams.Router_position_mainActivity, 4)
-                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
+                        Arouter(4);
+//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
+//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
+//                                .withInt(BaseParams.Router_position_mainActivity, 4)
+//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
                     break;
             }
@@ -297,6 +303,17 @@ public class MainActivity extends BaseActivity {
         ScreenUtils.setTextColorStatusBar(this, false);
     }
 
+    /**
+     * 跳转到登录页面
+     *
+     * @param position
+     */
+    private void Arouter(int position) {
+        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
+                .withInt(BaseParams.Router_type, BaseParams.MainActivity_Type)
+                .withInt(BaseParams.Router_position_mainActivity, position)
+                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -312,28 +329,21 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 处理登录页面回调的跳转
+     *
      * @param position
      */
     private void BackToTargetPage(int position) {
         hideAll();
-        switch (position) {
-            case 0:
-                showFragmentOne();
-                break;
-            case 1:
-                showFragmentTwo();
-                break;
-            case 2:
-                showFragmentThree();
-                break;
-            case 3:
-                showFragmentFour();
-                break;
-            case 4:
-                showFragmentFive();
-                break;
+        mBottomTabs.selectTab(0);
+    }
 
-        }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        hideAll();
+        LogUtils.d("重新加载");
+        mBottomTabs.selectTab(0);
     }
 
     @Override

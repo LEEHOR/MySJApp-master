@@ -41,17 +41,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <com.donkingliang.banner.CustomBanner
-                    android:background="@color/linaColor1"
-                    android:id="@+id/index_banner"
+                <com.google.android.material.card.MaterialCardView
+                    app:contentPadding="2dp"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    app:indicatorGravity="CENTER"
-                    app:indicatorInterval="5dp"
-                    app:indicatorSelectRes="@drawable/shape_point_select"
-                    app:indicatorStyle="ORDINARY"
-                    app:indicatorUnSelectRes="@drawable/shape_point_unselect" />
+                    android:layout_height="150dp">
+                    <com.donkingliang.banner.CustomBanner
+                        android:background="@color/linaColor1"
+                        android:id="@+id/index_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:indicatorGravity="CENTER"
+                        app:indicatorInterval="5dp"
+                        app:indicatorSelectRes="@drawable/shape_point_select"
+                        app:indicatorStyle="ORDINARY"
+                        app:indicatorUnSelectRes="@drawable/shape_point_unselect" />
+                </com.google.android.material.card.MaterialCardView>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,6 +72,7 @@
                         android:src="@drawable/laba" />
 
                     <com.superluo.textbannerlibrary.TextBannerView
+                        android:id="@+id/index_bannerView"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"

@@ -23,6 +23,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_config"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
@@ -33,7 +34,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.MainActivity" />
+        <activity android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask">
+        </activity>
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.TransactionDetailsActivity" />
         <activity android:name=".ui.activity.SettingActivity" />
@@ -53,6 +56,9 @@
         <activity android:name=".ui.activity.CreditInquiryRecordActivity" />
         <activity android:name=".ui.activity.LoanPageActivity" />
         <activity android:name=".ui.activity.AnnouncementActivity" />
+        <activity android:name=".ui.activity.RegisterActivity"/>
+        <activity android:name=".ui.activity.LostPassActivity"/>
+        <activity android:name=".ui.activity.WebViewActivity"/>
 
 
 

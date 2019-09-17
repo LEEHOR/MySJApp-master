@@ -1,9 +1,6 @@
 package com.shenjing.mytextapp.ui.presenter;
 
-import android.content.Context;
-
 import com.shenjing.mytextapp.base.BasePresenter;
-import com.shenjing.mytextapp.di.scope.ContextLife;
 import com.shenjing.mytextapp.ui.contract.CashWithdrawalActivityContract;
 import javax.inject.Inject;
 
@@ -14,13 +11,11 @@ import javax.inject.Inject;
  * desc   :
  */
 public class CashWithdrawalActivityPresenter extends BasePresenter<CashWithdrawalActivityContract.View>
-        implements CashWithdrawalActivityContract.Presenter {
-
-    private Context mContext;
+        implements CashWithdrawalActivityContract.Presenter{
 
     @Inject
-    public CashWithdrawalActivityPresenter(@ContextLife Context context) {
-        this.mContext = context;
+    public CashWithdrawalActivityPresenter() {
+
     }
 
 }

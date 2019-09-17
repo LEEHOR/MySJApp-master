@@ -1,9 +1,7 @@
 package com.shenjing.mytextapp.ui.presenter;
 
-import android.content.Context;
 
 import com.shenjing.mytextapp.base.BasePresenter;
-import com.shenjing.mytextapp.di.scope.ContextLife;
 import com.shenjing.mytextapp.ui.contract.ShareActivityContract;
 
 import javax.inject.Inject;
@@ -14,13 +12,14 @@ import javax.inject.Inject;
  * version: 1.0
  * desc   :
  */
-public class ShareActivityPresenter extends BasePresenter<ShareActivityContract.View> implements ShareActivityContract.Presenter {
+public class ShareActivityPresenter extends BasePresenter<ShareActivityContract.View>
+        implements ShareActivityContract.Presenter {
 
-    private Context mContext;
+
 
     @Inject
-    public ShareActivityPresenter(@ContextLife Context context) {
-        this.mContext = context;
+    public ShareActivityPresenter() {
+
     }
 
 }

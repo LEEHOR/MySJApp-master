@@ -77,8 +77,7 @@ public class SplashActivity extends BaseActivity {
         hideStatusBar();
         setStatusBarTextColor(R.color.white);
         setStatusBarTextAlpha(0);
-        int i = ConvertUtils.px2sp(BarUtils.getActionBarHeight(this));
-        LogUtils.d("bar", i);
+        int i = ConvertUtils.px2sp(BarUtils.getActionBarHeight());
         splashToolbar.setPadding(0, i, 0, 0);
 
 

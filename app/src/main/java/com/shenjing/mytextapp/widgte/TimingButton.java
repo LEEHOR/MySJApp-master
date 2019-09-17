@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.blankj.utilcode.util.EmptyUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.shenjing.mytextapp.R;
 
 /**
@@ -56,7 +56,7 @@ public class TimingButton extends AppCompatButton {
      * 单位:毫秒
      */
     public void setTotalTime(int totalTime) {
-        if (EmptyUtils.isNotEmpty(totalTime)) {
+        if (ObjectUtils.isNotEmpty(totalTime)) {
             this.total = totalTime;
         }
 
@@ -64,7 +64,7 @@ public class TimingButton extends AppCompatButton {
 
     //计时前显示
     public void setBeforeText(String beforeTexts) {
-        if (EmptyUtils.isNotEmpty(beforeTexts)) {
+        if (ObjectUtils.isNotEmpty(beforeTexts)) {
             this.beforeText = beforeTexts;
             setText(beforeText);
         }
@@ -73,7 +73,7 @@ public class TimingButton extends AppCompatButton {
 
     //计时结束时显示
     public void setAfterText(String afterTexts) {
-        if (EmptyUtils.isNotEmpty(afterTexts)) {
+        if (ObjectUtils.isNotEmpty(afterTexts)) {
             this.afterText = afterTexts;
         }
 
@@ -81,14 +81,14 @@ public class TimingButton extends AppCompatButton {
 
     //设置背景主体
     public void setBackground(Drawable arrayDrawable) {
-        if (EmptyUtils.isNotEmpty(arrayDrawable)) {
+        if (ObjectUtils.isNotEmpty(arrayDrawable)) {
             setBackgroundDrawable(arrayDrawable);
         }
     }
 
     //设置文本颜色
     public void setTextColors(int color) {
-        if (EmptyUtils.isNotEmpty(color)) {
+        if (ObjectUtils.isNotEmpty(color)) {
             this.arrayColor = color;
             setTextColor(arrayColor);
         }
@@ -96,7 +96,7 @@ public class TimingButton extends AppCompatButton {
 
     //设置文本大小
     public void setTextSizes(float textSize) {
-        if (EmptyUtils.isNotEmpty(textSize)) {
+        if (ObjectUtils.isNotEmpty(textSize)) {
             this.arrayFloat = textSize;
             setTextSize(arrayFloat);
         }

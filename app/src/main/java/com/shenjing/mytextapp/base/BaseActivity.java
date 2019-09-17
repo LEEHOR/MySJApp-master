@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,10 +13,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.EmptyUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.shenjing.mytextapp.App;
@@ -31,15 +31,18 @@ import com.shenjing.mytextapp.widgte.TitleBar;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatActivity implements BaseContract.BaseView {
+public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends RxAppCompatActivity implements BaseContract.BaseView {
 
     @Nullable
+    @Inject
     protected T mPresenter;
-    protected ActivityComponent mActivityComponent;
+
     protected Context mContext;
     private Snackbar snackbar;
     @Nullable
@@ -59,18 +62,18 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initActivityComponent();
-        initInjector();
         setContentView(getLayoutId());
         unbinder = ButterKnife.bind(this);
         mContext = this;
+        initInjector();
+        attachView();
         ActivityManage.push(this);
-        if (EmptyUtils.isNotEmpty(getSupportActionBar())) {
+        if (ObjectUtils.isNotEmpty(getSupportActionBar())) {
             getSupportActionBar().hide();
         }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         ScreenUtils.setTextColorStatusBar((Activity) mContext, false);
-        attachView();
+
         if (!NetworkUtils.isConnected()) showNoNet();
         //添加Activity到堆栈
         ActivityStack.getInstance().addActivity(this);
@@ -83,7 +86,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatA
      */
     protected void hideStatusBar() {
         ScreenUtils.translateStatusBar((Activity) mContext);
-        BarUtils.hideNavBar(this);
+        BarUtils.setNavBarVisibility(BaseActivity.this, false);
         setTheme(R.style.TranslucentTheme);
     }
 
@@ -97,7 +100,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatA
     }
 
     protected void setStatusBarTextAlpha(int alpha) {
-        BarUtils.setStatusBarAlpha(this, alpha, true);
+        BarUtils.setStatusBarColor(this, Color.argb(alpha, 0, 0, 0));
+        //BarUtils.setStatusBarVisibility(this,false);
+        // BarUtils.setStatusBarAlpha(this, alpha, true);
     }
 
     /**
@@ -228,7 +233,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatA
     public void showLoading() {
         mProgressDialog = new ProgressDialog(this);
         if (mProgressDialog != null) {
-            mProgressDialog.setMessage("正在加载数据");
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setMessage("正在加载..");
             mProgressDialog.show();
         }
     }
@@ -258,10 +264,34 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatA
 
     /*** 页面关闭时释放内存 ***/
     public void releaseMemory() {
-        if (mPresenter != null) mPresenter.detachView();
-//        if (mRxManager != null) mRxManager.clear();
-        // 清除栈
+        detachView();
         ActivityStack.getInstance().finishActivity(this);
+    }
+
+    /**
+     * 关闭指定Activity
+     *
+     * @param activity
+     */
+    public void closeActivity(Activity activity) {
+        ActivityStack.getInstance().finishActivity(activity);
+    }
+
+    /**
+     * 获取前一个activity
+     */
+    public Activity getPreActivity() {
+        return ActivityStack.getInstance().preActivity();
+    }
+
+    /**
+     * 根据名字获取activity
+     *
+     * @param ativityName
+     * @return
+     */
+    public Activity getActivityByName(String ativityName) {
+        return ActivityStack.getInstance().getActivity(ativityName);
     }
 
     /**
@@ -295,7 +325,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatA
     }
 
     @Override
-    public void showFaild(String errorMsg) {
+    public void showFail(String errorMsg) {
         ToastUtils.showShort(errorMsg);
     }
 
@@ -323,9 +353,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends RxAppCompatA
     /**
      * dagger2 注入
      */
-    protected void initActivityComponent() {
-        mActivityComponent = DaggerActivityComponent.builder()
-                .applicationComponent(((App) getApplication()).getApplicationComponent())
+    protected ActivityComponent initActivityComponent() {
+        return DaggerActivityComponent.builder()
+                .applicationComponent(App.getInstance().getApplicationComponent())
                 .activityModule(new ActivityModule(this))
                 .build();
     }

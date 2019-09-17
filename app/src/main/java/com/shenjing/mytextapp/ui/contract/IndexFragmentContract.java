@@ -1,6 +1,10 @@
 package com.shenjing.mytextapp.ui.contract;
 
+
+
 import com.shenjing.mytextapp.base.BaseContract;
+import com.shenjing.mytextapp.respondModule.BannerModule;
+
 
 /**
  * author : Leehor
@@ -14,6 +18,9 @@ public class IndexFragmentContract {
      */
     public interface View extends BaseContract.BaseView{
 
+        void getBannerSuccess(BannerModule bannerModule);
+        void getBannerFailure();
+        void Refresh(boolean Refresh);
     }
 
     /**
@@ -21,5 +28,6 @@ public class IndexFragmentContract {
      */
    public interface Presenter extends BaseContract.BasePresenter<View>{
 
+       void Banner();
     }
 }
