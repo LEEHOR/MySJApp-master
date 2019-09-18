@@ -22,7 +22,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.shenjing.mytextapp"
+        applicationId "com.shenjing.dengyuejinfu"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
@@ -98,6 +98,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     //Glide图片加载框架  4.7.1
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     //rxlifecycle
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'

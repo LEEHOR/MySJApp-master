@@ -18,7 +18,7 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <com.shenjing.mytextapp.widgte.TitleBar
+        <com.shenjing.dengyuejinfu.widgte.TitleBar
             android:id="@+id/announcement_titleBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

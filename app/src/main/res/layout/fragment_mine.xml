@@ -295,7 +295,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.shenjing.mytextapp.widgte.CircularImageView
+                <com.shenjing.dengyuejinfu.widgte.CircularImageView
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:src="@drawable/icon_transaction_details"
@@ -321,7 +321,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.shenjing.mytextapp.widgte.CircularImageView
+                <com.shenjing.dengyuejinfu.widgte.CircularImageView
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:src="@drawable/icon_customer"
@@ -346,7 +346,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.shenjing.mytextapp.widgte.CircularImageView
+                <com.shenjing.dengyuejinfu.widgte.CircularImageView
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:src="@drawable/icon_share"
@@ -378,7 +378,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.shenjing.mytextapp.widgte.CircularImageView
+                <com.shenjing.dengyuejinfu.widgte.CircularImageView
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:src="@drawable/icon_certification"
@@ -403,7 +403,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.shenjing.mytextapp.widgte.CircularImageView
+                <com.shenjing.dengyuejinfu.widgte.CircularImageView
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:src="@drawable/icon_credit_card_certification"
@@ -428,7 +428,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.shenjing.mytextapp.widgte.CircularImageView
+                <com.shenjing.dengyuejinfu.widgte.CircularImageView
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:src="@drawable/icon_operating_manual"

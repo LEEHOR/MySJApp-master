@@ -18,7 +18,7 @@
             android:visibility="gone"
             tools:visibility="visible" />
 
-        <com.shenjing.mytextapp.widgte.TitleBar
+        <com.shenjing.dengyuejinfu.widgte.TitleBar
             android:id="@+id/certification_titleBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -137,11 +137,13 @@
                     android:layout_marginTop="10dp">
 
                     <ImageView
+                        android:id="@+id/certification_idCard_front"
                         android:layout_width="120dp"
                         android:layout_height="150dp"
                         android:background="@color/linaColor2" />
 
                     <ImageView
+                        android:id="@+id/take_photo_id_front"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -162,12 +164,14 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/certification_idCard_back"
                         android:layout_width="120dp"
                         android:layout_height="150dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/linaColor2" />
 
                     <ImageView
+                        android:id="@+id/take_photo_id_back"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -220,6 +224,7 @@
                         android:textSize="14dp" />
 
                     <EditText
+                        android:id="@+id/certification_userName"
                         android:textCursorDrawable="@drawable/shape_text_cursor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -261,6 +266,7 @@
                         android:textSize="14dp" />
 
                     <EditText
+                        android:id="@+id/certification_idCardNo"
                         android:textCursorDrawable="@drawable/shape_text_cursor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -302,6 +308,7 @@
                         android:textSize="14dp" />
 
                     <TextView
+                        android:id="@+id/certification_status"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -321,6 +328,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/certification_submit"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

@@ -16,7 +16,7 @@
             android:background="@color/linaColor1"
             android:visibility="gone"
             tools:visibility="visible" />
-        <com.shenjing.mytextapp.widgte.TitleBar
+        <com.shenjing.dengyuejinfu.widgte.TitleBar
             android:id="@+id/setting_titleBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -159,7 +159,6 @@
             android:layout_width="match_parent"
             android:layout_height="1sp"/>
     </LinearLayout>
-
     <TextView
         android:id="@+id/setting_exit"
         android:layout_gravity="center_horizontal"

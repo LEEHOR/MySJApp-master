@@ -16,7 +16,7 @@
             android:background="@color/linaColor1"
             android:visibility="gone"
             tools:visibility="visible" />
-        <com.shenjing.mytextapp.widgte.TitleBar
+        <com.shenjing.dengyuejinfu.widgte.TitleBar
             android:id="@+id/receipt_titleBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -87,7 +87,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="220dp">
-        <com.shenjing.mytextapp.widgte.FullScreenNumberKeyboardView
+        <com.shenjing.dengyuejinfu.widgte.FullScreenNumberKeyboardView
             android:id="@+id/receipt_number_key"
             android:layout_width="match_parent"
             android:layout_height="220dp" />

@@ -2,9 +2,11 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--<item android:drawable="@drawable/primary_button_pressed_shape" android:state_focused="true" />-->
-    <item android:drawable="@drawable/submit_button_enable_blue" android:state_enabled="true" />
+
     <item android:drawable="@drawable/submit_button_disable_gray" android:state_enabled="false" />
     <!--<item android:drawable="@drawable/primary_button_normal_shape" android:state_focused="false" />-->
+    <item android:drawable="@drawable/submit_button_enable_blue" android:state_pressed="false" />
+    <item android:drawable="@drawable/submit_button_disable_gray" android:state_pressed="true" />
+    <item android:drawable="@drawable/submit_button_enable_blue" android:state_enabled="true" />
     <item android:drawable="@drawable/submit_button_disable_gray" />
-
 </selector>

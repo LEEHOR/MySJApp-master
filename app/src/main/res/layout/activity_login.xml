@@ -248,7 +248,7 @@
                                 android:inputType="number" />
 
                         </com.google.android.material.textfield.TextInputLayout>
-                        <com.shenjing.mytextapp.widgte.TimingButton
+                        <com.shenjing.dengyuejinfu.widgte.TimingButton
                             android:id="@+id/login_get_code"
                             app:tb_before_text="获取验证码"
                             app:tb_after_text="重新获取"
@@ -276,8 +276,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/submit_button_selector"
-                    android:enabled="true"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     android:padding="@dimen/dp_10"
                     android:text="登录"
                     android:textSize="16dp" />
