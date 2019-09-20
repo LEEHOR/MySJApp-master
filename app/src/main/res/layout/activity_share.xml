@@ -50,7 +50,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/textColor"
                 android:textSize="14dp"
-                android:text="二维码分享"
+                android:text="@string/share_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -60,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"/>
         <androidx.cardview.widget.CardView
+            android:id="@+id/page_share"
             app:cardCornerRadius="5dp"
             app:cardElevation="3dp"
             android:layout_marginTop="10dp"
@@ -97,7 +98,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/textColor"
                 android:textSize="14dp"
-                android:text="邀请码分享"
+                android:text="@string/share_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -107,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="1px"/>
         <androidx.cardview.widget.CardView
+            android:id="@+id/other_share"
             app:cardCornerRadius="5dp"
             app:cardElevation="3dp"
             android:layout_marginTop="10dp"

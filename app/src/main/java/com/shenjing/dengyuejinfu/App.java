@@ -2,6 +2,8 @@ package com.shenjing.dengyuejinfu;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import androidx.multidex.MultiDex;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -17,8 +19,8 @@ import com.shenjing.dengyuejinfu.di.module.ApplicationModule;
 public class App extends Application {
     private static App app;
     public static Context mContext;
-   // public static Handler handler;
-   // public static int mainThreadId;
+    public static Handler handler;
+    public static int mainThreadId;
     private ApplicationComponent mApplicationComponent;
 
     @Override
@@ -35,9 +37,10 @@ public class App extends Application {
         ToastUtils.setBgColor(getResources().getColor(R.color.white, null));
         ToastUtils.setMsgColor(getResources().getColor(R.color.colorAccent, null));
 
-      //  handler = new Handler(Looper.getMainLooper());
-      //  mainThreadId = android.os.Process.myTid();//获取当前线程的id
+        handler = new Handler(Looper.getMainLooper());
+        mainThreadId = android.os.Process.myTid();//获取当前线程的id
         initUserParams();
+
     }
 
     private void intARouter() {

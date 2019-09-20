@@ -55,4 +55,8 @@ public  class  ARouterUrl {
 
     public static final String WebViewActivityUrl="/activity/WebViewActivity";
 
+    public static final String QRShareActivityUrl="/activity/RShareActivity";
+    /*dialog*/
+    public static final String ShareDialogFragmentUrl="/fragment/ShareDialogFragment";
+
 }

@@ -13,6 +13,6 @@ public interface OnShareListener {
     void onShareFailed(@ShareKeeper.Platform int sharePlatForm, @ShareKeeper.ShareType int shareType, String failedMessage);
 
     //取消分享
-    void onCancleShare(@ShareKeeper.Platform int sharePlatForm, @ShareKeeper.ShareType int shareType, String message);
+    void onCancelShare(@ShareKeeper.Platform int sharePlatForm, @ShareKeeper.ShareType int shareType, String message);
 
 }

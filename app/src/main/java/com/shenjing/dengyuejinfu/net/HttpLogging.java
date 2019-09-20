@@ -30,7 +30,7 @@ public class HttpLogging implements HttpLoggingInterceptor.Logger {
         // 请求或者响应结束，打印整条日志
         if (message.startsWith("<-- END HTTP")) {
             //Log.d("请求参数",  "（此处填写当前日期）"+System.currentTimeMillis()+ ":" + mMessage.toString());
-            Log.d("请求参数", TimeUtils.getStringByNow(System.currentTimeMillis(), TimeConstants.MSEC)+":"+mMessage.toString());
+            Log.d("请求参数", TimeUtils.millis2String(System.currentTimeMillis())+":"+mMessage.toString());
         }
     }
 

@@ -19,6 +19,7 @@ import com.shenjing.dengyuejinfu.ui.activity.LoanPageActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LoginActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LostPassActivity;
 import com.shenjing.dengyuejinfu.ui.activity.PaymentVerificationActivity;
+import com.shenjing.dengyuejinfu.ui.activity.QRShareActivity;
 import com.shenjing.dengyuejinfu.ui.activity.RegisterActivity;
 import com.shenjing.dengyuejinfu.ui.activity.SettingActivity;
 import com.shenjing.dengyuejinfu.ui.activity.ShareActivity;
@@ -74,5 +75,7 @@ public interface ActivityComponent {
     void inject(RegisterActivity registerActivity);
 
     void inject(LostPassActivity  lostPassActivity);
+
+    void inject(QRShareActivity qrShareActivity);
 
 }

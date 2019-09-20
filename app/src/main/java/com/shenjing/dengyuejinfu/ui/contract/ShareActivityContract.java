@@ -21,5 +21,6 @@ public class ShareActivityContract {
      */
    public interface Presenter extends BaseContract.BasePresenter<View>{
 
+       void  getWebShare();
     }
 }

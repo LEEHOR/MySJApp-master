@@ -117,7 +117,7 @@ public class QQShareTask {
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);//默认分享类型
         params.putString(QQShare.SHARE_TO_QQ_TITLE, builder.mTitle + "");//分享标题（默认不可以为空，防止空指针）
         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, builder.mDesc + "");//分享简介（默认可以为空防止空指针）
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, builder.mWebUrl);//weburl（除了图片以外都需要）
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, builder.mWebUrl);//webUrl（除了图片以外都需要）
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, builder.mImageUrl);//网络图片(缩略图，没有也不影响)
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, builder.mImagePath);//本地图片路径（单纯的本地图片分享使用）
         //创建监听器
@@ -330,7 +330,7 @@ public class QQShareTask {
         @Override
         public void onCancel() {
             if (mOnShareListener != null) {
-                mOnShareListener.onCancleShare(mBuilder.mPlatform, mBuilder.mShareType, "");
+                mOnShareListener.onCancelShare(mBuilder.mPlatform, mBuilder.mShareType, "");
             }
         }
     }
@@ -344,7 +344,7 @@ public class QQShareTask {
         return mQQShareListener;
     }
 
-    public static void onDestory() {
+    public static void onDestroy() {
         if (mQQShareListener != null) {
             mQQShareListener = null;
         }

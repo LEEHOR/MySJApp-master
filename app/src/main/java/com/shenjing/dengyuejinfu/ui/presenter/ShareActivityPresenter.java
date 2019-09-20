@@ -22,4 +22,8 @@ public class ShareActivityPresenter extends BasePresenter<ShareActivityContract.
 
     }
 
+    @Override
+    public void getWebShare() {
+
+    }
 }

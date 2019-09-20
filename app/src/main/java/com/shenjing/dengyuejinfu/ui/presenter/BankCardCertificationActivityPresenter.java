@@ -47,19 +47,19 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                         mView.hideLoading();
                         if (bankInfoModel.getCode() != null && bankInfoModel.getCode().equals("0000")) {
                             mView.showSuccess(bankInfoModel.getMsg());
-                            if (bankInfoModel.getFeasibility().equals("9001")){
+                            if (bankInfoModel.getData().getState().equals("9001")){
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            } else if (bankInfoModel.getFeasibility().equals("9002")){
+                            } else if (bankInfoModel.getData().getState().equals("9002")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
-                            } else if (bankInfoModel.getFeasibility().equals("9003")){
+                            } else if (bankInfoModel.getData().getState().equals("9003")){
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            }else if (bankInfoModel.getFeasibility().equals("9004")){
+                            }else if (bankInfoModel.getData().getState().equals("9004")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
@@ -74,6 +74,7 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                             mView.getBankInfoFailure();
                             mView.isCanEditor(false);
                             mView.isCanNext(false);
+                            mView.isCanUpLoad(false);
                         }
                     }
                 },this::loadStatusError);
@@ -82,13 +83,13 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
     @SuppressLint("CheckResult")
     @Override
     public void upLoadBankCardInfo(Map<String, Object> map) {
-        mView.showLoading();
+        mView.showLoading("正在上传..");
         File bankCardFile=new File(map.get("bankCardImg").toString());
         RequestBody requestBody_bankCardFile  =RequestBody.create(bankCardFile, MediaType.parse("multipart/form-data"));
         RequestBody body=new MultipartBody.Builder()
                 .addFormDataPart("phoneNumber",map.get("phoneNumber").toString())
-                .addFormDataPart("bank",map.get("bank").toString())
-                .addFormDataPart("bank",map.get("bank").toString())
+                .addFormDataPart("bank","天地银行")
+                .addFormDataPart("bankCardNo",map.get("bankCardNo").toString())
                 .addFormDataPart("userId",map.get("userId").toString())
                 .addFormDataPart("bankCardImg",bankCardFile.getName(),requestBody_bankCardFile)
                 .build();

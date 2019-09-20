@@ -4,6 +4,7 @@ package com.shenjing.dengyuejinfu.ui.presenter;
 import android.annotation.SuppressLint;
 import android.os.Environment;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
@@ -44,7 +45,7 @@ public class CertificationActivityPresenter extends BasePresenter<CertificationA
     @SuppressLint("CheckResult")
     @Override
     public void uploadPeopleInfo(Map<String, Object> map) {
-        mView.showLoading();
+        mView.showLoading("正在上传..");
         File back=new File(map.get("back").toString());
         RequestBody requestBody_back  =RequestBody.create(back,MediaType.parse("multipart/form-data"));
         File fornt=new File(map.get("fornt").toString());
@@ -71,7 +72,9 @@ public class CertificationActivityPresenter extends BasePresenter<CertificationA
                             mView.isCanNext(true);
                             mView.isCanUpLoad(false);
                             mView.isCanEditor(false);
+                            LogUtils.d(baseModel.getCode());
                         } else {
+                            LogUtils.d(baseModel.getCode());
                             mView.showFail(baseModel.getMsg());
                             mView.upLoadFailure();
                             mView.isCanNext(false);

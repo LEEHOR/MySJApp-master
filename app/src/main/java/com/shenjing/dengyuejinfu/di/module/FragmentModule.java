@@ -12,28 +12,6 @@ import dagger.Provides;
 
 @Module
 public class FragmentModule {
-//    private Fragment mFragment;
-//
-//    public FragmentModule(Fragment fragment) {
-//        mFragment = fragment;
-//    }
-//    @PerFragment
-//    @Provides
-//    @ContextLife("Activity")
-//    public Context provideActivityContext(){
-//        return mFragment.getActivity();
-//    }
-//    @Provides
-//    @PerFragment
-//    public Activity provideActivity(){
-//        return mFragment.getActivity();
-//    }
-//
-//    @Provides
-//    @PerFragment
-//    public Fragment provideFragment(){
-//        return mFragment;
-//    }
 private Fragment mFragment;
 
     public FragmentModule(Fragment fragment) {

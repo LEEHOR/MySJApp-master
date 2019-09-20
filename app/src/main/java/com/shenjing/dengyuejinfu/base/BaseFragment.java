@@ -118,6 +118,16 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     }
 
     @Override
+    public void showLoading(String title) {
+        mProgressDialog = new ProgressDialog(getActivity());
+        if (mProgressDialog != null) {
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setMessage(title==null?"正在加载..":title);
+            mProgressDialog.show();
+        }
+    }
+
+    @Override
     public void hideLoading() {
        if(mProgressDialog.isShowing()){
            mProgressDialog.dismiss();

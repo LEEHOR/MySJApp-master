@@ -47,12 +47,12 @@ import butterknife.OnClick;
 @Route(path = ARouterUrl.RegisterActivityUrl)
 public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> implements RegisterActivityContract.View {
 
-    @Autowired(name = BaseParams.RouterPath)
-    String path;
-    @Autowired(name = BaseParams.Router_type_mainActivity)
-    int router_type;
-    @Autowired(name = BaseParams.Router_position_mainActivity)
-    int main_position;
+//    @Autowired(name = BaseParams.RouterPath)
+//    String path;
+//    @Autowired(name = BaseParams.Router_type_mainActivity)
+//    int router_type;
+//    @Autowired(name = BaseParams.Router_position_mainActivity)
+//    int main_position;
     @BindView(R.id.register_mStatusBar)
     View registermStatusBar;
     @BindView(R.id.register_titleBar)
@@ -211,19 +211,26 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
         BaseParams.userName = loginModel.getData().getName();
         BaseParams.userId = loginModel.getData().getId();
         BaseParams.userToken = loginModel.getData().getToken();
-        if (router_type == BaseParams.Router_code_mainActivity) {
-            Intent intent = new Intent();
-            intent.putExtra("position", main_position);
-            setResult(1001, intent);
-        } else {
-            ARouter.getInstance().build(path).navigation();
-        }
-        //关闭前一个Activity(即：LoginActivity)
-        Activity preActivity = getPreActivity();
-        closeActivity(preActivity);
-        //关闭当前
+        ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
         releaseMemory();
-
+//        if (router_type == BaseParams.Router_code_mainActivity) {
+//            Intent intent = new Intent();
+//            intent.putExtra("position", main_position);
+//            setResult(1002, intent);
+//            releaseMemory();
+//        } else {
+//            if (path !=null){
+//                ARouter.getInstance().build(path).navigation();
+//                //关闭前一个Activity(即：LoginActivity)
+//                Activity preActivity = getPreActivity();
+//                closeActivity(preActivity);
+//                releaseMemory();
+//            } else {
+//                ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
+//                releaseMemory();
+//            }
+//
+//        }
     }
 
     @Override

@@ -1,14 +1,10 @@
 <resources>
     <string name="app_name">My腾云App</string>
-
     <string name="no_network_connection">请检查网络</string>
-
     <string name="load_error">加载错误</string>
-
     <string name="loading_text">加载中&#8230;</string>
     <string name="data_error">数据获取失败(ㄒoㄒ)~~</string>
     <string name="empty_view_hint">暂时木有内容呀~~</string>
-
     <string name="app_crash">很抱歉，程序出现异常，即将退出。</string>
     <string name="app_exit">再按一次退出程序</string>
 
@@ -19,8 +15,34 @@
     <string name="home_member">会员</string>
     <string name="home_receipt">收款</string>
     <string name="home_mine">我的</string>
-
     <string name="credit_inquiry_treaty">《用户授权协议》</string>
-
     <string name="double_click_exit">再按一次退出程序</string>
+
+
+    <!--关于信用卡的字段-->
+    <string name="credit_card_1">尾号%1$s%2$s</string>
+    <string name="credit_card_2">信用卡认证</string>
+    <string name="credit_card_3">添加信用卡</string>
+    <string name="credit_card_4">信用卡号</string>
+    <string name="credit_card_5">输入信用卡号</string>
+    <string name="credit_card_6">请信用卡有效期</string>
+    <!--关于银行卡字段-->
+    <string name="bank_card_1">银行卡认证</string>
+    <string name="bank_card_2">银行卡号</string>
+    <string name="bank_card_3">请输入银行卡号</string>
+    <!--====================================-->
+    <string name="card_1">所属银行</string>
+    <string name="card_2">选择所属银行</string>
+
+    <!--分享-->
+    <string name="share_1">网页分享注册</string>
+    <string name="share_2">面对面分享注册</string>
+    <string name="share_3">微信好友</string>
+    <string name="share_4">微信朋友圈</string>
+    <string name="share_5">面对面分享</string>
+    <string name="share_6">网页二维码分享</string>
+    <string name="share_7">分享</string>
+
+    <string name="share_8">QQ好友</string>
+    <string name="share_9">QQ空间</string>
 </resources>

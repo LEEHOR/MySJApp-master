@@ -2,15 +2,20 @@ package com.shenjing.dengyuejinfu.ui.activity;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
@@ -18,7 +23,9 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.IntentUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -37,6 +44,7 @@ import com.shenjing.dengyuejinfu.utils.GlideUtils;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -71,15 +79,34 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     TextView bankClass;
     @BindView(R.id.bank_submit)
     TextView bankSubmit;
-    private String picture_front;
     private final int TAKE_PHOTO_REQUEST_CODE_FRONT = 1002;
-    private boolean isBankPictureSuccess=false;
+    private boolean isBankPictureSuccess = false;
 
     /**
      * submit状态控制
      */
     private boolean isCanNext_s = false;
     private boolean isCanUpload_s = false;
+    private File fileFront;
+    private final static int MSG1 = 1;
+    private final static int MSG2 = 2;
+    private File fileFrontZip;
+    @SuppressLint("HandlerLeak")
+    private Handler mhandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG1:
+                    GlideUtils.initImageByBitMap(BankCardCertificationActivity.this, (Bitmap) msg.obj, bankImage);
+                    break;
+                case MSG2:
+                    isBankPictureSuccess = (int) msg.obj == 1;
+                    break;
+            }
+        }
+    };
+
 
     @Override
     protected int getLayoutId() {
@@ -121,7 +148,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
         if (model.getData() != null) {
             if (model.getData().getBank_card_img() != null) {
                 bankTakePhoto.setVisibility(View.INVISIBLE);
-                GlideUtils.initImageWithFileCache(this,model.getData().getBank_card_img(),bankImage);
+                GlideUtils.initImageWithFileCache(this, model.getData().getBank_card_img(), bankImage);
             }
             bankPhone.setText(model.getData().getPhone_number());
             bankClass.setText(model.getData().getBank());
@@ -151,7 +178,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
 
     @Override
     public void isCanUpLoad(boolean isCanUpLoad) {
-        this.isCanUpload_s=isCanUpLoad;
+        this.isCanUpload_s = isCanUpLoad;
     }
 
     @Override
@@ -167,74 +194,131 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
         switch (view.getId()) {
             case R.id.bank_image:
             case R.id.bank_take_photo:
-                isBankPictureSuccess=false;
+                isBankPictureSuccess = false;
                 getPermissions();
                 break;
             case R.id.bank_submit:
-                if (isCanUpload_s){
-                    if (!isBankPictureSuccess){
-                        if (StringUtils.isSpace(bankIdNo.getText().toString().trim())){
+                if (isCanUpload_s) {
+                    if (isBankPictureSuccess) {
+                        if (StringUtils.isSpace(bankIdNo.getText().toString().trim())) {
                             ToastUtils.showLong("请填写银行卡");
                             return;
                         }
-                        if (StringUtils.isSpace(bankPhone.getText().toString().trim())){
+                        if (StringUtils.isSpace(bankPhone.getText().toString().trim())) {
                             ToastUtils.showLong("请填写手机号");
                             return;
                         }
-                        if (!RegexUtils.isMobileSimple(bankPhone.getText().toString().trim())){
+                        if (!RegexUtils.isMobileSimple(bankPhone.getText().toString().trim())) {
                             ToastUtils.showLong("请填写正确的手机号");
                             return;
                         }
-                        Map map=new HashMap();
-                        map.put("bankCardImg",picture_front);
-                        map.put("phoneNumber",bankPhone.getText().toString().trim());
-                        map.put("bank","");
-                        map.put("bankCardNo",bankIdNo.getText().toString().trim());
+                        if (!FileUtils.isFile(fileFrontZip)) {
+                            ToastUtils.showLong("正在压缩图片，请稍后继续");
+                            return;
+                        }
+                        Map map = new HashMap();
+                        map.put("bankCardImg", fileFrontZip.getAbsolutePath());
+                        map.put("phoneNumber", bankPhone.getText().toString().trim());
+                        map.put("bank", "");
+                        map.put("bankCardNo", bankIdNo.getText().toString().trim());
                         map.put("userId", BaseParams.userId);
                         mPresenter.upLoadBankCardInfo(map);
+                    } else {
+                        ToastUtils.showLong("照片未就绪");
                     }
-                }else {
-                    if (isCanNext_s){
+                } else {
+                    if (isCanNext_s) {
                         ARouter.getInstance().build(ARouterUrl.PaymentVerificationActivityUrl)
-                                .navigation(this,new LoginNavigationCallback());
+                                .navigation(this, new LoginNavigationCallback());
                     }
                 }
                 break;
         }
     }
 
+    /**
+     * 拍照
+     */
     private void takeFrontPhoto() {
-        picture_front = Constant.SAVE_DIR_TAKE_PHOTO + "idCard_front(" + TimeUtils.getNowString() + ").png";
-        File file_front = new File(picture_front);
-        if (file_front.exists()) {
-            file_front.delete();
+        String picture_front = Constant.SAVE_DIR_TAKE_PHOTO;
+        if (!FileUtils.createOrExistsDir(picture_front)) {
+            ToastUtils.showLong("创建文件夹失败");
+            return;
         }
-        Uri photoUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file_front);
-        Intent captureIntent_front = IntentUtils.getCaptureIntent(photoUri);
-        startActivityForResult(captureIntent_front, TAKE_PHOTO_REQUEST_CODE_FRONT);
+        fileFront = new File(picture_front, "bank_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
+        if (!FileUtils.createFileByDeleteOldFile(fileFront)) {
+            ToastUtils.showLong("创建文件失败");
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri photoUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", fileFront);
+            Intent captureIntent_front = IntentUtils.getCaptureIntent(photoUri);
+            startActivityForResult(captureIntent_front, TAKE_PHOTO_REQUEST_CODE_FRONT);
+        } else {
+            Uri imageUri = Uri.fromFile(fileFront);
+            Intent captureIntent_front = IntentUtils.getCaptureIntent(imageUri);
+            startActivityForResult(captureIntent_front, TAKE_PHOTO_REQUEST_CODE_FRONT);
+        }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==TAKE_PHOTO_REQUEST_CODE_FRONT){
-            File file_front = new File(picture_front);
-            if (FileUtils.isFile(file_front)) {
+        if (requestCode == TAKE_PHOTO_REQUEST_CODE_FRONT) {
+            // File file_front = new File(picture_front);
+            if (FileUtils.isFile(fileFront)) {
                 bankTakePhoto.setVisibility(View.INVISIBLE);
-                GlideUtils.initImageByFile(this,file_front,bankImage);
-                isBankPictureSuccess=true;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap front_image = ImageUtils.getBitmap(fileFront);
+                        Bitmap bitmap_front_zip = ImageUtils.compressByQuality(front_image, 40, true);
+                        Message message = new Message();
+                        message.what = MSG1;
+                        message.obj = bitmap_front_zip;
+                        //然后将消息发送出去
+                        mhandler.sendMessage(message);
+                        // mhandler.sendEmptyMessage(MSG1);
+                        if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
+                            LogUtils.d("创建文件夹失败");
+                            return;
+                        }
+                        fileFrontZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_bank.jpeg");
+                        Message message2 = new Message();
+                        if (FileUtils.createFileByDeleteOldFile(fileFrontZip)) {
+                            if (ImageUtils.save(bitmap_front_zip, fileFrontZip, Bitmap.CompressFormat.JPEG, false)) {
+                                FileUtils.delete(fileFront);
+                                message2.what = MSG2;
+                                message2.obj = 1;
+                                //然后将消息发送出去
+                                mhandler.sendMessage(message2);
+                            } else {
+                                message2.what = MSG2;
+                                message2.obj = 2;
+                                //然后将消息发送出去
+                                mhandler.sendMessage(message2);
+                            }
+                        } else {
+                            message2.what = MSG2;
+                            message2.obj = 1;
+                            //然后将消息发送出去
+                            mhandler.sendMessage(message2);
+                        }
+                    }
+                }).start();
             } else {
-                isBankPictureSuccess=false;
+                isBankPictureSuccess = false;
             }
         }
     }
 
     private void getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (PermissionUtils.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA)) {
+            if (PermissionUtils.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA)) {
                 takeFrontPhoto();
             } else {
-                PermissionUtils.permission(PermissionConstants.CAMERA)
+                PermissionUtils.permission(PermissionConstants.CAMERA, PermissionConstants.STORAGE)
                         .rationale(new PermissionUtils.OnRationaleListener() {
                             @Override
                             public void rationale(ShouldRequest shouldRequest) {
@@ -245,7 +329,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                         .callback(new PermissionUtils.FullCallback() {
                             @Override
                             public void onGranted(List<String> permissionsGranted) {
-                                    takeFrontPhoto();
+                                takeFrontPhoto();
                             }
 
                             @Override
@@ -254,8 +338,14 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                             }
                         }).request();
             }
-        }else {
+        } else {
             takeFrontPhoto();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mhandler.removeCallbacksAndMessages(null);
     }
 }

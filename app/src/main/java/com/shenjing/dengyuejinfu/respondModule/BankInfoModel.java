@@ -8,16 +8,17 @@ package com.shenjing.dengyuejinfu.respondModule;
  */
 public class BankInfoModel {
 
+
     /**
-     * msg : 该用户未认证
+     * msg : 请求成功
      * code : 0000
-     * data : null
+     * data : {"feasibility":"3","bank":"天地银行","phone_number":"18571512117","bank_card_no":"6217002020031489313","state":"9003","bank_card_img":"http://jmd-img.oss-cn-hangzhou.aliyuncs.com/bankCardImg%5CbankCardImg?Expires=1884235964&OSSAccessKeyId=LTAI2jejMitchJsw&Signature=U1f%2FbIor3wPJwP%2BN5NOoKfhov%2FI%3D"}
      */
 
     private String msg;
     private String code;
     private DataBean data;
-    private String feasibility;
+
     public String getMsg() {
         return msg;
     }
@@ -42,43 +43,29 @@ public class BankInfoModel {
         this.data = data;
     }
 
-    public String getFeasibility() {
-        return feasibility;
-    }
-
-    public void setFeasibility(String feasibility) {
-        this.feasibility = feasibility;
-    }
-
     public static class DataBean {
-        private String bank_card_no;
-        private String bank_card_img;
-        private String phone_number;
+        /**
+         * feasibility : 3
+         * bank : 天地银行
+         * phone_number : 18571512117
+         * bank_card_no : 6217002020031489313
+         * state : 9003
+         * bank_card_img : http://jmd-img.oss-cn-hangzhou.aliyuncs.com/bankCardImg%5CbankCardImg?Expires=1884235964&OSSAccessKeyId=LTAI2jejMitchJsw&Signature=U1f%2FbIor3wPJwP%2BN5NOoKfhov%2FI%3D
+         */
+
+        private String feasibility;
         private String bank;
+        private String phone_number;
+        private String bank_card_no;
+        private String state;
+        private String bank_card_img;
 
-
-        public String getBank_card_no() {
-            return bank_card_no;
+        public String getFeasibility() {
+            return feasibility;
         }
 
-        public void setBank_card_no(String bank_card_no) {
-            this.bank_card_no = bank_card_no;
-        }
-
-        public String getBank_card_img() {
-            return bank_card_img;
-        }
-
-        public void setBank_card_img(String bank_card_img) {
-            this.bank_card_img = bank_card_img;
-        }
-
-        public String getPhone_number() {
-            return phone_number;
-        }
-
-        public void setPhone_number(String phone_number) {
-            this.phone_number = phone_number;
+        public void setFeasibility(String feasibility) {
+            this.feasibility = feasibility;
         }
 
         public String getBank() {
@@ -89,5 +76,36 @@ public class BankInfoModel {
             this.bank = bank;
         }
 
+        public String getPhone_number() {
+            return phone_number;
+        }
+
+        public void setPhone_number(String phone_number) {
+            this.phone_number = phone_number;
+        }
+
+        public String getBank_card_no() {
+            return bank_card_no;
+        }
+
+        public void setBank_card_no(String bank_card_no) {
+            this.bank_card_no = bank_card_no;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getBank_card_img() {
+            return bank_card_img;
+        }
+
+        public void setBank_card_img(String bank_card_img) {
+            this.bank_card_img = bank_card_img;
+        }
     }
 }

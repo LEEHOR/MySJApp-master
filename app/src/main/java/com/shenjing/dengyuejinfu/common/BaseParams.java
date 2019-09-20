@@ -36,4 +36,10 @@ public class BaseParams {
     //webView跳转常量
     public static final String webViewTitle="webTitle";
     public static  final  String webViewUrl="webUrl";
+
+    //分享跳转
+    public static final String share_title="shareTitle";  //分享标题
+    public static final String share_url="shareUrl"; //分享的链接
+    public static final String share_describe="shareDescribe"; //分享的描述
+    public static final String share_thumbnail="shareThumbnail"; //分享的缩略图
 }

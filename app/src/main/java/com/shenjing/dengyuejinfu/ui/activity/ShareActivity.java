@@ -2,17 +2,22 @@ package com.shenjing.dengyuejinfu.ui.activity;
 
 import android.view.View;
 
+import androidx.cardview.widget.CardView;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
+import com.shenjing.dengyuejinfu.common.BaseParams;
+import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
 import com.shenjing.dengyuejinfu.ui.contract.ShareActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.ShareActivityPresenter;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * author : Leehor
@@ -27,6 +32,10 @@ public class ShareActivity extends BaseActivity<ShareActivityPresenter> implemen
     View shareMStatusBar;
     @BindView(R.id.share_titleBar)
     TitleBar shareTitleBar;
+    @BindView(R.id.page_share)
+    CardView pageShare;
+    @BindView(R.id.other_share)
+    CardView otherShare;
 
     @Override
     protected int getLayoutId() {
@@ -57,5 +66,21 @@ public class ShareActivity extends BaseActivity<ShareActivityPresenter> implemen
     @Override
     protected void initFunc() {
 
+    }
+
+    @OnClick({R.id.page_share, R.id.other_share})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.page_share:
+                ARouter.getInstance().build(ARouterUrl.WebViewActivityUrl)
+                        .withString(BaseParams.webViewTitle,"分享")
+                        .withString(BaseParams.webViewUrl,null)
+                        .navigation(this,new LoginNavigationCallback());
+                break;
+            case R.id.other_share:
+                    ARouter.getInstance().build(ARouterUrl.QRShareActivityUrl)
+                            .navigation(this,new LoginNavigationCallback());
+                break;
+        }
     }
 }

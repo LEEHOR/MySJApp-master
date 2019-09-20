@@ -1,12 +1,24 @@
 package com.shenjing.dengyuejinfu.ui.activity;
 
 import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
+import com.shenjing.dengyuejinfu.base.BaseFragment;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
+import com.shenjing.dengyuejinfu.common.BaseParams;
+import com.shenjing.dengyuejinfu.decoration.SpacesItemDecoration;
+import com.shenjing.dengyuejinfu.respondModule.CreditCardListModel;
+import com.shenjing.dengyuejinfu.ui.activity.adapter.CreditficationCardListAdapter;
 import com.shenjing.dengyuejinfu.ui.contract.CreditCardCertificationActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.CreditCardCertificationActivityPresenter;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
@@ -30,6 +42,12 @@ public class CreditCardCertificationActivity extends BaseActivity<CreditCardCert
     TitleBar creditCardTitleBar;
     @BindView(R.id.credit_card_floatingButton)
     FloatingActionButton creditCardFloatingButton;
+    @BindView(R.id.credit_card_recycler)
+    RecyclerView creditCardRecycler;
+    @BindView(R.id.credit_card_swipe)
+    SwipeRefreshLayout creditCardSwipe;
+    private LinearLayoutManager linearLayoutManager;
+    private CreditficationCardListAdapter cardListAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -55,15 +73,66 @@ public class CreditCardCertificationActivity extends BaseActivity<CreditCardCert
                 onBackPressed();
             }
         });
+        linearLayoutManager = new LinearLayoutManager(this);
+        cardListAdapter = new CreditficationCardListAdapter(this);
+        creditCardRecycler.setLayoutManager(linearLayoutManager);
+        creditCardRecycler.setAdapter(cardListAdapter);
+        creditCardRecycler.addItemDecoration(new SpacesItemDecoration(ConvertUtils.dp2px(5f)
+                , ConvertUtils.dp2px(5f)));
+
     }
 
     @Override
     protected void initFunc() {
+        mPresenter.getCardList(BaseParams.userId);
+        creditCardSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getCardList(BaseParams.userId);
+            }
+        });
+        cardListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                CreditCardListModel.DataBean.CreditCardBean creditCardBean = (CreditCardListModel.DataBean.CreditCardBean) adapter.getData().get(position);
+                mPresenter.setCardStatus(BaseParams.userId, creditCardBean.getCreditCardNo());
+            }
+        });
 
     }
 
     @OnClick(R.id.credit_card_floatingButton)
     public void onClick() {
         ARouter.getInstance().build(ARouterUrl.AddCardActivityUrl).navigation();
+    }
+
+    @Override
+    public void getCardListSuccess(CreditCardListModel creditCardListModel) {
+
+    }
+
+    @Override
+    public void getCardListFailure() {
+
+    }
+
+    @Override
+    public void setBankStatusSuccess() {
+        mPresenter.getCardList(BaseParams.userId);
+    }
+
+    @Override
+    public void setBankStatusFailure() {
+
+    }
+
+    @Override
+    public void Refresh(boolean Refresh) {
+        creditCardSwipe.setRefreshing(Refresh);
+    }
+
+    @Override
+    public CreditficationCardListAdapter getViewListAdapter() {
+        return cardListAdapter;
     }
 }

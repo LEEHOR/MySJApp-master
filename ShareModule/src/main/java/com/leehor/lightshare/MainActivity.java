@@ -413,15 +413,13 @@ public class MainActivity extends AppCompatActivity implements OnShareListener {
     }
 
     @Override
-    public void onCancleShare(int sharePlatForm, int shareType, String message) {
+    public void onCancelShare(int sharePlatForm, int shareType, String message) {
         Log.e("TAG", sharePlatForm + "分享取消：" + message);
     }
 
     @Override
     protected void onDestroy() {
-        ShareKeeper.getInstance().onDestory();
+        ShareKeeper.getInstance().onDestroy();
         super.onDestroy();
-
-
     }
 }

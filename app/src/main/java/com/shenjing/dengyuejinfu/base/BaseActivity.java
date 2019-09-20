@@ -42,7 +42,6 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     @Nullable
     @Inject
     protected T mPresenter;
-
     protected Context mContext;
     private Snackbar snackbar;
     @Nullable
@@ -230,6 +229,15 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     }
 
     @Override
+    public void showLoading(String title) {
+        mProgressDialog = new ProgressDialog(this);
+        if (mProgressDialog != null) {
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setMessage(title==null?"正在加载..":title);
+            mProgressDialog.show();
+        }
+    }
+    @Override
     public void showLoading() {
         mProgressDialog = new ProgressDialog(this);
         if (mProgressDialog != null) {
@@ -238,7 +246,6 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
             mProgressDialog.show();
         }
     }
-
     @Override
     public void hideLoading() {
         if (mProgressDialog.isShowing()) {

@@ -46,9 +46,14 @@ public class BannerModel {
     }
 
     public static class DataBean {
+
         private List<BannerBean> banner;
         private List<String> marquee;
+        private String switch_status;
 
+        /**
+         * 1:开  0:关
+         */
         public List<BannerBean> getBanner() {
             return banner;
         }
@@ -99,6 +104,14 @@ public class BannerModel {
             public void setPath(String path) {
                 this.path = path;
             }
+        }
+
+        public String getSwitch_status() {
+            return switch_status;
+        }
+
+        public void setSwitch_status(String switch_status) {
+            this.switch_status = switch_status;
         }
     }
 }

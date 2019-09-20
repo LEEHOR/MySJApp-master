@@ -3,20 +3,17 @@ package com.shenjing.dengyuejinfu.net.services;
 import com.shenjing.dengyuejinfu.respondModule.AddCreditCardModel;
 import com.shenjing.dengyuejinfu.respondModule.BankInfoModel;
 import com.shenjing.dengyuejinfu.respondModule.BaseModel;
+import com.shenjing.dengyuejinfu.respondModule.PaymentModel;
 import com.shenjing.dengyuejinfu.respondModule.PeopleCertificationStatus;
-
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 
 /**
  * author : Leehor
@@ -62,9 +59,28 @@ public interface CertificationApi {
      * 银行卡认证
      * @param requestBody
      * @return
+     * getTakeImg
      */
     @POST("/upLoadBankCardInfo")
     Observable<BaseModel> upLoadBankCardInfo(@Body RequestBody requestBody);
 
+
+    /**
+     * 获取手持身份证
+     * @param userId
+     * @return
+     */
+    @POST("/getTakeImg")
+    @FormUrlEncoded
+    Observable<PaymentModel> getTakeImg(@Field("userId") long userId);
+
+
+    /**
+     * 上传手持身份证
+     * @param requestBody
+     * @return
+     */
+    @POST("/upLoadTakeImg")
+    Observable<BaseModel> upLoadTakeImag(@Body RequestBody requestBody);
 
 }

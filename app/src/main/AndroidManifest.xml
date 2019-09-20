@@ -64,6 +64,7 @@
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.RegisterActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.LostPassActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.WebViewActivity"/>
+        <activity android:name="com.shenjing.dengyuejinfu.ui.activity.QRShareActivity"/>
 
 
 
@@ -99,12 +100,12 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileProvider"
+            android:authorities="com.shenjing.dengyuejinfu.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/provider_paths" />
         </provider>
 
     </application>

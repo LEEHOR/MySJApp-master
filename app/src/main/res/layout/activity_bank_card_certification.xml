@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="银行卡认证"
+                        android:text="@string/bank_card_1"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
@@ -188,7 +188,7 @@
                         android:paddingBottom="10dp"
                         android:textColor="@color/textColor"
                         android:textSize="14dp"
-                        android:text="银行卡号"
+                        android:text="@string/bank_card_2"
                         android:layout_width="65dp"
                         android:layout_height="wrap_content" />
                     <EditText
@@ -200,7 +200,7 @@
                         android:paddingBottom="10dp"
                         android:layout_marginLeft="20dp"
                         android:background="@null"
-                        android:hint="请输入您的银行卡号"
+                        android:hint="@string/bank_card_3"
                         android:textSize="14dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -264,7 +264,7 @@
                         android:paddingBottom="10dp"
                         android:textColor="@color/textColor"
                         android:textSize="14dp"
-                        android:text="所属银行"
+                        android:text="@string/card_1"
                         android:layout_width="65dp"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -272,7 +272,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:layout_marginLeft="20dp"
-                        android:text="请选择所属银行"
+                        android:text="@string/card_2"
                         android:textSize="14dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"

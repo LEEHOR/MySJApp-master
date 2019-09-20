@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="银行卡认证"
+                        android:text="@string/bank_card_1"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 

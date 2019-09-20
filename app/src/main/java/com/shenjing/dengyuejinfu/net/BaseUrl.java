@@ -7,5 +7,5 @@ package com.shenjing.dengyuejinfu.net;
  * desc   :
  */
 public class BaseUrl {
-    public static String BASE_URL="http://192.168.1.60:8080";
+    public static String BASE_URL="http://192.168.1.45:8080";
 }

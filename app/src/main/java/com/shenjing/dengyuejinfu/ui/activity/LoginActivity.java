@@ -9,6 +9,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -152,7 +154,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
             intent.putExtra("position", main_position);
             setResult(1001, intent);
         } else if(router_type==BaseParams.ChangePass_Type){ //修改密码
-
+            ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
         } else if(router_type==BaseParams.SettingActivity_Type){  //安全退出
             ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
         }else {
@@ -237,9 +239,9 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                 break;
             case R.id.login_register:
                 ARouter.getInstance().build(ARouterUrl.RegisterActivityUrl)
-                        .withInt(BaseParams.Router_type_mainActivity, router_type)
-                        .withInt(BaseParams.Router_position_mainActivity, main_position)
-                        .withString(BaseParams.RouterPath, path)
+//                        .withInt(BaseParams.Router_type_mainActivity, router_type)
+//                        .withInt(BaseParams.Router_position_mainActivity, main_position)
+//                        .withString(BaseParams.RouterPath, path)
                         .navigation();
                 break;
             case R.id.login_type:
@@ -262,4 +264,15 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
         }
     }
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode==1002 && resultCode==1002){
+//            int position = data.getIntExtra("position", 0);
+//            Intent intent = new Intent();
+//            intent.putExtra("position", position);
+//            setResult(1001, intent);
+//            releaseMemory();
+//        }
+//    }
 }

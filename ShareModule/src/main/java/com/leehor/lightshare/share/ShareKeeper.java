@@ -288,7 +288,7 @@ public class ShareKeeper {
                 } else if (errCode == BaseResp.ErrCode.ERR_COMM) {
                     onShareListener.onShareFailed(mPlatform, mShareType, "一般错误");
                 } else if (errCode == BaseResp.ErrCode.ERR_USER_CANCEL) {
-                    onShareListener.onCancleShare(mPlatform, mShareType, "取消分享");
+                    onShareListener.onCancelShare(mPlatform, mShareType, "取消分享");
                 } else {
                     onShareListener.onShareFailed(mPlatform, mShareType, "未知错误");
                 }
@@ -365,13 +365,13 @@ public class ShareKeeper {
     /**
      * 处理当前activity销毁的时候回调
      */
-    public void onDestory() {
+    public void onDestroy() {
         if (mShareBuilder != null) {
             mShareBuilder = null;
         }
 
-     //   WBShareTask.onDestory();
-        QQShareTask.onDestory();
+        //  WBShareTask.onDestory();
+        QQShareTask.onDestroy();
     }
 }
 

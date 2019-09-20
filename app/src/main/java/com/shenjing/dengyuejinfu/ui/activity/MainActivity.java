@@ -15,6 +15,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.shenjing.dengyuejinfu.App;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
@@ -24,6 +25,7 @@ import com.shenjing.dengyuejinfu.ui.fragment.MemberFragment;
 import com.shenjing.dengyuejinfu.ui.fragment.MineFragment;
 import com.shenjing.dengyuejinfu.ui.fragment.ReceiptFragment;
 import com.shenjing.dengyuejinfu.ui.fragment.ReplacementFragment;
+import com.shenjing.dengyuejinfu.utils.ActivityStack;
 import com.shenjing.dengyuejinfu.utils.ScreenUtils;
 
 import butterknife.BindView;
@@ -341,9 +343,9 @@ public class MainActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        hideAll();
+      //  hideAll();
         LogUtils.d("重新加载");
-        mBottomTabs.selectTab(0);
+        BackToTargetPage(0);
     }
 
     @Override
@@ -363,7 +365,7 @@ public class MainActivity extends BaseActivity {
             showSnackBar(mBottomTabs, getString(R.string.double_click_exit));
             exitTime = System.currentTimeMillis();
         } else {
-            finish();
+            ActivityStack.getInstance().appExit(App.getAppContext());
         }
     }
 }
