@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.amap.api.location.AMapLocation;
 import com.blankj.utilcode.constant.PermissionConstants;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.PhoneUtils;
@@ -73,6 +75,8 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
     TextView registerSubmit;
     private String imei;
     private SPUtils spUtils;
+    private String deviceId;
+    private String product_model;
 
     @Override
     protected int getLayoutId() {
@@ -110,10 +114,15 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
 
     private void getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (PermissionUtils.isGranted(Manifest.permission.READ_PHONE_STATE)) {
+            if (PermissionUtils.isGranted(Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+                    , Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE
+                    , Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 imei = PhoneUtils.getIMEI();
+                mPresenter.startLocation();
+                deviceId=PhoneUtils.getDeviceId();
+                product_model = DeviceUtils.getManufacturer() + DeviceUtils.getModel();
             } else {
-                PermissionUtils.permission(PermissionConstants.PHONE)
+                PermissionUtils.permission(PermissionConstants.PHONE,PermissionConstants.LOCATION)
                         .rationale(new PermissionUtils.OnRationaleListener() {
                             @Override
                             public void rationale(ShouldRequest shouldRequest) {
@@ -125,6 +134,8 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
                             @Override
                             public void onGranted(List<String> permissionsGranted) {
                                 imei = PhoneUtils.getIMEI();
+                                deviceId = PhoneUtils.getDeviceId();;
+                                product_model = DeviceUtils.getManufacturer() + DeviceUtils.getModel();
                             }
 
                             @Override
@@ -166,14 +177,7 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
             ToastUtils.showLong("请输入用户名");
             return;
         }
-//        UserRegisterBean userRegisterBean = new UserRegisterBean();
-//        userRegisterBean.setIdCardNo(registerUserIDCardNo.getText().toString().trim());
         String md5_pass = EncryptUtils.encryptMD5ToString(registerUserLoginPass.getText().toString().trim());
-//        userRegisterBean.setPassword(md5_pass);
-//        userRegisterBean.setPhoneNumber(registerUserPhone.getText().toString().trim());
-//        userRegisterBean.setRealName(registerUserRealName.getText().toString().trim());
-//        userRegisterBean.setUserName(registerUserLoginName.getText().toString().trim());
-//        userRegisterBean.setFacilityCode(imei);
         Map map = new HashMap();
         map.put("idCardNo", registerUserIDCardNo.getText().toString().trim());
         map.put("password", md5_pass);
@@ -191,10 +195,6 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
         map.put("password", md5_pass);
         map.put("phoneNumber", registerUserPhone.getText().toString().trim());
         map.put("facilityCode", imei);
-//        AccountLoginBean accountLoginBean = new AccountLoginBean();
-//        accountLoginBean.setFacilityCode(imei);
-//        accountLoginBean.setUserName(registerUserLoginName.getText().toString().trim());
-//        accountLoginBean.setPassword(registerUserLoginPass.getText().toString().trim());
         mPresenter.login_account(map);
     }
 
@@ -211,30 +211,46 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
         BaseParams.userName = loginModel.getData().getName();
         BaseParams.userId = loginModel.getData().getId();
         BaseParams.userToken = loginModel.getData().getToken();
+        upLoadUserInfo();
         ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
         releaseMemory();
-//        if (router_type == BaseParams.Router_code_mainActivity) {
-//            Intent intent = new Intent();
-//            intent.putExtra("position", main_position);
-//            setResult(1002, intent);
-//            releaseMemory();
-//        } else {
-//            if (path !=null){
-//                ARouter.getInstance().build(path).navigation();
-//                //关闭前一个Activity(即：LoginActivity)
-//                Activity preActivity = getPreActivity();
-//                closeActivity(preActivity);
-//                releaseMemory();
-//            } else {
-//                ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
-//                releaseMemory();
-//            }
-//
-//        }
     }
 
     @Override
     public void loginFailure(String msg) {
 
+    }
+
+    @Override
+    public void LocationSuccess(AMapLocation aMapLocation) {
+        BaseParams.location_latitude = aMapLocation.getLatitude();
+        BaseParams.location_longitude = aMapLocation.getLongitude();
+        BaseParams.location_address = aMapLocation.getAddress();
+    }
+
+    @Override
+    public void LocationFailure(int errorCode) {
+
+    }
+
+    /**
+     * 上传日志信息
+     */
+    private void upLoadUserInfo() {
+        Map map = new HashMap();
+        map.put("userId", BaseParams.userId);
+        map.put("type", "10");
+        map.put("coordinate", BaseParams.location_longitude + "," + BaseParams.location_latitude);
+        map.put("address", BaseParams.location_address);
+        map.put("client", "Android");
+        map.put("deviceId", deviceId);
+        map.put("termModel", product_model);
+        mPresenter.uploadUserInfo(map);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.closeLocation();
+        super.onDestroy();
     }
 }

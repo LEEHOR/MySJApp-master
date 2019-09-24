@@ -13,6 +13,8 @@ public class Constant {
     //SP字段
     public static final boolean isFirstIn=false; //是否首次进入
 
+    public static final String APK_DOWNLOAD_URL = "downLoadApkUrl";//安装包下载位置
+
 
     //SDCard路径
     public static String SDCARD_PATH = StoreSpaceUtils.getSDCardPath();
@@ -29,4 +31,10 @@ public class Constant {
      * 相机拍摄图片存储位置
      */
     public static String SAVE_DIR_TAKE_PHOTO = SAVE_DIR_BASE.concat("takePhoto/");
+
+    /**
+     * apk下载路径
+     */
+    public static String SAVE_DIR_DOWNLOAD_APK = SAVE_DIR_BASE.concat("apkDownLoad/");
+
 }

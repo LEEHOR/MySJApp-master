@@ -1,5 +1,6 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
+import com.amap.api.location.AMapLocation;
 import com.shenjing.dengyuejinfu.base.BaseContract;
 import com.shenjing.dengyuejinfu.respondModule.LoginModel;
 import com.shenjing.dengyuejinfu.respondModule.RegisterModel;
@@ -33,6 +34,14 @@ public class RegisterActivityContract {
 
         void  loginFailure(String msg);
 
+        /**
+         * 定位
+         * @param aMapLocation
+         */
+        void LocationSuccess(AMapLocation aMapLocation);
+
+        void LocationFailure(int errorCode);
+
     }
 
     /**
@@ -43,6 +52,19 @@ public class RegisterActivityContract {
        void register(Map<String,Object> map);
 
        void login_account(Map<String,Object> map);
+
+        /**
+         * 开启定位
+         */
+        void startLocation();
+
+        void closeLocation();
+
+        /**
+         * 上传登录日志
+         * @param map
+         */
+        void uploadUserInfo(Map<String,Object> map);
 
     }
 }

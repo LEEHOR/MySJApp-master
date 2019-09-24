@@ -15,6 +15,7 @@ import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.di.component.ApplicationComponent;
 import com.shenjing.dengyuejinfu.di.component.DaggerApplicationComponent;
 import com.shenjing.dengyuejinfu.di.module.ApplicationModule;
+import com.shenjing.dengyuejinfu.utils.GaodeMapLocationHelper;
 
 public class App extends Application {
     private static App app;
@@ -40,7 +41,7 @@ public class App extends Application {
         handler = new Handler(Looper.getMainLooper());
         mainThreadId = android.os.Process.myTid();//获取当前线程的id
         initUserParams();
-
+        GaodeMapLocationHelper.init(this);
     }
 
     private void intARouter() {

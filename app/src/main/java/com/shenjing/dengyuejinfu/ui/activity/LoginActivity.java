@@ -14,9 +14,11 @@ import androidx.annotation.Nullable;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.amap.api.location.AMapLocation;
 import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.EncryptUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
@@ -34,6 +36,7 @@ import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
 import com.shenjing.dengyuejinfu.respondModule.LoginModel;
 import com.shenjing.dengyuejinfu.ui.contract.LoginActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.LoginActivityPresenter;
+import com.shenjing.dengyuejinfu.utils.GaodeMapLocationHelper;
 import com.shenjing.dengyuejinfu.widgte.TimingButton;
 
 import java.util.HashMap;
@@ -85,6 +88,8 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     TextView loginType;
     private SPUtils spUtils;
     private String imei; //唯一识别码
+    private String deviceId; //
+    private String product_model;
 
     @Override
     protected int getLayoutId() {
@@ -110,15 +115,20 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     @Override
     protected void initFunc() {
         getPermissions();
-        LogUtils.d(path,main_position,router_type);
+        LogUtils.d(path, main_position, router_type);
     }
 
     private void getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (PermissionUtils.isGranted(Manifest.permission.READ_PHONE_STATE)) {
+            if (PermissionUtils.isGranted(Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+                    , Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE
+                    , Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 imei = PhoneUtils.getIMEI();
+                mPresenter.startLocation();
+                deviceId = PhoneUtils.getDeviceId();;
+                product_model = DeviceUtils.getManufacturer() + DeviceUtils.getModel();
             } else {
-                PermissionUtils.permission(PermissionConstants.PHONE)
+                PermissionUtils.permission(PermissionConstants.PHONE, PermissionConstants.LOCATION)
                         .rationale(new PermissionUtils.OnRationaleListener() {
                             @Override
                             public void rationale(ShouldRequest shouldRequest) {
@@ -130,6 +140,10 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                             @Override
                             public void onGranted(List<String> permissionsGranted) {
                                 imei = PhoneUtils.getIMEI();
+                                deviceId = PhoneUtils.getDeviceId();
+                                product_model = DeviceUtils.getManufacturer() + DeviceUtils.getModel();
+                                mPresenter.startLocation();
+
                             }
 
                             @Override
@@ -149,16 +163,18 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
         BaseParams.userName = loginModel.getData().getName();
         BaseParams.userId = loginModel.getData().getId();
         BaseParams.userToken = loginModel.getData().getToken();
+        //上传日志
+        upLoadUserInfo();
         if (router_type == BaseParams.MainActivity_Type) {  //首页
             Intent intent = new Intent();
             intent.putExtra("position", main_position);
             setResult(1001, intent);
-        } else if(router_type==BaseParams.ChangePass_Type){ //修改密码
+        } else if (router_type == BaseParams.ChangePass_Type) { //修改密码
             ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
-        } else if(router_type==BaseParams.SettingActivity_Type){  //安全退出
+        } else if (router_type == BaseParams.SettingActivity_Type) {  //安全退出
             ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
-        }else {
-            ARouter.getInstance().build(path).navigation(this,new LoginNavigationCallback());
+        } else {
+            ARouter.getInstance().build(path).navigation(this, new LoginNavigationCallback());
         }
         releaseMemory();
     }
@@ -178,6 +194,19 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
         loginGetCode.TimeOnCancel();
     }
 
+
+    @Override
+    public void LocationSuccess(AMapLocation aMapLocation) {
+        BaseParams.location_latitude = aMapLocation.getLatitude();
+        BaseParams.location_longitude = aMapLocation.getLongitude();
+        BaseParams.location_address = aMapLocation.getAddress();
+    }
+
+    @Override
+    public void LocationFailure(int errorCode) {
+
+    }
+
     @Override
     public TimingButton getTimeButtonView() {
         return loginGetCode;
@@ -192,7 +221,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                     ToastUtils.showLong("请输入手机号");
                     return;
                 }
-                if (!RegexUtils.isMobileSimple(loginPhone.getText().toString().trim())){
+                if (!RegexUtils.isMobileSimple(loginPhone.getText().toString().trim())) {
                     ToastUtils.showLong("请输入正确的手机号");
                     return;
                 }
@@ -275,4 +304,27 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
 //            releaseMemory();
 //        }
 //    }
+
+    /**
+     * 上传日志信息
+     */
+    private void upLoadUserInfo() {
+        Map map = new HashMap();
+        map.put("userId", BaseParams.userId);
+        map.put("type", "20");
+        map.put("coordinate", BaseParams.location_longitude + "," + BaseParams.location_latitude);
+        map.put("address", BaseParams.location_address);
+        map.put("client", "Android");
+        map.put("deviceId", deviceId);
+        map.put("termModel", product_model);
+        LogUtils.d(map.get("userId"),map.get("type"),map.get("coordinate"),map.get("address"),map.get("client")
+        ,map.get("deviceId"),map.get("termModel"));
+        mPresenter.uploadUserInfo(map);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.closeLocation();
+        super.onDestroy();
+    }
 }

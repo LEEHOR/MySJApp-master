@@ -146,7 +146,7 @@ public class SplashActivity extends BaseActivity {
         Runnable goToMainActivity = new Runnable() {
             @Override
             public void run() {
-                ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
+                ARouter.getInstance().build(ARouterUrl.LoginActivityUrl).navigation();
                 act.get().finish();
             }
         };

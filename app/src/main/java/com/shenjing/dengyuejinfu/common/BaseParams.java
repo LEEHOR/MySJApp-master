@@ -24,8 +24,9 @@ public class BaseParams {
     public static final int MainActivity_Type=1001;
     public static final int ChangePass_Type=1002;
     public static final int  SettingActivity_Type=1003;
+    public static final String IncreaseQuotaType="QuotaType";
     //权限请求
-    public static final int RegisterPremissionCode=100;
+
 
 
     //user常量
@@ -42,4 +43,10 @@ public class BaseParams {
     public static final String share_url="shareUrl"; //分享的链接
     public static final String share_describe="shareDescribe"; //分享的描述
     public static final String share_thumbnail="shareThumbnail"; //分享的缩略图
+
+    //定位
+    public static String  location_address;//定位地址
+    public static double  location_longitude;//经度
+    public static double location_latitude;//维度
+
 }

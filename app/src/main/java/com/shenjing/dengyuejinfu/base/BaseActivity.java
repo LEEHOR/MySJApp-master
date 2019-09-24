@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
@@ -30,6 +31,8 @@ import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+
+import java.util.zip.Inflater;
 
 import javax.inject.Inject;
 
@@ -57,6 +60,7 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     protected abstract void initFunc();
 
     protected ProgressDialog mProgressDialog;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -230,26 +234,30 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
 
     @Override
     public void showLoading(String title) {
-        mProgressDialog = new ProgressDialog(this);
-        if (mProgressDialog != null) {
+
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setCanceledOnTouchOutside(false);
-            mProgressDialog.setMessage(title==null?"正在加载..":title);
+            mProgressDialog.setMessage(title == null ? "正在加载.." : title);
             mProgressDialog.show();
         }
     }
+
     @Override
     public void showLoading() {
-        mProgressDialog = new ProgressDialog(this);
-        if (mProgressDialog != null) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setMessage("正在加载..");
             mProgressDialog.show();
         }
     }
+
     @Override
     public void hideLoading() {
-        if (mProgressDialog.isShowing()) {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
+            mProgressDialog = null;
         }
     }
 

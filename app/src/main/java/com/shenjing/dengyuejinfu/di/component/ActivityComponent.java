@@ -15,6 +15,8 @@ import com.shenjing.dengyuejinfu.ui.activity.ChangePassWordActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CreditCardCertificationActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CreditInquiryActivity;
 import com.shenjing.dengyuejinfu.ui.activity.DiscountRecordActivity;
+import com.shenjing.dengyuejinfu.ui.activity.IncreaseQuotaInformationActivity;
+import com.shenjing.dengyuejinfu.ui.activity.IncreaseTheQuotaActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LoanPageActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LoginActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LostPassActivity;
@@ -77,5 +79,9 @@ public interface ActivityComponent {
     void inject(LostPassActivity  lostPassActivity);
 
     void inject(QRShareActivity qrShareActivity);
+
+    void inject(IncreaseTheQuotaActivity increaseTheQuotaActivity);
+
+    void inject(IncreaseQuotaInformationActivity increaseQuotaInformationActivity);
 
 }

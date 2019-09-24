@@ -41,7 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <com.google.android.material.card.MaterialCardView
+                <androidx.cardview.widget.CardView
+                    app:cardCornerRadius="5dp"
                     app:contentPadding="2dp"
                     android:layout_width="match_parent"
                     android:layout_height="150dp">
@@ -55,7 +56,7 @@
                         app:indicatorSelectRes="@drawable/shape_point_select"
                         app:indicatorStyle="ORDINARY"
                         app:indicatorUnSelectRes="@drawable/shape_point_unselect" />
-                </com.google.android.material.card.MaterialCardView>
+                </androidx.cardview.widget.CardView>
 
 
                 <LinearLayout
@@ -104,29 +105,101 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:text="智能代还" />
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="快捷收款" />
+                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:src="@drawable/icon_transaction_details"
+                                    app:border="true"
+                                    app:border_color="@color/blue1" />
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="信用卡申请" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="智能代还"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="14dp" />
+                            </LinearLayout>
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:text="金融贷款" />
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:src="@drawable/icon_transaction_details"
+                                    app:border="true"
+                                    app:border_color="@color/blue1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="快速收款"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="14dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:src="@drawable/icon_transaction_details"
+                                    app:border="true"
+                                    app:border_color="@color/blue1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="信用卡申请"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="14dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:src="@drawable/icon_transaction_details"
+                                    app:border="true"
+                                    app:border_color="@color/blue1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="金融贷款"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="14dp" />
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
@@ -135,29 +208,101 @@
                             android:layout_marginTop="20dp"
                             android:orientation="horizontal">
 
-                            <TextView
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:text="智能代还" />
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:src="@drawable/icon_transaction_details"
+                                    app:border="true"
+                                    app:border_color="@color/blue1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="分享赚钱"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="14dp" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:src="@drawable/icon_transaction_details"
+                                    app:border="true"
+                                    app:border_color="@color/blue1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="会员升级"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="14dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:src="@drawable/icon_transaction_details"
+                                app:border="true"
+                                app:border_color="@color/blue1" />
 
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="快捷收款" />
+                                android:gravity="center"
+                                android:text="积分兑换"
+                                android:textColor="@color/textColor"
+                                android:textSize="14dp" />
+                            </LinearLayout>
 
-                            <TextView
+                            <LinearLayout
+                                android:id="@+id/index_IncreaseTheQuota"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:text="信用卡申请" />
+                                android:gravity="center"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="金融贷款" />
+                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:src="@drawable/icon_transaction_details"
+                                    app:border="true"
+                                    app:border_color="@color/blue1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="提额秘籍"
+                                    android:textColor="@color/textColor"
+                                    android:textSize="14dp" />
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

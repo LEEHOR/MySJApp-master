@@ -109,8 +109,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
     @Override
     public void showLoading() {
-        mProgressDialog=new ProgressDialog(getActivity());
-        if (mProgressDialog != null) {
+
+        if (mProgressDialog == null) {
+            mProgressDialog=new ProgressDialog(getActivity());
             mProgressDialog.setMessage("正在加载..");
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.show();
@@ -119,8 +120,9 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
     @Override
     public void showLoading(String title) {
-        mProgressDialog = new ProgressDialog(getActivity());
-        if (mProgressDialog != null) {
+
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setMessage(title==null?"正在加载..":title);
             mProgressDialog.show();
@@ -129,9 +131,10 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
 
     @Override
     public void hideLoading() {
-       if(mProgressDialog.isShowing()){
-           mProgressDialog.dismiss();
-       }
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 
     @Override

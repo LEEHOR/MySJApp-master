@@ -4,6 +4,7 @@ package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
 import com.shenjing.dengyuejinfu.respondModule.BannerModel;
+import com.shenjing.dengyuejinfu.respondModule.VersionModel;
 
 
 /**
@@ -21,6 +22,9 @@ public class IndexFragmentContract {
         void getBannerSuccess(BannerModel bannerModel);
         void getBannerFailure();
         void Refresh(boolean Refresh);
+
+        void getVersionSuccess(VersionModel versionModel);
+        void getVersionFailure();
     }
 
     /**
@@ -28,6 +32,10 @@ public class IndexFragmentContract {
      */
    public interface Presenter extends BaseContract.BasePresenter<View>{
 
-       void Banner();
+       void Banner(String actionScope);
+
+       void uploadCallRecord(String userId,String contacts);
+
+       void getVersion();
     }
 }

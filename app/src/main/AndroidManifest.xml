@@ -5,21 +5,37 @@
     <!--网络权限-->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--定位权限-->
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
     <!--存储和读取权限-->
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--读取网络状态权限-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 读取通讯录权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--SD卡读取权限-->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!--打开相机-->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!--8.0以上版本安装-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <application
         android:name="com.shenjing.dengyuejinfu.App"
@@ -65,12 +81,19 @@
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.LostPassActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.WebViewActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.QRShareActivity"/>
+        <activity android:name="com.shenjing.dengyuejinfu.ui.activity.IncreaseTheQuotaActivity"/>
+        <activity android:name=".ui.activity.IncreaseQuotaInformationActivity"/>
 
+        <!--高德定位-->
+        <service android:name="com.amap.api.location.APSService"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="09c807797c4641903147709374a132ce"/>
 
-
-
-
-
+        <receiver android:name=".ui.broadcastReceiver.DownloadReceive">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <!--<action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />-->
+            </intent-filter>
+        </receiver>
         <!-- 腾讯第三方认证页面 -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"

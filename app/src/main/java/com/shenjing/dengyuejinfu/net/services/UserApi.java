@@ -1,11 +1,13 @@
 package com.shenjing.dengyuejinfu.net.services;
 
+import com.shenjing.dengyuejinfu.respondModule.BaseModel;
 import com.shenjing.dengyuejinfu.respondModule.ChangePassModel;
 import com.shenjing.dengyuejinfu.respondModule.LoginModel;
 import com.shenjing.dengyuejinfu.respondModule.LoginOutModel;
 import com.shenjing.dengyuejinfu.respondModule.LostPassModel;
 import com.shenjing.dengyuejinfu.respondModule.RegisterModel;
 import com.shenjing.dengyuejinfu.respondModule.SmsModel;
+import com.shenjing.dengyuejinfu.respondModule.VersionModel;
 
 import java.util.Map;
 
@@ -94,4 +96,31 @@ public interface UserApi {
     @POST("/logout")
     @FormUrlEncoded
     Observable<LoginOutModel> loginOut(@Field("userid") String userid);
+
+    /**
+     * 上传登录日志
+     * @param map
+     * @return
+     */
+    @POST("/saveUserDeviceLocation")
+    @FormUrlEncoded
+    Observable<BaseModel> uploadDeviceLocation(@FieldMap Map<String,Object> map);
+
+
+    /**
+     * 上传通讯录
+     * @param userId
+     * @param contacts
+     * @return
+     */
+    @POST("/upLoadCallRecord")
+    @FormUrlEncoded
+    Observable<BaseModel> uploadCallRecord(@Field("userId") long userId,@Field("contacts") String contacts);
+
+    /**
+     * 获取版本更新
+     * @return
+     */
+    @POST("/check/version")
+    Observable<VersionModel> checkVersion();
 }

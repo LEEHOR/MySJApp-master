@@ -39,7 +39,6 @@ android {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             signingConfig signingConfigs.myConfig
-            versionNameSuffix '_debug'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -47,7 +46,6 @@ android {
         release {
             buildConfigField "boolean", "LOG_RELEASE", "false"
             signingConfig signingConfigs.myConfig
-            versionNameSuffix '_release'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -56,7 +54,7 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             
-                outputFileName = "${name}_${BuildApkTime()}_${buildTypes.debug.versionNameSuffix}.apk"
+                outputFileName = "${name}_${BuildApkTime()}_.apk"
 
         }
 
@@ -133,7 +131,7 @@ dependencies {
     //弹窗
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
-    //工具类
+    //安卓开发工具类
     implementation 'com.blankj:utilcodex:1.25.9'
 
     //底部菜单
@@ -150,5 +148,10 @@ dependencies {
 
     //文字轮播，可垂直跑、可水平跑的跑马灯
     implementation 'com.superluo:textbannerview:1.0.5'
+
+    //二维码生成工具
     implementation files('libs/zxing-3.3.3.jar')
+
+    //高德地图
+    implementation 'com.amap.api:location:latest.integration'
 }
