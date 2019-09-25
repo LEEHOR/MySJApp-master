@@ -1,7 +1,7 @@
 package com.shenjing.dengyuejinfu.net.services;
 
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.CreditCardListModel;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.CreditCardListBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -24,7 +24,7 @@ public interface CreditCardApi {
      */
     @POST("/getCreditCard")
     @FormUrlEncoded
-    Observable<CreditCardListModel> getCreditCardList(@Field("userId") long userId);
+    Observable<CreditCardListBean> getCreditCardList(@Field("userId") long userId);
 
     /**
      * 设置信用卡状态
@@ -33,5 +33,5 @@ public interface CreditCardApi {
      */
     @POST("/setCreditCardStatus")
     @FormUrlEncoded
-    Observable<BaseModel> setCreditCardStatus(@Field("userId") long userId,@Field("creditCardNo") String creditCardNo);
+    Observable<BaseBean> setCreditCardStatus(@Field("userId") long userId, @Field("creditCardNo") String creditCardNo);
 }

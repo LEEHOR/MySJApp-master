@@ -9,8 +9,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -33,10 +31,9 @@ import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
+import com.shenjing.dengyuejinfu.entity.LoginBean;
 import com.shenjing.dengyuejinfu.ui.contract.LoginActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.LoginActivityPresenter;
-import com.shenjing.dengyuejinfu.utils.GaodeMapLocationHelper;
 import com.shenjing.dengyuejinfu.widgte.TimingButton;
 
 import java.util.HashMap;
@@ -148,7 +145,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
 
                             @Override
                             public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                                ToastUtils.showLong("获取权限失败");
+                                ToastUtils.showLong(R.string.toast_14);
                             }
                         }).request();
             }
@@ -156,13 +153,13 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     }
 
     @Override
-    public void showLoginSuccess(LoginModel loginModel, int type) {
-        spUtils.put(BaseParams.USER_TOKEN_KEY, loginModel.getData().getToken(), true);
-        spUtils.put(BaseParams.USER_NAME_KEY, loginModel.getData().getName(), true);
-        spUtils.put(BaseParams.USER_ID_KEY, loginModel.getData().getId(), false);
-        BaseParams.userName = loginModel.getData().getName();
-        BaseParams.userId = loginModel.getData().getId();
-        BaseParams.userToken = loginModel.getData().getToken();
+    public void showLoginSuccess(LoginBean loginBean, int type) {
+        spUtils.put(BaseParams.USER_TOKEN_KEY, loginBean.getData().getToken(), true);
+        spUtils.put(BaseParams.USER_NAME_KEY, loginBean.getData().getName(), true);
+        spUtils.put(BaseParams.USER_ID_KEY, loginBean.getData().getId(), false);
+        BaseParams.userName = loginBean.getData().getName();
+        BaseParams.userId = loginBean.getData().getId();
+        BaseParams.userToken = loginBean.getData().getToken();
         //上传日志
         upLoadUserInfo();
         if (router_type == BaseParams.MainActivity_Type) {  //首页
@@ -180,7 +177,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
     }
 
     @Override
-    public void shownLoginFailure(LoginModel loginModel, int type) {
+    public void shownLoginFailure(LoginBean loginBean, int type) {
 
     }
 
@@ -218,11 +215,11 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
             case R.id.login_get_code:
                 loginCode.setText("");
                 if (StringUtils.isSpace(loginPhone.getText().toString().trim())) {
-                    ToastUtils.showLong("请输入手机号");
+                    ToastUtils.showLong(R.string.toast_5);
                     return;
                 }
                 if (!RegexUtils.isMobileSimple(loginPhone.getText().toString().trim())) {
-                    ToastUtils.showLong("请输入正确的手机号");
+                    ToastUtils.showLong(R.string.toast_6);
                     return;
                 }
                 mPresenter.loginSms(loginPhone.getText().toString().trim());
@@ -231,11 +228,11 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
             case R.id.login_submit:
                 if (loginType.getTag() == null || loginType.getTag().equals("account")) {  //账户登录
                     if (StringUtils.isSpace(loginAccount.getText().toString().trim())) {
-                        ToastUtils.showLong("请输入账户");
+                        ToastUtils.showLong(R.string.toast_22);
                         return;
                     }
                     if (StringUtils.isSpace(loginPass.getText().toString().trim())) {
-                        ToastUtils.showLong("请输入密码");
+                        ToastUtils.showLong(R.string.toast_23);
                         return;
                     }
                     Map map = new HashMap();
@@ -247,15 +244,15 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
 
                 } else if (loginType.getTag() != null && loginType.getTag().equals("phone")) { //手机号码登录
                     if (StringUtils.isSpace(loginPhone.getText().toString().trim())) {
-                        ToastUtils.showLong("请输入手机号");
+                        ToastUtils.showLong(R.string.toast_5);
                         return;
                     }
                     if (!RegexUtils.isMobileSimple(loginPhone.getText().toString().trim())) {
-                        ToastUtils.showLong("请输入正确的手机号");
+                        ToastUtils.showLong(R.string.toast_6);
                         return;
                     }
                     if (StringUtils.isSpace(loginCode.getText().toString().trim())) {
-                        ToastUtils.showLong("验证码不能为空");
+                        ToastUtils.showLong(R.string.toast_24);
                         return;
                     }
 
@@ -276,12 +273,12 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
             case R.id.login_type:
                 if (loginType.getTag() == null || loginType.getTag().equals("account")) {
                     loginType.setTag("phone");
-                    loginType.setText("账户登录");
+                    loginType.setText(getResources().getString(R.string.account_19));
                     loginAccountType.setVisibility(View.GONE);
                     loginPhoneType.setVisibility(View.VISIBLE);
                 } else {
                     loginType.setTag("account");
-                    loginType.setText("手机号登录");
+                    loginType.setText(getResources().getString(R.string.account_11));
                     loginAccountType.setVisibility(View.VISIBLE);
                     loginPhoneType.setVisibility(View.GONE);
                 }

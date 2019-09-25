@@ -61,10 +61,4 @@ public class MyCustomerActivity extends BaseActivity<MyCustomerActivityPresenter
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

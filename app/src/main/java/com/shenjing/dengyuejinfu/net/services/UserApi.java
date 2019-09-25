@@ -1,13 +1,13 @@
 package com.shenjing.dengyuejinfu.net.services;
 
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.ChangePassModel;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
-import com.shenjing.dengyuejinfu.respondModule.LoginOutModel;
-import com.shenjing.dengyuejinfu.respondModule.LostPassModel;
-import com.shenjing.dengyuejinfu.respondModule.RegisterModel;
-import com.shenjing.dengyuejinfu.respondModule.SmsModel;
-import com.shenjing.dengyuejinfu.respondModule.VersionModel;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.ChangePassBean;
+import com.shenjing.dengyuejinfu.entity.LoginBean;
+import com.shenjing.dengyuejinfu.entity.LoginOutBean;
+import com.shenjing.dengyuejinfu.entity.LostPassBean;
+import com.shenjing.dengyuejinfu.entity.RegisterBean;
+import com.shenjing.dengyuejinfu.entity.SmsBean;
+import com.shenjing.dengyuejinfu.entity.VersionBean;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public interface UserApi {
      */
     @POST("/regist/password/username")
     @FormUrlEncoded
-    Observable<RegisterModel> register(@FieldMap Map<String,Object> map);
+    Observable<RegisterBean> register(@FieldMap Map<String,Object> map);
 
     /**
      * 账户密码登录
@@ -41,7 +41,7 @@ public interface UserApi {
      */
     @POST("/login/user/base/info")
     @FormUrlEncoded
-    Observable<LoginModel> login_account(@FieldMap Map<String,Object> map);
+    Observable<LoginBean> login_account(@FieldMap Map<String,Object> map);
 
     /**
      * 手机号验证码登录
@@ -50,7 +50,7 @@ public interface UserApi {
      */
     @POST("/login/phone/validata")
     @FormUrlEncoded
-    Observable<LoginModel> login_phone(@FieldMap Map<String,Object> map);
+    Observable<LoginBean> login_phone(@FieldMap Map<String,Object> map);
 
     /**
      * 获取短信验证码
@@ -59,7 +59,7 @@ public interface UserApi {
      */
     @POST("/sms")
     @FormUrlEncoded
-    Observable<SmsModel> get_sms(@Field("phoneNumber") String phoneNumber);
+    Observable<SmsBean> get_sms(@Field("phoneNumber") String phoneNumber);
 
     /**
      * 修改密码
@@ -68,7 +68,7 @@ public interface UserApi {
      */
     @POST("/changePwd")
     @FormUrlEncoded
-    Observable<ChangePassModel> changePass(@FieldMap Map<String,Object> map);
+    Observable<ChangePassBean> changePass(@FieldMap Map<String,Object> map);
 
     /**
      * 忘记密码
@@ -77,7 +77,7 @@ public interface UserApi {
      */
     @POST("/findPwd")
     @FormUrlEncoded
-    Observable<LostPassModel> lostPass(@FieldMap Map<String,Object> map);
+    Observable<LostPassBean> lostPass(@FieldMap Map<String,Object> map);
 
     /**
      * 获取短信验证码(忘记密码)
@@ -86,7 +86,7 @@ public interface UserApi {
      */
     @POST("/sms")
     @FormUrlEncoded
-    Observable<SmsModel> get_sms2(@Field("phoneNumber") String phoneNumber);
+    Observable<SmsBean> get_sms2(@Field("phoneNumber") String phoneNumber);
 
     /**
      * 退出登录
@@ -95,7 +95,7 @@ public interface UserApi {
      */
     @POST("/logout")
     @FormUrlEncoded
-    Observable<LoginOutModel> loginOut(@Field("userid") String userid);
+    Observable<LoginOutBean> loginOut(@Field("userid") String userid);
 
     /**
      * 上传登录日志
@@ -104,7 +104,7 @@ public interface UserApi {
      */
     @POST("/saveUserDeviceLocation")
     @FormUrlEncoded
-    Observable<BaseModel> uploadDeviceLocation(@FieldMap Map<String,Object> map);
+    Observable<BaseBean> uploadDeviceLocation(@FieldMap Map<String,Object> map);
 
 
     /**
@@ -115,12 +115,12 @@ public interface UserApi {
      */
     @POST("/upLoadCallRecord")
     @FormUrlEncoded
-    Observable<BaseModel> uploadCallRecord(@Field("userId") long userId,@Field("contacts") String contacts);
+    Observable<BaseBean> uploadCallRecord(@Field("userId") long userId, @Field("contacts") String contacts);
 
     /**
      * 获取版本更新
      * @return
      */
     @POST("/check/version")
-    Observable<VersionModel> checkVersion();
+    Observable<VersionBean> checkVersion();
 }

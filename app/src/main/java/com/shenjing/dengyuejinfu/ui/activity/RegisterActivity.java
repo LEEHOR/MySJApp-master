@@ -1,14 +1,12 @@
 package com.shenjing.dengyuejinfu.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.amap.api.location.AMapLocation;
@@ -26,8 +24,8 @@ import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
-import com.shenjing.dengyuejinfu.respondModule.RegisterModel;
+import com.shenjing.dengyuejinfu.entity.LoginBean;
+import com.shenjing.dengyuejinfu.entity.RegisterBean;
 import com.shenjing.dengyuejinfu.ui.contract.RegisterActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.RegisterActivityPresenter;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
@@ -49,12 +47,6 @@ import butterknife.OnClick;
 @Route(path = ARouterUrl.RegisterActivityUrl)
 public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> implements RegisterActivityContract.View {
 
-//    @Autowired(name = BaseParams.RouterPath)
-//    String path;
-//    @Autowired(name = BaseParams.Router_type_mainActivity)
-//    int router_type;
-//    @Autowired(name = BaseParams.Router_position_mainActivity)
-//    int main_position;
     @BindView(R.id.register_mStatusBar)
     View registermStatusBar;
     @BindView(R.id.register_titleBar)
@@ -140,7 +132,7 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
 
                             @Override
                             public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                                ToastUtils.showLong("获取权限失败");
+                                ToastUtils.showLong(R.string.toast_14);
                             }
                         }).request();
             }
@@ -150,31 +142,31 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
     @OnClick(R.id.register_submit)
     public void onClick() {
         if (StringUtils.isSpace(registerUserIDCardNo.getText().toString().trim())) {
-            ToastUtils.showLong("请输入身份证号");
+            ToastUtils.showLong(R.string.toast_2);
             return;
         }
         if (!RegexUtils.isIDCard18(registerUserIDCardNo.getText().toString().trim())) {
-            ToastUtils.showLong("请输入正确的身份证号");
+            ToastUtils.showLong(R.string.toast_3);
             return;
         }
         if (StringUtils.isSpace(registerUserLoginPass.getText().toString().trim())) {
-            ToastUtils.showLong("请输入登录密码");
+            ToastUtils.showLong(R.string.toast_27);
             return;
         }
         if (StringUtils.isSpace(registerUserPhone.getText().toString().trim())) {
-            ToastUtils.showLong("请输入手机号");
+            ToastUtils.showLong(R.string.toast_5);
             return;
         }
         if (!RegexUtils.isMobileSimple(registerUserPhone.getText().toString().trim())) {
-            ToastUtils.showLong("请输入正确的手机号");
+            ToastUtils.showLong(R.string.toast_6);
             return;
         }
         if (StringUtils.isSpace(registerUserRealName.getText().toString().trim())) {
-            ToastUtils.showLong("请输入真实姓名");
+            ToastUtils.showLong(R.string.toast_28);
             return;
         }
         if (StringUtils.isSpace(registerUserLoginName.getText().toString().trim())) {
-            ToastUtils.showLong("请输入用户名");
+            ToastUtils.showLong(R.string.toast_29);
             return;
         }
         String md5_pass = EncryptUtils.encryptMD5ToString(registerUserLoginPass.getText().toString().trim());
@@ -189,7 +181,7 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
     }
 
     @Override
-    public void registerSuccess(RegisterModel registerModel) {
+    public void registerSuccess(RegisterBean registerBean) {
         Map map = new HashMap();
         String md5_pass = EncryptUtils.encryptMD5ToString(registerUserLoginPass.getText().toString().trim());
         map.put("password", md5_pass);
@@ -204,13 +196,13 @@ public class RegisterActivity extends BaseActivity<RegisterActivityPresenter> im
     }
 
     @Override
-    public void loginSuccess(LoginModel loginModel) {
-        spUtils.put(BaseParams.USER_NAME_KEY, loginModel.getData().getName(), true);
-        spUtils.put(BaseParams.USER_TOKEN_KEY, loginModel.getData().getToken(), true);
-        spUtils.put(BaseParams.USER_ID_KEY, loginModel.getData().getId(), false);
-        BaseParams.userName = loginModel.getData().getName();
-        BaseParams.userId = loginModel.getData().getId();
-        BaseParams.userToken = loginModel.getData().getToken();
+    public void loginSuccess(LoginBean loginBean) {
+        spUtils.put(BaseParams.USER_NAME_KEY, loginBean.getData().getName(), true);
+        spUtils.put(BaseParams.USER_TOKEN_KEY, loginBean.getData().getToken(), true);
+        spUtils.put(BaseParams.USER_ID_KEY, loginBean.getData().getId(), false);
+        BaseParams.userName = loginBean.getData().getName();
+        BaseParams.userId = loginBean.getData().getId();
+        BaseParams.userToken = loginBean.getData().getToken();
         upLoadUserInfo();
         ARouter.getInstance().build(ARouterUrl.MainActivityUrl).navigation();
         releaseMemory();

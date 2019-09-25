@@ -7,9 +7,9 @@ import com.amap.api.location.AMapLocation;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
-import com.shenjing.dengyuejinfu.respondModule.RegisterModel;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.LoginBean;
+import com.shenjing.dengyuejinfu.entity.RegisterBean;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
@@ -44,18 +44,18 @@ public class RegisterActivityPresenter extends BasePresenter<RegisterActivityCon
     public void register(Map<String,Object> map) {
         mView.showLoading();
        RetrofitManager.create(UserApi.class).register(map)
-               .compose(mView.<RegisterModel>bindToLife())
-               .compose(RxSchedulers.<RegisterModel>applySchedulers())
-               .subscribe(new Consumer<RegisterModel>() {
+               .compose(mView.<RegisterBean>bindToLife())
+               .compose(RxSchedulers.<RegisterBean>applySchedulers())
+               .subscribe(new Consumer<RegisterBean>() {
                    @Override
-                   public void accept(RegisterModel registerModel) throws Exception {
+                   public void accept(RegisterBean registerBean) throws Exception {
                                   mView.hideLoading();
-                       if (registerModel.getCode() != null && registerModel.getCode().equals("0000")) {
-                           mView.showSuccess(registerModel.getMsg());
-                           mView.registerSuccess(registerModel);
+                       if (registerBean.getCode() != null && registerBean.getCode().equals("0000")) {
+                           mView.showSuccess(registerBean.getMsg());
+                           mView.registerSuccess(registerBean);
                        } else {
-                           mView.showFail(registerModel.getMsg());
-                           mView.registerFailure(registerModel.getMsg());
+                           mView.showFail(registerBean.getMsg());
+                           mView.registerFailure(registerBean.getMsg());
                        }
                    }
                },this::loadError);
@@ -66,16 +66,16 @@ public class RegisterActivityPresenter extends BasePresenter<RegisterActivityCon
     public void login_account(Map<String,Object> map) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).login_account(map)
-                .compose(mView.<LoginModel>bindToLife())
-                .compose(RxSchedulers.<LoginModel>applySchedulers())
-                .subscribe(new Consumer<LoginModel>() {
+                .compose(mView.<LoginBean>bindToLife())
+                .compose(RxSchedulers.<LoginBean>applySchedulers())
+                .subscribe(new Consumer<LoginBean>() {
                     @Override
-                    public void accept(LoginModel loginModel) throws Exception {
+                    public void accept(LoginBean loginBean) throws Exception {
                         mView.hideLoading();
-                        if (loginModel.getCode() != null && loginModel.getCode().equals("0000")) {
-                            mView.loginSuccess(loginModel);
+                        if (loginBean.getCode() != null && loginBean.getCode().equals("0000")) {
+                            mView.loginSuccess(loginBean);
                         } else {
-                            mView.loginFailure(loginModel.getMsg());
+                            mView.loginFailure(loginBean.getMsg());
                         }
                     }
                 },this::loadError);
@@ -110,12 +110,12 @@ public class RegisterActivityPresenter extends BasePresenter<RegisterActivityCon
     @Override
     public void uploadUserInfo(Map<String, Object> map) {
         RetrofitManager.create(UserApi.class).uploadDeviceLocation(map)
-                .compose(mView.<BaseModel>bindToLife())
-                .compose(RxSchedulers.<BaseModel>applySchedulers())
-                .subscribe(new Consumer<BaseModel>() {
+                .compose(mView.<BaseBean>bindToLife())
+                .compose(RxSchedulers.<BaseBean>applySchedulers())
+                .subscribe(new Consumer<BaseBean>() {
                     @Override
-                    public void accept(BaseModel baseModel){
-                        if (baseModel.getCode() != null && baseModel.getCode().equals("0000")) {
+                    public void accept(BaseBean baseBean){
+                        if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
 
                         } else {
 

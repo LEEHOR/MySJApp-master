@@ -7,7 +7,7 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
-import com.shenjing.dengyuejinfu.respondModule.AddCreditCardModel;
+import com.shenjing.dengyuejinfu.entity.AddCreditCardBean;
 import com.shenjing.dengyuejinfu.ui.contract.AddCreditCardActivityContract;
 
 import java.util.Map;
@@ -35,11 +35,11 @@ public class AddCreditCardActivityPresenter extends BasePresenter<AddCreditCardA
     public void uploadCreditCard(Map<String, Object> map) {
         mView.showLoading();
         RetrofitManager.create(CertificationApi.class).uploadCreditCardInfo(map)
-                .compose(mView.<AddCreditCardModel>bindToLife())
-                .compose(RxSchedulers.<AddCreditCardModel>applySchedulers())
-                .subscribe(new Consumer<AddCreditCardModel>() {
+                .compose(mView.<AddCreditCardBean>bindToLife())
+                .compose(RxSchedulers.<AddCreditCardBean>applySchedulers())
+                .subscribe(new Consumer<AddCreditCardBean>() {
                     @Override
-                    public void accept(AddCreditCardModel loginModel){
+                    public void accept(AddCreditCardBean loginModel){
                         mView.hideLoading();
                         if (loginModel.getCode() != null && loginModel.getCode().equals("0000")) {
                             mView.showSuccess(loginModel.getMsg());

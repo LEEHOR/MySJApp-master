@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:contentPadding="10dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="5dp"
+    android:id="@+id/item_root_creditCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/bank_icons"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_yinhang"
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
+        <LinearLayout
+            android:layout_marginStart="15dp"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/bank_icons"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/textColor"
+                android:textSize="18dp"
+                android:id="@+id/bank_name"
+                android:text="dsdsdsdsdsd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="dsdsdsdsdsd"
+                android:textColor="@color/textColor2"
+                android:textSize="12dp"
+                android:id="@+id/bank_No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/item_creditCard_status"
+            android:src="@drawable/icon_duihao"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

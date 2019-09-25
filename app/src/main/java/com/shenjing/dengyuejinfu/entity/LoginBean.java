@@ -1,4 +1,6 @@
-package com.shenjing.dengyuejinfu.respondModule;
+package com.shenjing.dengyuejinfu.entity;
+
+import java.io.Serializable;
 
 /**
  * author : Leehor
@@ -6,7 +8,7 @@ package com.shenjing.dengyuejinfu.respondModule;
  * version: 1.0
  * desc   :
  */
-public class LoginModel {
+public class LoginBean implements Serializable {
 
     /**
      * msg : 登录成功

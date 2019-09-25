@@ -1,59 +1,30 @@
 package com.shenjing.dengyuejinfu.entity;
 
+import java.io.Serializable;
+
 /**
  * author : Leehor
- * date   : 2019/9/1517:22
+ * date   : 2019/9/1517:24
  * version: 1.0
- * desc   :忘记密码
+ * desc   :
  */
-public class LostPassBean {
-    private String phone;
-    private String vcode;
-    private  String newPwd;
-    private String signMsg;
+public class LostPassBean implements Serializable {
+    private String  code;
+    private String msg;
 
-    public String getPhone() {
-        return phone;
+    public String getCode() {
+        return code;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getVcode() {
-        return vcode;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setVcode(String vcode) {
-        this.vcode = vcode;
-    }
-
-    public String getNewPwd() {
-        return newPwd;
-    }
-
-    public void setNewPwd(String newPwd) {
-        this.newPwd = newPwd;
-    }
-
-    public String getSignMsg() {
-        return signMsg;
-    }
-
-    public void setSignMsg(String signMsg) {
-        this.signMsg = signMsg;
-    }
-
-    public LostPassBean() {
-    }
-
-    @Override
-    public String toString() {
-        return "LostPassBean{" +
-                "phone='" + phone + '\'' +
-                ", vcode='" + vcode + '\'' +
-                ", newPwd='" + newPwd + '\'' +
-                ", signMsg='" + signMsg + '\'' +
-                '}';
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

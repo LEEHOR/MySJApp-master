@@ -6,8 +6,8 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
-import com.shenjing.dengyuejinfu.respondModule.LostPassModel;
-import com.shenjing.dengyuejinfu.respondModule.SmsModel;
+import com.shenjing.dengyuejinfu.entity.LostPassBean;
+import com.shenjing.dengyuejinfu.entity.SmsBean;
 import com.shenjing.dengyuejinfu.ui.contract.LostPassActivityContract;
 
 import java.util.Map;
@@ -38,18 +38,18 @@ public class LostPassActivityPresenter extends BasePresenter<LostPassActivityCon
     public void lostPassSubmit(Map<String,Object> map) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).lostPass(map)
-                .compose(mView.<LostPassModel>bindToLife())
-                .compose(RxSchedulers.<LostPassModel>applySchedulers())
-                .subscribe(new Consumer<LostPassModel>() {
+                .compose(mView.<LostPassBean>bindToLife())
+                .compose(RxSchedulers.<LostPassBean>applySchedulers())
+                .subscribe(new Consumer<LostPassBean>() {
                     @Override
-                    public void accept(LostPassModel lostPassModel) {
+                    public void accept(LostPassBean lostPassBean) {
                         mView.hideLoading();
-                        if (lostPassModel.getCode() != null && lostPassModel.getCode().equals("0000")) {
-                            mView.showSuccess(lostPassModel.getMsg());
+                        if (lostPassBean.getCode() != null && lostPassBean.getCode().equals("0000")) {
+                            mView.showSuccess(lostPassBean.getMsg());
                             mView.getTimeButton().TimeOnFinished();
                             mView.getPassSuccess();
                         } else {
-                            mView.showFail(lostPassModel.getMsg());
+                            mView.showFail(lostPassBean.getMsg());
                             mView.getTimeButton().TimeOnFinished();
                             mView.getPassFailure();
                         }
@@ -62,19 +62,19 @@ public class LostPassActivityPresenter extends BasePresenter<LostPassActivityCon
     public void sendSms(String phone) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).get_sms2(phone)
-                .compose(mView.<SmsModel>bindToLife())
-                .compose(RxSchedulers.<SmsModel>applySchedulers())
-                .subscribe(new Consumer<SmsModel>() {
+                .compose(mView.<SmsBean>bindToLife())
+                .compose(RxSchedulers.<SmsBean>applySchedulers())
+                .subscribe(new Consumer<SmsBean>() {
                     @Override
-                    public void accept(SmsModel smsModel) {
+                    public void accept(SmsBean smsBean) {
                         mView.hideLoading();
-                        if (smsModel.getCode() != null && smsModel.getCode().equals("0000")) {
+                        if (smsBean.getCode() != null && smsBean.getCode().equals("0000")) {
 
-                            mView.showSuccess(smsModel.getMsg());
+                            mView.showSuccess(smsBean.getMsg());
                             mView.getTimeButton().TimeOnFinished();
                             mView.getSmsSuccess();
                         } else {
-                            mView.showFail(smsModel.getMsg());
+                            mView.showFail(smsBean.getMsg());
 
                             mView.getTimeButton().TimeOnFinished();
                             mView.getSmsFailure();

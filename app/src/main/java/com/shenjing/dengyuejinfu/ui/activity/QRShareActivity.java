@@ -15,7 +15,7 @@ import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
-import com.shenjing.dengyuejinfu.respondModule.QRModel;
+import com.shenjing.dengyuejinfu.entity.QRBean;
 import com.shenjing.dengyuejinfu.ui.contract.QRActivityContract;
 
 import com.shenjing.dengyuejinfu.ui.presenter.QRActivityPresenter;
@@ -109,13 +109,13 @@ public class QRShareActivity extends BaseActivity<QRActivityPresenter> implement
     }
 
     @Override
-    public void getSuccess(QRModel qrModel) {
-        if (qrModel.getData() != null) {
-            if (qrModel.getData().getUrl() != null) {
+    public void getSuccess(QRBean qrBean) {
+        if (qrBean.getData() != null) {
+            if (qrBean.getData().getUrl() != null) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Bitmap qrImage = QRCodeUtils.createQRImage(qrModel.getData().getUrl(), 300, 300);
+                        Bitmap qrImage = QRCodeUtils.createQRImage(qrBean.getData().getUrl(), 300, 300);
                         Message message=new Message();
                         message.what=MSG1;
                         message.obj=qrImage;
@@ -124,10 +124,10 @@ public class QRShareActivity extends BaseActivity<QRActivityPresenter> implement
                 }).start();
 
             }
-            this.webUrl=qrModel.getData().getUrl();
-            this.title=qrModel.getData().getTitle();
-            this.describe=qrModel.getData().getDescribe();
-            this.thumbnail=qrModel.getData().getThumbnail();
+            this.webUrl= qrBean.getData().getUrl();
+            this.title= qrBean.getData().getTitle();
+            this.describe= qrBean.getData().getDescribe();
+            this.thumbnail= qrBean.getData().getThumbnail();
         }
 
     }

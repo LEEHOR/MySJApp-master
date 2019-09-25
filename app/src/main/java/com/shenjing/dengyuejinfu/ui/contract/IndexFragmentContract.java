@@ -3,8 +3,8 @@ package com.shenjing.dengyuejinfu.ui.contract;
 
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.BannerModel;
-import com.shenjing.dengyuejinfu.respondModule.VersionModel;
+import com.shenjing.dengyuejinfu.entity.BannerBean;
+import com.shenjing.dengyuejinfu.entity.VersionBean;
 
 
 /**
@@ -19,11 +19,11 @@ public class IndexFragmentContract {
      */
     public interface View extends BaseContract.BaseView{
 
-        void getBannerSuccess(BannerModel bannerModel);
+        void getBannerSuccess(BannerBean bannerBean);
         void getBannerFailure();
         void Refresh(boolean Refresh);
 
-        void getVersionSuccess(VersionModel versionModel);
+        void getVersionSuccess(VersionBean versionBean);
         void getVersionFailure();
     }
 

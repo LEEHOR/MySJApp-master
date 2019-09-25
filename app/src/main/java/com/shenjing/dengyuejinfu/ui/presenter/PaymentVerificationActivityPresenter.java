@@ -9,8 +9,8 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.PaymentModel;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.PaymentBean;
 import com.shenjing.dengyuejinfu.ui.contract.PaymentVerificationActivityContract;
 
 import java.io.File;
@@ -44,28 +44,28 @@ public class PaymentVerificationActivityPresenter extends BasePresenter<PaymentV
     public void getTakeStatus(String userId) {
         mView.showLoading();
         RetrofitManager.create(CertificationApi.class).getTakeImg(Long.parseLong(userId))
-                .compose(mView.<PaymentModel>bindToLife())
-                .compose(RxSchedulers.<PaymentModel>applySchedulers())
-                .subscribe(new Consumer<PaymentModel>() {
+                .compose(mView.<PaymentBean>bindToLife())
+                .compose(RxSchedulers.<PaymentBean>applySchedulers())
+                .subscribe(new Consumer<PaymentBean>() {
                     @Override
-                    public void accept(PaymentModel paymentModel)  {
+                    public void accept(PaymentBean paymentBean)  {
                         mView.hideLoading();
-                        if (paymentModel.getCode() != null && paymentModel.getCode().equals("0000")) {
-                            mView.showSuccess(paymentModel.getMsg());
-                            if (!StringUtils.isSpace(paymentModel.getData().getTakeImg())){
-                                if (paymentModel.getData().getState().equals("9001")){
+                        if (paymentBean.getCode() != null && paymentBean.getCode().equals("0000")) {
+                            mView.showSuccess(paymentBean.getMsg());
+                            if (!StringUtils.isSpace(paymentBean.getData().getTakeImg())){
+                                if (paymentBean.getData().getState().equals("9001")){
                                     mView.isCanUpLoad(false);
                                     mView.isCanNext(true);
                                     mView.isCanEditor(false);
-                                } else if (paymentModel.getData().getState().equals("9002")){
+                                } else if (paymentBean.getData().getState().equals("9002")){
                                     mView.isCanUpLoad(true);
                                     mView.isCanNext(false);
                                     mView.isCanEditor(true);
-                                } else if (paymentModel.getData().getState().equals("9003")){
+                                } else if (paymentBean.getData().getState().equals("9003")){
                                     mView.isCanUpLoad(false);
                                     mView.isCanNext(true);
                                     mView.isCanEditor(false);
-                                }else if (paymentModel.getData().getState().equals("9004")){
+                                }else if (paymentBean.getData().getState().equals("9004")){
                                     mView.isCanUpLoad(true);
                                     mView.isCanNext(false);
                                     mView.isCanEditor(true);
@@ -79,9 +79,9 @@ public class PaymentVerificationActivityPresenter extends BasePresenter<PaymentV
                                 mView.isCanNext(true);
                                 mView.isCanUpLoad(true);
                             }
-                            mView.getTakeStatusSuccess(paymentModel);
+                            mView.getTakeStatusSuccess(paymentBean);
                         } else {
-                            mView.showFail(paymentModel.getMsg());
+                            mView.showFail(paymentBean.getMsg());
                             mView.getTakeStatusFailure();
                             mView.isCanEditor(false);
                             mView.isCanNext(false);
@@ -112,20 +112,20 @@ public class PaymentVerificationActivityPresenter extends BasePresenter<PaymentV
                 .build();
 
         RetrofitManager.create(CertificationApi.class).upLoadTakeImag(body)
-                .compose(mView.<BaseModel>bindToLife())
-                .compose(RxSchedulers.<BaseModel>applySchedulers())
-                .subscribe(new Consumer<BaseModel>() {
+                .compose(mView.<BaseBean>bindToLife())
+                .compose(RxSchedulers.<BaseBean>applySchedulers())
+                .subscribe(new Consumer<BaseBean>() {
                     @Override
-                    public void accept(BaseModel baseModel)  {
+                    public void accept(BaseBean baseBean)  {
                         mView.hideLoading();
-                        if (baseModel.getCode() != null && baseModel.getCode().equals("0000")) {
-                            mView.showSuccess(baseModel.getMsg());
+                        if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
+                            mView.showSuccess(baseBean.getMsg());
                             mView.upLoadSuccess();
                             mView.isCanNext(true);
                             mView.isCanUpLoad(false);
                             mView.isCanEditor(false);
                         } else {
-                            mView.showFail(baseModel.getMsg());
+                            mView.showFail(baseBean.getMsg());
                             mView.upLoadFailure();
                             mView.isCanNext(false);
                             mView.isCanUpLoad(true);

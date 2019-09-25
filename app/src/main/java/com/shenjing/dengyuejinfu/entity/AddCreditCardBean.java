@@ -1,4 +1,6 @@
-package com.shenjing.dengyuejinfu.respondModule;
+package com.shenjing.dengyuejinfu.entity;
+
+import java.io.Serializable;
 
 /**
  * author : Leehor
@@ -6,7 +8,7 @@ package com.shenjing.dengyuejinfu.respondModule;
  * version: 1.0
  * desc   :
  */
-public class AddCreditCardModel {
+public class AddCreditCardBean implements Serializable {
 
     /**
      * msg : 上传成功
@@ -31,4 +33,5 @@ public class AddCreditCardModel {
     public void setCode(String code) {
         this.code = code;
     }
+
 }

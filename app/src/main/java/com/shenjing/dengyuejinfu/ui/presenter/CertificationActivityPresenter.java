@@ -2,7 +2,6 @@ package com.shenjing.dengyuejinfu.ui.presenter;
 
 
 import android.annotation.SuppressLint;
-import android.os.Environment;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -10,15 +9,11 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
-import com.shenjing.dengyuejinfu.net.services.UserApi;
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
-import com.shenjing.dengyuejinfu.respondModule.PeopleCertificationStatus;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 import com.shenjing.dengyuejinfu.ui.contract.CertificationActivityContract;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -60,22 +55,22 @@ public class CertificationActivityPresenter extends BasePresenter<CertificationA
                 .build();
 
         RetrofitManager.create(CertificationApi.class).uploadCreditPeople(body)
-                .compose(mView.<BaseModel>bindToLife())
-                .compose(RxSchedulers.<BaseModel>applySchedulers())
-                .subscribe(new Consumer<BaseModel>() {
+                .compose(mView.<BaseBean>bindToLife())
+                .compose(RxSchedulers.<BaseBean>applySchedulers())
+                .subscribe(new Consumer<BaseBean>() {
                     @Override
-                    public void accept(BaseModel baseModel)  {
+                    public void accept(BaseBean baseBean)  {
                         mView.hideLoading();
-                        if (baseModel.getCode() != null && baseModel.getCode().equals("0000")) {
-                            mView.showSuccess(baseModel.getMsg());
+                        if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
+                            mView.showSuccess(baseBean.getMsg());
                             mView.upLoadSuccess();
                             mView.isCanNext(true);
                             mView.isCanUpLoad(false);
                             mView.isCanEditor(false);
-                            LogUtils.d(baseModel.getCode());
+                            LogUtils.d(baseBean.getCode());
                         } else {
-                            LogUtils.d(baseModel.getCode());
-                            mView.showFail(baseModel.getMsg());
+                            LogUtils.d(baseBean.getCode());
+                            mView.showFail(baseBean.getMsg());
                             mView.upLoadFailure();
                             mView.isCanNext(false);
                             mView.isCanUpLoad(true);
@@ -90,27 +85,27 @@ public class CertificationActivityPresenter extends BasePresenter<CertificationA
     public void getPeopleStatus(String userId) {
         mView.showLoading();
         RetrofitManager.create(CertificationApi.class).getCreditPeopleStatus(Long.parseLong(userId))
-                .compose(mView.<PeopleCertificationStatus>bindToLife())
-                .compose(RxSchedulers.<PeopleCertificationStatus>applySchedulers())
-                .subscribe(new Consumer<PeopleCertificationStatus>() {
+                .compose(mView.<PeopleCertificationStatusBean>bindToLife())
+                .compose(RxSchedulers.<PeopleCertificationStatusBean>applySchedulers())
+                .subscribe(new Consumer<PeopleCertificationStatusBean>() {
                     @Override
-                    public void accept(PeopleCertificationStatus peopleCertificationStatus)  {
+                    public void accept(PeopleCertificationStatusBean peopleCertificationStatusBean)  {
                         mView.hideLoading();
-                        if (peopleCertificationStatus.getCode() != null && peopleCertificationStatus.getCode().equals("0000")) {
-                            mView.showSuccess(peopleCertificationStatus.getMsg());
-                            if (peopleCertificationStatus.getData().getState().equals("9001")){
+                        if (peopleCertificationStatusBean.getCode() != null && peopleCertificationStatusBean.getCode().equals("0000")) {
+                            mView.showSuccess(peopleCertificationStatusBean.getMsg());
+                            if (peopleCertificationStatusBean.getData().getState().equals("9001")){
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            } else if (peopleCertificationStatus.getData().getState().equals("9002")){
+                            } else if (peopleCertificationStatusBean.getData().getState().equals("9002")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
-                            } else if (peopleCertificationStatus.getData().getState().equals("9003")){
+                            } else if (peopleCertificationStatusBean.getData().getState().equals("9003")){
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            }else if (peopleCertificationStatus.getData().getState().equals("9004")){
+                            }else if (peopleCertificationStatusBean.getData().getState().equals("9004")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
@@ -119,9 +114,9 @@ public class CertificationActivityPresenter extends BasePresenter<CertificationA
                                 mView.isCanNext(false);
                                 mView.isCanUpLoad(true);
                             }
-                            mView.getStatusSuccess(peopleCertificationStatus);
+                            mView.getStatusSuccess(peopleCertificationStatusBean);
                         } else {
-                            mView.showFail(peopleCertificationStatus.getMsg());
+                            mView.showFail(peopleCertificationStatusBean.getMsg());
                             mView.getStatusFailure();
                             mView.isCanEditor(false);
                             mView.isCanNext(false);

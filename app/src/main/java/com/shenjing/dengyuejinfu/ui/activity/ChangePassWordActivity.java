@@ -14,7 +14,7 @@ import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
-import com.shenjing.dengyuejinfu.respondModule.ChangePassModel;
+import com.shenjing.dengyuejinfu.entity.ChangePassBean;
 import com.shenjing.dengyuejinfu.ui.contract.ChangePassWordActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.ChangePassWordActivityPresenter;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
@@ -84,19 +84,19 @@ public class ChangePassWordActivity extends BaseActivity<ChangePassWordActivityP
     @OnClick(R.id.change_pass_submit)
     public void onClick() {
         if (StringUtils.isSpace(changePassOldPass.getText().toString().trim())){
-            ToastUtils.showLong("请输入旧密码");
+            ToastUtils.showLong(R.string.toast_18);
             return;
         }
         if (StringUtils.isSpace(changePassNewPass1.getText().toString().trim())){
-            ToastUtils.showLong("请输入新密码");
+            ToastUtils.showLong(R.string.toast_19);
             return;
         }
         if (StringUtils.isSpace(changePassNewPass2.getText().toString().trim())){
-            ToastUtils.showLong("请再次输入新密码");
+            ToastUtils.showLong(R.string.toast_20);
             return;
         }
         if (!StringUtils.equals(changePassNewPass1.getText().toString().trim(),changePassNewPass2.getText().toString().trim())){
-            ToastUtils.showLong("两次密码不同");
+            ToastUtils.showLong(R.string.toast_21);
             return;
         }
         Map map=new HashMap();
@@ -111,7 +111,7 @@ public class ChangePassWordActivity extends BaseActivity<ChangePassWordActivityP
 
 
     @Override
-    public void showSuccess(ChangePassModel changePassModel) {
+    public void showSuccess(ChangePassBean changePassBean) {
         SPUtils spUtils = SPUtils.getInstance();
         spUtils.remove(BaseParams.USER_TOKEN_KEY,true);
         spUtils.remove(BaseParams.USER_ID_KEY,true);

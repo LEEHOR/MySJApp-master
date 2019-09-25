@@ -1,7 +1,7 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.PaymentModel;
+import com.shenjing.dengyuejinfu.entity.PaymentBean;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class PaymentVerificationActivityContract {
      */
     public interface View extends BaseContract.BaseView {
 
-            void getTakeStatusSuccess(PaymentModel paymentModel);
+            void getTakeStatusSuccess(PaymentBean paymentBean);
             void getTakeStatusFailure();
 
             void upLoadSuccess();

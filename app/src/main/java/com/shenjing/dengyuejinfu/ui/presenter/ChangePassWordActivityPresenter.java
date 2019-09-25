@@ -6,7 +6,7 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
-import com.shenjing.dengyuejinfu.respondModule.ChangePassModel;
+import com.shenjing.dengyuejinfu.entity.ChangePassBean;
 import com.shenjing.dengyuejinfu.ui.contract.ChangePassWordActivityContract;
 
 import java.util.Map;
@@ -36,18 +36,18 @@ public class ChangePassWordActivityPresenter extends BasePresenter<ChangePassWor
     public void changePassWord(Map<String,Object> map) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).changePass(map)
-                .compose(mView.<ChangePassModel>bindToLife())
-                .compose(RxSchedulers.<ChangePassModel>applySchedulers())
-                .subscribe(new Consumer<ChangePassModel>() {
+                .compose(mView.<ChangePassBean>bindToLife())
+                .compose(RxSchedulers.<ChangePassBean>applySchedulers())
+                .subscribe(new Consumer<ChangePassBean>() {
                     @Override
-                    public void accept(ChangePassModel changePassModel) throws Exception {
+                    public void accept(ChangePassBean changePassBean) throws Exception {
                         mView.hideLoading();
-                        if (changePassModel.getCode() != null && changePassModel.getCode().equals("0000")) {
-                            mView.showSuccess(changePassModel.getMsg());
-                            mView.showSuccess(changePassModel);
+                        if (changePassBean.getCode() != null && changePassBean.getCode().equals("0000")) {
+                            mView.showSuccess(changePassBean.getMsg());
+                            mView.showSuccess(changePassBean);
                         } else {
-                            mView.showFail(changePassModel.getMsg());
-                            mView.showFailure(changePassModel.getMsg());
+                            mView.showFail(changePassBean.getMsg());
+                            mView.showFailure(changePassBean.getMsg());
                         }
                     }
                 },this::loadError);

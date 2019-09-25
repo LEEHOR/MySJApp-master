@@ -1,7 +1,7 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.ChangePassModel;
+import com.shenjing.dengyuejinfu.entity.ChangePassBean;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class ChangePassWordActivityContract {
      * view类 操作Ui
      */
     public interface View extends BaseContract.BaseView {
-        void showSuccess(ChangePassModel changePassModel);
+        void showSuccess(ChangePassBean changePassBean);
 
         void showFailure(String msg);
 

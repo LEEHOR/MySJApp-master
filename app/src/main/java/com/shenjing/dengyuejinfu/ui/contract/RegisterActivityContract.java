@@ -2,8 +2,8 @@ package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.amap.api.location.AMapLocation;
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
-import com.shenjing.dengyuejinfu.respondModule.RegisterModel;
+import com.shenjing.dengyuejinfu.entity.LoginBean;
+import com.shenjing.dengyuejinfu.entity.RegisterBean;
 
 import java.util.Map;
 
@@ -21,16 +21,16 @@ public class RegisterActivityContract {
 
         /**
          * 注册
-         * @param registerModel
+         * @param registerBean
          */
-        void  registerSuccess(RegisterModel registerModel);
+        void  registerSuccess(RegisterBean registerBean);
 
         void  registerFailure(String failure);
 
         /**
          * 登录
          */
-        void  loginSuccess(LoginModel loginModel);
+        void  loginSuccess(LoginBean loginBean);
 
         void  loginFailure(String msg);
 

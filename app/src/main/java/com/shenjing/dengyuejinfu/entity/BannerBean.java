@@ -1,5 +1,6 @@
-package com.shenjing.dengyuejinfu.respondModule;
+package com.shenjing.dengyuejinfu.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * version: 1.0
  * desc   :
  */
-public class BannerModel {
+public class BannerBean implements Serializable {
 
 
     /**
@@ -53,7 +54,7 @@ public class BannerModel {
          */
 
         private String switchs;
-        private List<BannerBean> banner;
+        private List<Banner> banner;
         private List<MarqueeBean> marquee;
 
         public String getSwitchs() {
@@ -64,11 +65,11 @@ public class BannerModel {
             this.switchs = switchs;
         }
 
-        public List<BannerBean> getBanner() {
+        public List<Banner> getBanner() {
             return banner;
         }
 
-        public void setBanner(List<BannerBean> banner) {
+        public void setBanner(List<Banner> banner) {
             this.banner = banner;
         }
 
@@ -80,7 +81,7 @@ public class BannerModel {
             this.marquee = marquee;
         }
 
-        public static class BannerBean {
+        public class  Banner {
             /**
              * path : http://jmd-img.oss-cn-hangzhou.aliyuncs.com/repayment//7e861c73-e7e4-44df-9549-113a17c50e14%5C%E5%BE%AE%E6%9C%8D%E5%8A%A1.jpg?Expires=1884074142&OSSAccessKeyId=LTAI2jejMitchJsw&Signature=oAkPb1KQzwDbSVDwqhuObpo8yNQ%3D
              * id : 6

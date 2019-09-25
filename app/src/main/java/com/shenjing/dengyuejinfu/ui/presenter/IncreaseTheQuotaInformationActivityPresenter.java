@@ -4,7 +4,6 @@ package com.shenjing.dengyuejinfu.ui.presenter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shenjing.dengyuejinfu.R;
@@ -12,8 +11,7 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.IncreaseQuotaApi;
-import com.shenjing.dengyuejinfu.respondModule.BannerModel;
-import com.shenjing.dengyuejinfu.respondModule.IncreaseQuotaInformationModel;
+import com.shenjing.dengyuejinfu.entity.IncreaseQuotaInformationBean;
 import com.shenjing.dengyuejinfu.ui.contract.IncreaseTheQuotaInformationActivityContract;
 
 import java.util.List;
@@ -51,27 +49,27 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
         mView.getAdapter().setEnableLoadMore(false);
         // mView.Refresh(false);
         RetrofitManager.create(IncreaseQuotaApi.class).getIncreaseInformationData(Long.parseLong(userId), type, page)
-                .compose(mView.<IncreaseQuotaInformationModel>bindToLife())
-                .compose(RxSchedulers.<IncreaseQuotaInformationModel>applySchedulers())
-                .subscribe(new Consumer<IncreaseQuotaInformationModel>() {
+                .compose(mView.<IncreaseQuotaInformationBean>bindToLife())
+                .compose(RxSchedulers.<IncreaseQuotaInformationBean>applySchedulers())
+                .subscribe(new Consumer<IncreaseQuotaInformationBean>() {
                     @Override
-                    public void accept(IncreaseQuotaInformationModel increaseQuotaInformationModel) {
-                        mView.hideLoading();
-                        if (increaseQuotaInformationModel.getCode() != null && increaseQuotaInformationModel.getCode().equals("0000")) {
-                            mView.showSuccess(increaseQuotaInformationModel.getMsg());
-                            mView.isCanRefresh(false);
-                            if (increaseQuotaInformationModel.getData() != null) {
-                                mView.getAdapter().setNewData(increaseQuotaInformationModel.getData());
+                    public void accept(IncreaseQuotaInformationBean increaseQuotaInformationBean) {
 
+                        if (increaseQuotaInformationBean.getCode() != null && increaseQuotaInformationBean.getCode().equals("0000")) {
+                            mView.showSuccess(increaseQuotaInformationBean.getMsg());
+                            mView.isCanRefresh(false);
+                            if (increaseQuotaInformationBean.getData() != null && increaseQuotaInformationBean.getData().size()>0) {
+                                mView.getAdapter().setNewData(increaseQuotaInformationBean.getData());
                             } else {
                                 mView.getAdapter().setEmptyView(R.layout.view_empty, mView.getRecycler());
                             }
 
                         } else {
-                            mView.showFail(increaseQuotaInformationModel.getMsg());
+                            mView.showFail(increaseQuotaInformationBean.getMsg());
                             mView.isCanRefresh(false);
-                            mView.getAdapter().setEmptyView(R.layout.view_empty, mView.getRecycler());
+                            mView.getAdapter().setEmptyView(R.layout.view_error, mView.getRecycler());
                         }
+                        mView.hideLoading();
                         mView.getAdapter().setEnableLoadMore(true);
                     }
                 }, this::getInformationError);
@@ -82,9 +80,9 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
         mView.hideLoading();
         ToastUtils.showLong("加载错误");
         mView.isCanRefresh(false);
-        mView.getAdapter().setEmptyView(R.layout.view_empty, mView.getRecycler());
         mView.getAdapter().setEnableLoadMore(true);
-        mView.getAdapter().loadMoreFail();
+        mView.getAdapter().setEmptyView(R.layout.view_error, mView.getRecycler());
+
     }
 
     @Override
@@ -99,19 +97,16 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
         mView.getAdapter().setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+
                 startLoadMoreOrRefresh(2);
             }
         }, mView.getRecycler());
 
     }
 
-    /**
-     * 开始加载更多
-     *
-     */
-    /**
-     * @param t 1 :加载更多
-     *          2 ：刷新
+    /**开始加载更多
+     * @param t 2 :加载更多
+     *          1：刷新
      */
     @SuppressLint("CheckResult")
     private void startLoadMoreOrRefresh(int t) {
@@ -119,26 +114,28 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
             mView.showLoading();
         }
         RetrofitManager.create(IncreaseQuotaApi.class).getIncreaseInformationData(Long.parseLong(userId), type,t==1?0:nextPage)
-                .compose(mView.<IncreaseQuotaInformationModel>bindToLife())
-                .compose(RxSchedulers.<IncreaseQuotaInformationModel>applySchedulers())
-                .subscribe(new Consumer<IncreaseQuotaInformationModel>() {
+                .compose(mView.<IncreaseQuotaInformationBean>bindToLife())
+                .compose(RxSchedulers.<IncreaseQuotaInformationBean>applySchedulers())
+                .subscribe(new Consumer<IncreaseQuotaInformationBean>() {
                     @Override
-                    public void accept(IncreaseQuotaInformationModel increaseQuotaInformationModel) {
+                    public void accept(IncreaseQuotaInformationBean increaseQuotaInformationBean) {
+
+                        if (increaseQuotaInformationBean.getCode() != null && increaseQuotaInformationBean.getCode().equals("0000")) {
+                            mView.showSuccess(increaseQuotaInformationBean.getMsg());
+                            boolean isRefresh = t == 1;
+                            setData(isRefresh, increaseQuotaInformationBean.getData());
+                        } else {
+                            mView.showFail(increaseQuotaInformationBean.getMsg());
+                            if (t == 2) {
+                                mView.getAdapter().loadMoreFail();
+                            } else {
+                                mView.getAdapter().setEmptyView(R.layout.view_error, mView.getRecycler());
+                            }
+                        }
                         if (t == 1) {
                             mView.isCanRefresh(false);
                             mView.hideLoading();
                             mView.getAdapter().setEnableLoadMore(true);
-                        }
-                        if (increaseQuotaInformationModel.getCode() != null && increaseQuotaInformationModel.getCode().equals("0000")) {
-                            mView.showSuccess(increaseQuotaInformationModel.getMsg());
-                            boolean isLoadMoreEnd = nextPage == 1;
-                            setData(isLoadMoreEnd, increaseQuotaInformationModel.getData());
-
-                        } else {
-                            mView.showFail(increaseQuotaInformationModel.getMsg());
-                            if (t == 2) {
-                                mView.getAdapter().loadMoreFail();
-                            }
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -169,10 +166,15 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
      * @param isRefresh
      * @param dataBean
      */
-    private void setData(boolean isRefresh, List<IncreaseQuotaInformationModel.DataBean> dataBean) {
+    private void setData(boolean isRefresh, List<IncreaseQuotaInformationBean.DataBean> dataBean) {
+
         final int size = dataBean == null ? 0 : dataBean.size();
         if (isRefresh) {
-            mView.getAdapter().setNewData(dataBean);
+            if (size>0){
+                mView.getAdapter().setNewData(dataBean);
+            } else {
+                mView.getAdapter().setEmptyView(R.layout.view_empty, mView.getRecycler());
+            }
         } else {
             nextPage++;
             if (size > 0) {

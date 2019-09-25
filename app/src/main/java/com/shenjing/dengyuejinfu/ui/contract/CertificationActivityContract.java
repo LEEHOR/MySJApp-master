@@ -3,7 +3,7 @@ package com.shenjing.dengyuejinfu.ui.contract;
 import android.widget.TextView;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.PeopleCertificationStatus;
+import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 
 import java.util.Map;
 
@@ -22,7 +22,7 @@ public class CertificationActivityContract {
         void upLoadSuccess();
         void upLoadFailure();
 
-        void getStatusSuccess(PeopleCertificationStatus certificationStatus);
+        void getStatusSuccess(PeopleCertificationStatusBean certificationStatus);
         void getStatusFailure();
 
         TextView submitText();

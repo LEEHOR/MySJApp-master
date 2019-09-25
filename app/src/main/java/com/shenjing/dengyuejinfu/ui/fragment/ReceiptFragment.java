@@ -1,7 +1,6 @@
 package com.shenjing.dengyuejinfu.ui.fragment;
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -95,9 +94,9 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
                 }
                 //小数点后面只能有三位
                 if (builder1.toString().contains(".")) {
-                    String substring = builder1.toString().substring(builder1.toString().lastIndexOf(".")+1);
+                    String substring = builder1.toString().substring(builder1.toString().lastIndexOf(".") + 1);
                     LogUtils.d(substring);
-                    if (builder1.toString().substring(builder1.toString().lastIndexOf(".")+1).length() >= 3) {
+                    if (builder1.toString().substring(builder1.toString().lastIndexOf(".") + 1).length() >= 3) {
                         return;
                     }
                 }
@@ -134,9 +133,9 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
 
         List<ReceiptBean> beanList = new ArrayList<>();
         beanList.clear();
-        ReceiptBean receiptBean1 = new ReceiptBean(1, "收银台");
-        ReceiptBean receiptBean2 = new ReceiptBean(2, "快捷支付");
-        ReceiptBean receiptBean3 = new ReceiptBean(3, "扫码支付");
+        ReceiptBean receiptBean1 = new ReceiptBean(1, getResources().getString(R.string.money_13));
+        ReceiptBean receiptBean2 = new ReceiptBean(2, getResources().getString(R.string.money_11));
+        ReceiptBean receiptBean3 = new ReceiptBean(3, getResources().getString(R.string.money_12));
         beanList.add(receiptBean1);
         beanList.add(receiptBean2);
         beanList.add(receiptBean3);
@@ -151,13 +150,9 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
                 //判断当前item是否显示完整
                 Rect rect = new Rect();
                 boolean globalVisibleRect = view.getLocalVisibleRect(rect);  //获取view可见坐标左上角为0点
-                Log.d("点击4", rect.left + "/" + rect.right + "/" + view.getWidth());
                 if (rect.right < view.getWidth()) {   //此处判断右边坐标是否大于view的宽度
                     receiptRecyclerView.smoothScrollToPosition(Integer.valueOf(data));
-                    LogUtils.d("点击3", data);
-
                 } else {
-                    LogUtils.d("点击1", data);
                 }
 
 
@@ -169,7 +164,7 @@ public class ReceiptFragment extends BaseFragment<ReceiptFragmentPresenter> impl
     @Override
     public void onItemSelected(RecyclerView recyclerView, View item, int position) {
         RecyclerViewHolder viewHolderForAdapterPosition = (RecyclerViewHolder) recyclerView.findViewHolderForAdapterPosition(position);
-        LogUtils.d("点击2", position);
+
     }
 
     @Override

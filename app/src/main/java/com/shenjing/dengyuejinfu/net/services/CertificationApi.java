@@ -1,10 +1,10 @@
 package com.shenjing.dengyuejinfu.net.services;
 
-import com.shenjing.dengyuejinfu.respondModule.AddCreditCardModel;
-import com.shenjing.dengyuejinfu.respondModule.BankInfoModel;
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.PaymentModel;
-import com.shenjing.dengyuejinfu.respondModule.PeopleCertificationStatus;
+import com.shenjing.dengyuejinfu.entity.AddCreditCardBean;
+import com.shenjing.dengyuejinfu.entity.BankInfoBean;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.PaymentBean;
+import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -29,13 +29,13 @@ public interface CertificationApi {
      */
     @POST("/uploadCreditCard")
     @FormUrlEncoded
-    Observable<AddCreditCardModel> uploadCreditCardInfo(@FieldMap Map<String,Object> map);
+    Observable<AddCreditCardBean> uploadCreditCardInfo(@FieldMap Map<String,Object> map);
 
     /**
      * 实名认证（身份证认证）
      */
     @POST("/act/upload/identity/card")
-    Observable<BaseModel> uploadCreditPeople(@Body RequestBody requestBody);
+    Observable<BaseBean> uploadCreditPeople(@Body RequestBody requestBody);
 
     /**
      * getBankCardInfo
@@ -43,7 +43,7 @@ public interface CertificationApi {
      */
     @POST("/act/authentication/identity")
     @FormUrlEncoded
-    Observable<PeopleCertificationStatus> getCreditPeopleStatus(@Field("userId") long userId);
+    Observable<PeopleCertificationStatusBean> getCreditPeopleStatus(@Field("userId") long userId);
 
 
     /**
@@ -53,7 +53,7 @@ public interface CertificationApi {
      */
     @POST("/getBankCardInfo")
     @FormUrlEncoded
-    Observable<BankInfoModel> getBankCardInfo(@Field("userId") long userId);
+    Observable<BankInfoBean> getBankCardInfo(@Field("userId") long userId);
 
     /**
      * 银行卡认证
@@ -62,7 +62,7 @@ public interface CertificationApi {
      * getTakeImg
      */
     @POST("/upLoadBankCardInfo")
-    Observable<BaseModel> upLoadBankCardInfo(@Body RequestBody requestBody);
+    Observable<BaseBean> upLoadBankCardInfo(@Body RequestBody requestBody);
 
 
     /**
@@ -72,7 +72,7 @@ public interface CertificationApi {
      */
     @POST("/getTakeImg")
     @FormUrlEncoded
-    Observable<PaymentModel> getTakeImg(@Field("userId") long userId);
+    Observable<PaymentBean> getTakeImg(@Field("userId") long userId);
 
 
     /**
@@ -81,6 +81,6 @@ public interface CertificationApi {
      * @return
      */
     @POST("/upLoadTakeImg")
-    Observable<BaseModel> upLoadTakeImag(@Body RequestBody requestBody);
+    Observable<BaseBean> upLoadTakeImag(@Body RequestBody requestBody);
 
 }

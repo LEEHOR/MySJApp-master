@@ -1,4 +1,6 @@
-package com.shenjing.dengyuejinfu.respondModule;
+package com.shenjing.dengyuejinfu.entity;
+
+import java.io.Serializable;
 
 /**
  * author : Leehor
@@ -6,7 +8,7 @@ package com.shenjing.dengyuejinfu.respondModule;
  * version: 1.0
  * desc   :
  */
-public class SmsModel {
+public class SmsBean  implements Serializable {
 
     /**
      * msg : 获取成功

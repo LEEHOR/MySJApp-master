@@ -8,9 +8,9 @@ import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.IndexFragmentApi;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
-import com.shenjing.dengyuejinfu.respondModule.BannerModel;
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.VersionModel;
+import com.shenjing.dengyuejinfu.entity.BannerBean;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.VersionBean;
 import com.shenjing.dengyuejinfu.ui.contract.IndexFragmentContract;
 
 import javax.inject.Inject;
@@ -37,19 +37,19 @@ public class IndexFragmentPresenter extends BasePresenter<IndexFragmentContract.
         mView.showLoading();
        // mView.Refresh(false);
         RetrofitManager.create(IndexFragmentApi.class).getBanner(actionScope)
-                .compose(mView.<BannerModel>bindToLife())
-                .compose(RxSchedulers.<BannerModel>applySchedulers())
-                .subscribe(new Consumer<BannerModel>() {
+                .compose(mView.<BannerBean>bindToLife())
+                .compose(RxSchedulers.<BannerBean>applySchedulers())
+                .subscribe(new Consumer<BannerBean>() {
                     @Override
-                    public void accept(BannerModel bannerModel) {
+                    public void accept(BannerBean bannerBean) {
                         mView.hideLoading();
-                        if (bannerModel.getCode() != null && bannerModel.getCode().equals("0000")) {
-                            mView.showSuccess(bannerModel.getMsg());
+                        if (bannerBean.getCode() != null && bannerBean.getCode().equals("0000")) {
+                            mView.showSuccess(bannerBean.getMsg());
                             mView.Refresh(false);
-                            mView.getBannerSuccess(bannerModel);
+                            mView.getBannerSuccess(bannerBean);
 
                         } else {
-                            mView.showFail(bannerModel.getMsg());
+                            mView.showFail(bannerBean.getMsg());
                             mView.Refresh(false);
                             mView.getBannerFailure();
 
@@ -62,18 +62,18 @@ public class IndexFragmentPresenter extends BasePresenter<IndexFragmentContract.
     @Override
     public void uploadCallRecord(String userId, String contacts) {
         RetrofitManager.create(UserApi.class).uploadCallRecord(Long.parseLong(userId),contacts)
-                .compose(mView.<BaseModel>bindToLife())
-                .compose(RxSchedulers.<BaseModel>applySchedulers())
-                .subscribe(new Consumer<BaseModel>() {
+                .compose(mView.<BaseBean>bindToLife())
+                .compose(RxSchedulers.<BaseBean>applySchedulers())
+                .subscribe(new Consumer<BaseBean>() {
                     @Override
-                    public void accept(BaseModel baseModel) {
-                        if (baseModel.getCode() != null && baseModel.getCode().equals("0000")) {
-                            mView.showSuccess(baseModel.getMsg());
+                    public void accept(BaseBean baseBean) {
+                        if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
+                            mView.showSuccess(baseBean.getMsg());
                            // mView.Refresh(false);
                           //  mView.getBannerSuccess(bannerModel);
 
                         } else {
-                            mView.showFail(baseModel.getMsg());
+                            mView.showFail(baseBean.getMsg());
                          //   mView.Refresh(false);
                           //  mView.getBannerFailure();
 
@@ -86,17 +86,17 @@ public class IndexFragmentPresenter extends BasePresenter<IndexFragmentContract.
     @Override
     public void getVersion() {
         RetrofitManager.create(UserApi.class).checkVersion()
-                .compose(mView.<VersionModel>bindToLife())
-                .compose(RxSchedulers.<VersionModel>applySchedulers())
-                .subscribe(new Consumer<VersionModel>() {
+                .compose(mView.<VersionBean>bindToLife())
+                .compose(RxSchedulers.<VersionBean>applySchedulers())
+                .subscribe(new Consumer<VersionBean>() {
                     @Override
-                    public void accept(VersionModel versionModel) {
+                    public void accept(VersionBean versionBean) {
                        // mView.hideLoading();
-                        if (versionModel.getCode() != null && versionModel.getCode().equals("0000")) {
-                            mView.showSuccess(versionModel.getMsg());
-                            mView.getVersionSuccess(versionModel);
+                        if (versionBean.getCode() != null && versionBean.getCode().equals("0000")) {
+                            mView.showSuccess(versionBean.getMsg());
+                            mView.getVersionSuccess(versionBean);
                         } else {
-                            mView.showFail(versionModel.getMsg());
+                            mView.showFail(versionBean.getMsg());
                             mView.getVersionFailure();
                         }
                     }

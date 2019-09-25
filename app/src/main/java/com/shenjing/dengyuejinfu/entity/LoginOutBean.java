@@ -1,4 +1,6 @@
-package com.shenjing.dengyuejinfu.respondModule;
+package com.shenjing.dengyuejinfu.entity;
+
+import java.io.Serializable;
 
 /**
  * author : Leehor
@@ -6,7 +8,7 @@ package com.shenjing.dengyuejinfu.respondModule;
  * version: 1.0
  * desc   :
  */
-public class LoginOutModel {
+public class LoginOutBean implements Serializable {
     private String code;
     private String msg;
     private dataBean data;

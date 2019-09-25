@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:text="身份证拍照"
+                        android:text="@string/card_10"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="安全支付认证"
+                        android:text="@string/card_11"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
                 </LinearLayout>
@@ -155,7 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="*身份证头像面"
+                    android:text="@string/card_16"
                     android:textColor="@color/textColor5"
                     android:textSize="12dp" />
 
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="*身份证国徽面"
+                    android:text="@string/card_17"
                     android:textColor="@color/textColor5"
                     android:textSize="12dp" />
             </LinearLayout>
@@ -202,7 +202,7 @@
                     android:paddingTop="10dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="10dp"
-                    android:text="请核对您的身份证信息"
+                    android:text="@string/card_18"
                     android:textColor="@color/textColor"
                     android:textSize="14dp" />
 
@@ -219,7 +219,7 @@
                         android:gravity="left"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="姓名"
+                        android:text="@string/card_19"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
@@ -233,7 +233,7 @@
                         android:background="@null"
                         android:inputType="textPersonName"
                         android:gravity="center_vertical"
-                        android:hint="请输入您的姓名"
+                        android:hint="@string/card_7"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:textSize="14dp" />
@@ -261,7 +261,7 @@
                         android:gravity="left"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="身份证号"
+                        android:text="@string/card_20"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
@@ -274,7 +274,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="center_vertical"
-                        android:hint="请输入您的身份证号"
+                        android:hint="@string/card_8"
                         android:inputType="number"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
@@ -303,7 +303,7 @@
                         android:gravity="left"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="状态描述"
+                        android:text="@string/card_21"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
@@ -337,7 +337,7 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="下一页"
+                android:text="@string/submit_2"
                 android:textColor="@color/white"
                 android:textSize="14dp" />
         </LinearLayout>

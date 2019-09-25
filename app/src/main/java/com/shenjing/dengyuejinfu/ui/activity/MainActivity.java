@@ -137,10 +137,6 @@ public class MainActivity extends BaseActivity {
                         showFragmentTwo();
                     } else {
                         Arouter(1);
-//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-//                                .withInt(BaseParams.Router_position_mainActivity, 1)
-//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
                     break;
                 case 2:
@@ -148,10 +144,6 @@ public class MainActivity extends BaseActivity {
                         showFragmentThree();
                     } else {
                         Arouter(2);
-//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-//                                .withInt(BaseParams.Router_position_mainActivity, 2)
-//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
 
                     break;
@@ -160,10 +152,6 @@ public class MainActivity extends BaseActivity {
                         showFragmentFour();
                     } else {
                         Arouter(3);
-//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-//                                .withInt(BaseParams.Router_position_mainActivity, 3)
-//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
                     break;
                 case 4:
@@ -171,10 +159,6 @@ public class MainActivity extends BaseActivity {
                         showFragmentFive();
                     } else {
                         Arouter(4);
-//                        ARouter.getInstance().build(ARouterUrl.LoginActivityUrl)
-//                                .withInt(BaseParams.Router_type_mainActivity, 1001)
-//                                .withInt(BaseParams.Router_position_mainActivity, 4)
-//                                .navigation(MainActivity.this, BaseParams.Router_code_mainActivity);
                     }
                     break;
             }
@@ -207,9 +191,6 @@ public class MainActivity extends BaseActivity {
             transaction.show(indexFragment);
         }
         transaction.commitAllowingStateLoss();
-        //头部标题栏操作
-        // mStatusBar.setVisibility(View.VISIBLE);
-        // mStatusBar.setBackgroundResource(R.color.white);
         ScreenUtils.setTextColorStatusBar(this, true);
     }
 
@@ -230,9 +211,6 @@ public class MainActivity extends BaseActivity {
             transaction.show(replacementFragment);
         }
         transaction.commitAllowingStateLoss();
-        //头部标题栏操作
-        // mStatusBar.setVisibility(View.VISIBLE);
-        // mStatusBar.setBackgroundResource(R.color.white);
         ScreenUtils.setTextColorStatusBar(this, true);
     }
 
@@ -253,9 +231,6 @@ public class MainActivity extends BaseActivity {
             transaction.show(memberFragment);
         }
         transaction.commitAllowingStateLoss();
-        //头部标题栏操作
-        // mStatusBar.setVisibility(View.VISIBLE);
-        // mStatusBar.setBackgroundResource(R.color.white);
         ScreenUtils.setTextColorStatusBar(this, true);
     }
 
@@ -276,9 +251,6 @@ public class MainActivity extends BaseActivity {
             transaction.show(receiptFragment);
         }
         transaction.commitAllowingStateLoss();
-        //头部标题栏操作
-        // mStatusBar.setVisibility(View.VISIBLE);
-        // mStatusBar.setBackgroundResource(R.color.white);
         ScreenUtils.setTextColorStatusBar(this, false);
     }
 
@@ -299,9 +271,6 @@ public class MainActivity extends BaseActivity {
             transaction.show(mineFragment);
         }
         transaction.commitAllowingStateLoss();
-        //头部标题栏操作
-        // mStatusBar.setVisibility(View.VISIBLE);
-        // mStatusBar.setBackgroundResource(R.color.white);
         ScreenUtils.setTextColorStatusBar(this, false);
     }
 

@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:text="身份证拍照"
+                        android:text="@string/card_10"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="银行卡认证"
+                        android:text="@string/bank_card_1"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="安全支付认证"
+                        android:text="@string/card_11"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
                 </LinearLayout>
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="*手持身份证照片"
+                    android:text="@string/card_26"
                     android:textColor="@color/textColor5"
                     android:textSize="12dp" />
             </LinearLayout>
@@ -175,7 +175,7 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp" />
                     <TextView
-                        android:text="免冠、露出五官清晰可见"
+                        android:text="@string/other_3"
                         android:textSize="14dp"
                         android:textColor="@color/textColor"
                         android:layout_marginLeft="10dp"
@@ -198,7 +198,7 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp" />
                     <TextView
-                        android:text="照片请勿做任何修饰或软件处理"
+                        android:text="@string/other_4"
                         android:textSize="14dp"
                         android:textColor="@color/textColor"
                         android:layout_marginLeft="10dp"
@@ -221,7 +221,7 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp" />
                     <TextView
-                        android:text="请保持身份证信息清晰可见、否则无法通过实名认"
+                        android:text="@string/other_5"
                         android:textSize="14dp"
                         android:textColor="@color/textColor"
                         android:layout_marginLeft="10dp"
@@ -239,7 +239,7 @@
                 android:paddingBottom="10dp"
                 android:textSize="14dp"
                 android:textColor="@color/white"
-                android:text="完成"
+                android:text="@string/submit_1"
                 android:background="@drawable/submit_button_selector"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="150dp"

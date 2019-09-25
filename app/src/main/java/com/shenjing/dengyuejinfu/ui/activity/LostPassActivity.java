@@ -92,11 +92,11 @@ public class LostPassActivity extends BaseActivity<LostPassActivityPresenter> im
             case R.id.lost_pass_timeButton:
                 lostPassVcode.setText("");
                 if (StringUtils.isSpace(lostPassPhone.getText().toString().trim())){
-                    ToastUtils.showLong("请输入手机号");
+                    ToastUtils.showLong(R.string.toast_5);
                     return;
                 }
                 if (!RegexUtils.isMobileSimple(lostPassPhone.getText().toString().trim())){
-                    ToastUtils.showLong("请输入正确的手机号");
+                    ToastUtils.showLong(R.string.toast_6);
                     return;
                 }
                 mPresenter.sendSms(lostPassPhone.getText().toString().trim());
@@ -104,27 +104,27 @@ public class LostPassActivity extends BaseActivity<LostPassActivityPresenter> im
                 break;
             case R.id.lost_pass_submit:
                 if (StringUtils.isSpace(lostPassPhone.getText().toString().trim())){
-                    ToastUtils.showLong("请输入手机号");
+                    ToastUtils.showLong(R.string.toast_5);
                     return;
                 }
                 if (!RegexUtils.isMobileSimple(lostPassPhone.getText().toString().trim())){
-                    ToastUtils.showLong("请输入正确的手机号");
+                    ToastUtils.showLong(R.string.toast_6);
                     return;
                 }
                 if (StringUtils.isSpace(lostPassVcode.getText().toString().trim())){
-                    ToastUtils.showLong("验证码");
+                    ToastUtils.showLong(R.string.toast_24);
                     return;
                 }
                 if (StringUtils.isSpace(lostPassNew.getText().toString().trim())){
-                    ToastUtils.showLong("请输入新密码");
+                    ToastUtils.showLong(R.string.toast_19);
                     return;
                 }
                 if (StringUtils.isSpace(lostPassSure.getText().toString().trim())){
-                    ToastUtils.showLong("请输入确认密码");
+                    ToastUtils.showLong(R.string.toast_20);
                     return;
                 }
                 if (!StringUtils.equalsIgnoreCase(lostPassNew.getText().toString().trim(),lostPassSure.getText().toString().trim())){
-                    ToastUtils.showLong("两次的密码不相同");
+                    ToastUtils.showLong(R.string.toast_21);
                     return;
                 }
                 Map map=new HashMap();

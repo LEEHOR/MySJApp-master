@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.constant.PermissionConstants;
@@ -29,8 +31,8 @@ import com.shenjing.dengyuejinfu.base.BaseFragment;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
-import com.shenjing.dengyuejinfu.respondModule.BannerModel;
-import com.shenjing.dengyuejinfu.respondModule.VersionModel;
+import com.shenjing.dengyuejinfu.entity.BannerBean;
+import com.shenjing.dengyuejinfu.entity.VersionBean;
 import com.shenjing.dengyuejinfu.ui.contract.IndexFragmentContract;
 import com.shenjing.dengyuejinfu.ui.presenter.IndexFragmentPresenter;
 import com.shenjing.dengyuejinfu.utils.CompareVersion;
@@ -96,7 +98,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     @Override
     protected void initView() {
         setStatusBar(mStatusBar, R.color.white);
-        setPageTitle(fragmentCouponTitleBar, "腾云金服", R.color.textColor);
+        setPageTitle(fragmentCouponTitleBar, getResources().getString(R.string.app_name), R.color.textColor);
         setTittleBarBackgraound(fragmentCouponTitleBar, R.color.white);
         setTitleRightImage(fragmentCouponTitleBar, R.drawable.icon_message, new OnOnceClickListener() {
             @Override
@@ -146,22 +148,22 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     }
 
     @Override
-    public void getBannerSuccess(BannerModel bannerModel) {
-        if (bannerModel.getData() != null) {
-            List<BannerModel.DataBean.BannerBean> banner = bannerModel.getData().getBanner();
+    public void getBannerSuccess(BannerBean bannerBean) {
+        if (bannerBean.getData() != null) {
+            List<BannerBean.DataBean.Banner> banner = bannerBean.getData().getBanner();
             if (banner != null) {
                 bannerList.clear();
-                for (BannerModel.DataBean.BannerBean b : banner
+                for (BannerBean.DataBean.Banner b : banner
                 ) {
                     bannerList.add(b.getPath());
                 }
                 SetCustomBannerUtils.setCustomBanner(indexBanner, bannerList, ImageView.ScaleType.FIT_CENTER);
                 setBannerLister(banner, indexBanner);
             }
-            List<BannerModel.DataBean.MarqueeBean> marquee = bannerModel.getData().getMarquee();
+            List<BannerBean.DataBean.MarqueeBean> marquee = bannerBean.getData().getMarquee();
             if (marquee != null) {
                 marqueeList.clear();
-                for (BannerModel.DataBean.MarqueeBean marqueeBean : marquee
+                for (BannerBean.DataBean.MarqueeBean marqueeBean : marquee
                 ) {
                     marqueeList.add(marqueeBean.getContent());
                 }
@@ -183,18 +185,21 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     }
 
     @Override
-    public void getVersionSuccess(VersionModel versionModel) {
-        if (versionModel != null) {
-            if (versionModel.getData() != null) {
-                versionId = versionModel.getData().getVersionId();
-                apkDownLoadUrl = versionModel.getData().getPath();
+    public void getVersionSuccess(VersionBean versionBean) {
+        if (versionBean != null) {
+            if (versionBean.getData() != null) {
+                versionId = versionBean.getData().getVersionId();
+                apkDownLoadUrl = versionBean.getData().getPath();
                 String appVersionName = AppUtils.getAppVersionName();
                 int i = CompareVersion.compareVersionNumber(appVersionName, versionId);
                 LogUtils.d("版本", i);
                 if (i == 1) {
 
-                    showVisionDialog(versionModel.getData().getDescription(), versionId
-                            , versionModel.getData().getForceUpdate()
+//                    showVisionDialog(versionBean.getData().getDescription(), versionId
+//                            , versionBean.getData().getForceUpdate()
+//                            , apkDownLoadUrl);
+                    ForcedUpdateDialog(versionBean.getData().getDescription(), versionId
+                            , versionBean.getData().getForceUpdate()
                             , apkDownLoadUrl);
                 }
             }
@@ -212,7 +217,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
      * @param bannerBean
      * @param customBanner
      */
-    private void setBannerLister(List<BannerModel.DataBean.BannerBean> bannerBean, CustomBanner customBanner) {
+    private void setBannerLister(List<BannerBean.DataBean.Banner> bannerBean, CustomBanner customBanner) {
         customBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener() {
             @Override
             public void onPageClick(int i, Object o) {
@@ -278,7 +283,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
 
                             @Override
                             public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                                ToastUtils.showLong("获取权限失败");
+                                ToastUtils.showLong(R.string.toast_14);
                             }
                         }).request();
             }
@@ -290,6 +295,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     /**
      * 更新的弹窗
      */
+    @Deprecated
     private void showVisionDialog(String describe, String visionId, String forceUpdate, String apkDownLoadUrl) {
         MaterialDialog materialDialog = new MaterialDialog.Builder(getActivity()).build();
         materialDialog.setTitle("发现更新，版本" + visionId);
@@ -297,12 +303,12 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
         if (forceUpdate.equals("1")) {
             materialDialog.setCancelable(false);
             materialDialog.setCanceledOnTouchOutside(false);
-            materialDialog.setActionButton(DialogAction.NEUTRAL, "去更新");
+            materialDialog.setActionButton(DialogAction.NEUTRAL, getResources().getString(R.string.dialog_1));
         } else {
             materialDialog.setCancelable(true);
             materialDialog.setCanceledOnTouchOutside(true);
-            materialDialog.setActionButton(DialogAction.POSITIVE, "去更新");
-            materialDialog.setActionButton(DialogAction.NEGATIVE, "下次再说");
+            materialDialog.setActionButton(DialogAction.POSITIVE, getResources().getString(R.string.dialog_1));
+            materialDialog.setActionButton(DialogAction.NEGATIVE,  getResources().getString(R.string.dialog_2));
         }
         materialDialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -360,6 +366,50 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
         if (requestCode == INSTALL_PERMISSION_SETTING && resultCode == Activity.RESULT_OK) {
             VersionDownLoad.startDownLoad(App.getAppContext(), apkDownLoadUrl);
         }
+    }
+
+    /**
+     * 强制跟新的弹窗
+     * @param describe
+     * @param visionId
+     * @param apkDownLoadUrl
+     */
+    private void ForcedUpdateDialog(String describe, String visionId, String forceUpdate,String apkDownLoadUrl){
+        MaterialDialog.Builder mBuilder = new MaterialDialog.Builder(getActivity());
+        String format = getResources().getString(R.string.dialog_3);
+        String title = String.format(format, visionId);
+        mBuilder.titleColor(getResources().getColor(R.color.colorPrimary,null));
+        mBuilder.widgetColor(getResources().getColor(R.color.colorPrimary,null));
+        mBuilder.titleGravity(GravityEnum.CENTER);
+        mBuilder.title(title);
+        mBuilder.content(describe);
+        if (forceUpdate.equals("1")){
+            mBuilder.cancelable(false);
+            mBuilder.canceledOnTouchOutside(false);
+            mBuilder.neutralText(getResources().getString(R.string.dialog_1));
+        } else {
+            mBuilder.cancelable(true);
+            mBuilder.canceledOnTouchOutside(true);
+            mBuilder.positiveText(getResources().getString(R.string.dialog_1));
+            mBuilder.negativeText(getResources().getString(R.string.dialog_2));
+        }
+        MaterialDialog materialDialog = mBuilder.build();
+        materialDialog.show();
+        mBuilder.onAny(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                switch (which){
+                    case NEGATIVE:
+                        materialDialog.dismiss();
+                        break;
+                    case POSITIVE:
+                    case NEUTRAL:
+                        hasInstallPermission(apkDownLoadUrl);
+                        materialDialog.dismiss();
+                        break;
+                }
+            }
+        });
     }
 
 }

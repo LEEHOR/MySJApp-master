@@ -1,49 +1,59 @@
 package com.shenjing.dengyuejinfu.entity;
 
+import java.io.Serializable;
+
 /**
  * author : Leehor
- * date   : 2019/9/1516:43
+ * date   : 2019/9/1516:48
  * version: 1.0
- * desc   :  修改密码bean
+ * desc   :
  */
-public class ChangePassBean {
-    private String userid;
-    private String oldPwd;
-    private String newPwd;
+public class ChangePassBean implements Serializable {
 
-    public String getUserid() {
-        return userid;
+    /**
+     * msg : 密码修改成功
+     * code : 0000
+     * token : eyJraWQiOiJubGsybGtubCVpbzRtbCIsImFsZyI6IkVTMjU2SyJ9.eyJzdWIiOiJ7XCJjcmVkZW50aWFsc1wiOlwiZTEwYWRjMzk0OWJhNTlhYmJlNTZlMDU3ZjIwZjg4M2VcIixcInBhc3N3b3JkXCI6XCJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZVwiLFwicHJpbmNpcGFsXCI6XCJqa2hkYm9cIixcInJlbWVtYmVyTWVcIjpmYWxzZSxcInVzZXJuYW1lXCI6XCJqa2hkYm9cIn0ifQ.iX-I6iFgTlKjnAsNpbysQ3zSZJIZuRDnZjt3HYvnpMQSd0baQtnqg-9BSM0LGb8dyz7Plk9Z1SWsSutCTe1Y7A
+     */
+
+    private String msg;
+    private String code;
+    private String token;
+    private dataBean data;
+
+    public String getMsg() {
+        return msg;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public String getOldPwd() {
-        return oldPwd;
+    public String getCode() {
+        return code;
     }
 
-    public void setOldPwd(String oldPwd) {
-        this.oldPwd = oldPwd;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getNewPwd() {
-        return newPwd;
+    public String getToken() {
+        return token;
     }
 
-    public void setNewPwd(String newPwd) {
-        this.newPwd = newPwd;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public ChangePassBean() {
+    public dataBean getData() {
+        return data;
     }
 
-    @Override
-    public String toString() {
-        return "ChangePassBean{" +
-                "userid='" + userid + '\'' +
-                ", oldPwd='" + oldPwd + '\'' +
-                ", newPwd='" + newPwd + '\'' +
-                '}';
+    public void setData(dataBean data) {
+        this.data = data;
+    }
+
+    public class dataBean {
+
     }
 }

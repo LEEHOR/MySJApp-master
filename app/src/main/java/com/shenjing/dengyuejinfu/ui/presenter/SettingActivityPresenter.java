@@ -8,7 +8,7 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
-import com.shenjing.dengyuejinfu.respondModule.LoginOutModel;
+import com.shenjing.dengyuejinfu.entity.LoginOutBean;
 import com.shenjing.dengyuejinfu.ui.contract.SettingActivityContract;
 
 import javax.inject.Inject;
@@ -35,17 +35,17 @@ public class SettingActivityPresenter extends BasePresenter<SettingActivityContr
     public void loginOut(String userId) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).loginOut(userId)
-                .compose(mView.<LoginOutModel>bindToLife())
-                .compose(RxSchedulers.<LoginOutModel>applySchedulers())
-                .subscribe(new Consumer<LoginOutModel>() {
+                .compose(mView.<LoginOutBean>bindToLife())
+                .compose(RxSchedulers.<LoginOutBean>applySchedulers())
+                .subscribe(new Consumer<LoginOutBean>() {
                     @Override
-                    public void accept(LoginOutModel loginOutModel) throws Exception {
+                    public void accept(LoginOutBean loginOutBean) throws Exception {
                         mView.hideLoading();
-                        if (loginOutModel.getCode() != null && loginOutModel.getCode().equals("0000")) {
-                            mView.showSuccess(loginOutModel.getMsg());
+                        if (loginOutBean.getCode() != null && loginOutBean.getCode().equals("0000")) {
+                            mView.showSuccess(loginOutBean.getMsg());
                             mView.LoginOutSuccess();
                         } else {
-                            mView.showFail(loginOutModel.getMsg());
+                            mView.showFail(loginOutBean.getMsg());
                             mView.LoginOutFailure();
                         }
                     }

@@ -18,11 +18,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitManager {
     //连接超时
-    private static long CONNECT_TIMEOUT = 60L;
+    private static long CONNECT_TIMEOUT = 10L;
     //阅读超时
-    private static long READ_TIMEOUT = 30L;
+    private static long READ_TIMEOUT = 10L;
     //写入超时
-    private static long WRITE_TIMEOUT = 30L;
+    private static long WRITE_TIMEOUT = 10L;
 
     private static volatile OkHttpClient mOkHttpClient;
 

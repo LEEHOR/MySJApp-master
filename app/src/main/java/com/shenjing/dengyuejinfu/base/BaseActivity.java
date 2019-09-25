@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.BarUtils;
@@ -31,8 +29,6 @@ import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
-import java.util.zip.Inflater;
 
 import javax.inject.Inject;
 

@@ -8,6 +8,7 @@
     <string name="empty_view_hint">暂时木有内容呀~~</string>
     <string name="app_crash">很抱歉，程序出现异常，即将退出。</string>
     <string name="app_exit">再按一次退出程序</string>
+    <string name="app_login_state">当前没有登陆</string>
 
     <!--main-->
     <!-- 首页 底部菜单-->
@@ -25,16 +26,151 @@
     <string name="credit_card_2">信用卡认证</string>
     <string name="credit_card_3">添加信用卡</string>
     <string name="credit_card_4">信用卡号</string>
-    <string name="credit_card_5">输入信用卡号</string>
-    <string name="credit_card_6">请信用卡有效期</string>
+    <string name="credit_card_5">请输入信用卡号</string>
+    <string name="credit_card_6">信用卡有效期</string>
+    <string name="credit_card_7">请输入签名栏后三位</string>
+    <string name="credit_card_8">示例：09/22，输入0922</string>
     <!--关于银行卡字段-->
     <string name="bank_card_1">银行卡认证</string>
     <string name="bank_card_2">银行卡号</string>
     <string name="bank_card_3">请输入银行卡号</string>
-    <!--====================================-->
+    <!--银行卡和信用卡通用字段-->
     <string name="card_1">所属银行</string>
     <string name="card_2">选择所属银行</string>
-
+    <string name="card_3">收款人姓名</string>
+    <string name="card_4">收款人身份证</string>
+    <string name="card_5">银行预留手机</string>
+    <string name="card_6">CVVN2</string>
+    <string name="card_7">请输入您的姓名</string>
+    <string name="card_8">请输入您的身份证号</string>
+    <string name="card_9">请输入银行预留手机号</string>
+    <string name="card_10">身份证认证</string>
+    <string name="card_11">安全支付认证</string>
+    <string name="card_12">*储蓄卡正面</string>
+    <string name="card_13">请核对您的银行卡信息</string>
+    <string name="card_14">手机号码</string>
+    <string name="card_15">请输入您的手机号码</string>
+    <string name="card_16">*身份证头像面</string>
+    <string name="card_17">*身份证国徽面</string>
+    <string name="card_18">请核对您的身份证信息</string>
+    <string name="card_19">姓名</string>
+    <string name="card_20">身份证号</string>
+    <string name="card_21">状态描述</string>
+    <string name="card_22">我已阅读并同意</string>
+    <string name="card_23">查询费：</string>
+    <string name="card_24">基本信息</string>
+    <string name="card_25">请输入手机号服务密码</string>
+    <string name="card_26">*手持身份证照片</string>
+    <string name="card_27">审核完成</string>
+    <string name="card_28">未认证</string>
+    <string name="card_29">审核中</string>
+    <string name="card_30">审核失败</string>
+    <string name="card_31">储蓄卡</string>
+    <string-array name="card_32">
+        <item>代还</item>
+        <item>快捷</item>
+        <item>扫码</item>
+    </string-array>
+    <!--关于账户类字段（注册、登录、修改密码、找回密码）-->
+    <string name="account_1">原始登录密码</string>
+    <string name="account_2">请输入新密码</string>
+    <string name="account_3">再次输入新密码</string>
+    <string name="account_4">请输入手机号或商户号</string>
+    <string name="account_5">请输入登录密码</string>
+    <string name="account_6">请输入手机号</string>
+    <string name="account_7">请输入验证码</string>
+    <string name="account_8">获取验证码</string>
+    <string name="account_9">重新获取</string>
+    <string name="account_10">注册账号</string>
+    <string name="account_11">手机号登录</string>
+    <string name="account_12">忘记密码?</string>
+    <string name="account_13">版本信息%1$s</string>
+    <string name="account_14">请输入身份证号</string>
+    <string name="account_15">请输入邀请码</string>
+    <string name="account_16">请输入登录密码</string>
+    <string name="account_17">请输入真实姓名</string>
+    <string name="account_18">请输入登录名(昵称)</string>
+    <string name="account_19">账户登录</string>
+    <!--关于我的客户字段-->
+    <string name="customer_1">直推客户</string>
+    <string name="customer_2">直推推广商</string>
+    <string name="customer_3">间推客户</string>
+    <string name="customer_4">间推推广商</string>
+    <string name="customer_5">今日\n新增</string>
+    <!--关于提现、收款、代还、贷款字段-->
+    <string name="money_1">结算卡</string>
+    <string name="money_2">请先进行实名认证</string>
+    <string name="money_3">提现金额</string>
+    <string name="money_4">请输入金额</string>
+    <string name="money_5">账户金额：</string>
+    <string name="money_6">全部提现</string>
+    <string name="money_7">返佣资金可以直接提现到储蓄卡</string>
+    <string name="money_8">信用卡评测</string>
+    <string name="money_9">请先进行实名认证</string>
+    <string name="money_10">收款金额</string>
+    <string name="money_11">快捷支付</string>
+    <string name="money_12">扫码支付</string>
+    <string name="money_13">收银台</string>
+    <!--关于设置字段-->
+    <string name="setting_1">修改密码</string>
+    <string name="setting_2">联系客服</string>
+    <string name="setting_3">清除缓存</string>
+    <string name="setting_4">版本信息</string>
+    <!--关于index_fragment页面-->
+    <string name="index_1">账户安全由保险公司提供安全保障</string>
+    <string name="index_2">- 金融服务 -</string>
+    <string name="index_3">信用卡测评</string>
+    <string name="index_4">个人征信查询</string>
+    <!--关于mine_fragment页面-->
+    <string name="mine_1">我的</string>
+    <string name="mine_2">今日利润（元）</string>
+    <string name="mine_3">昨日利润（元）</string>
+    <string name="mine_4">累计佣金（元）</string>
+    <string name="mine_5">升级佣金（元）</string>
+    <string name="mine_6">可提现金额￥\t</string>
+    <string name="mine_7">交易明细</string>
+    <string name="mine_8">我的客户</string>
+    <string name="mine_9">我的分享</string>
+    <string name="mine_10">实名认证</string>
+    <string name="mine_11">信用卡认证</string>
+    <string name="mine_12">操作手册</string>
+    <string name="mine_13">我的花呗收银码</string>
+    <string name="mine_14">立即提现</string>
+    <!--关于Toast提示字段-->
+    <string name="toast_1">请输入收款人姓名</string>
+    <string name="toast_2">请输入身份证号</string>
+    <string name="toast_3">请输入有效的身份证号</string>
+    <string name="toast_4">请输入银行卡号</string>
+    <string name="toast_5">请输入手机号</string>
+    <string name="toast_6">请输入正确的手机号</string>
+    <string name="toast_7">请输入银行卡签名栏后三位</string>
+    <string name="toast_8">请输入银行卡有效期</string>
+    <string name="toast_9">"正在压缩图片，请稍后继续"</string>
+    <string name="toast_10">照片未就绪</string>
+    <string name="toast_12">创建文件夹失败</string>
+    <string name="toast_13">创建文件失败</string>
+    <string name="toast_14">获取权限失败</string>
+    <string name="toast_15">请拍摄身份证头像面</string>
+    <string name="toast_16">请拍摄身份证国徽面</string>
+    <string name="toast_17">请输入姓名</string>
+    <string name="toast_18">请输入旧密码</string>
+    <string name="toast_19">请输入新密码</string>
+    <string name="toast_20">请再次输入新密码</string>
+    <string name="toast_21">两次密码不相同</string>
+    <string name="toast_22">请输入账户</string>
+    <string name="toast_23">请输入密码</string>
+    <string name="toast_24">验证码不能为空</string>
+    <string name="toast_25">请拍摄图片</string>
+    <string name="toast_26">已上传，无需再次上传</string>
+    <string name="toast_27">请输入登录密码</string>
+    <string name="toast_28">请输真实姓名</string>
+    <string name="toast_29">请输入用户名</string>
+    <!--关于dialog弹窗字段-->
+    <string name="dialog_1">去更新</string>
+    <string name="dialog_2">下次再说</string>
+    <string name="dialog_3">发现更新,版本号v%1$s</string>
+    <!--关于提额秘籍字段-->
+    <string name="quota_1">秘籍课程</string>
     <!--分享-->
     <string name="share_1">网页分享注册</string>
     <string name="share_2">面对面分享注册</string>
@@ -43,7 +179,26 @@
     <string name="share_5">面对面分享</string>
     <string name="share_6">网页二维码分享</string>
     <string name="share_7">分享</string>
-
     <string name="share_8">QQ好友</string>
     <string name="share_9">QQ空间</string>
+    <!--submit-->
+    <string name="submit_1">完成</string>
+    <string name="submit_2">下一页</string>
+    <string name="submit_3">确定</string>
+    <string name="submit_4">查询</string>
+    <string name="submit_5">确认提现</string>
+    <string name="submit_6">登录</string>
+    <string name="submit_7">注册</string>
+    <string name="submit_8">安全退出</string>
+    <!--其他协议或声明-->
+    <string name="other_1">查询须知：\n
+        1.两个月内银卡请勿查询，否则查询无结果；\n
+        2.近半年内无交易的卡请勿查询，否则查询无结果；\n
+        3.请确保输入信息属实，否则查询无结果；</string>
+    <string name="other_2">查询须知：\n
+        1.手机号服务密码是登录手机营业厅的密码；</string>
+    <string name="other_3">免冠、露出五官清晰可见</string>
+    <string name="other_4">照片请勿做任何修饰或软件处理</string>
+    <string name="other_5">请保持身份证信息清晰可见、否则无法通过实名认</string>
+
 </resources>

@@ -10,7 +10,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.donkingliang.banner.CustomBanner;
 import com.shenjing.dengyuejinfu.R;
@@ -19,8 +18,8 @@ import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
 import com.shenjing.dengyuejinfu.decoration.SpacesItemDecoration;
-import com.shenjing.dengyuejinfu.respondModule.BannerModel;
-import com.shenjing.dengyuejinfu.respondModule.IncreaseQuotaModel;
+import com.shenjing.dengyuejinfu.entity.BannerBean;
+import com.shenjing.dengyuejinfu.entity.IncreaseQuotaBean;
 import com.shenjing.dengyuejinfu.ui.activity.adapter.IncreaseQuotaAdapter;
 import com.shenjing.dengyuejinfu.ui.contract.IncreaseTheQuotaActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.IncreaseTheQuotaActivityPresenter;
@@ -98,7 +97,7 @@ public class IncreaseTheQuotaActivity extends BaseActivity<IncreaseTheQuotaActiv
             }
         });
 
-        increaseQuotaAdapter = new IncreaseQuotaAdapter();
+        increaseQuotaAdapter = new IncreaseQuotaAdapter(IncreaseTheQuotaActivity.this);
         gridLayoutManager = new GridLayoutManager(IncreaseTheQuotaActivity.this, 2, RecyclerView.VERTICAL, false);
         increaseQuotaRecycler.setLayoutManager(gridLayoutManager);
         increaseQuotaRecycler.setAdapter(increaseQuotaAdapter);
@@ -111,8 +110,7 @@ public class IncreaseTheQuotaActivity extends BaseActivity<IncreaseTheQuotaActiv
         increaseQuotaAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                IncreaseQuotaModel.DataBean dataBean = (IncreaseQuotaModel.DataBean) adapter.getData().get(position);
-                ToastUtils.showLong("点击");
+                IncreaseQuotaBean.DataBean dataBean = (IncreaseQuotaBean.DataBean) adapter.getData().get(position);
                 ARouter.getInstance().build(ARouterUrl.IncreaseQuotaInformationActivityUrl)
                         .withInt(BaseParams.IncreaseQuotaType, dataBean.getId())
                         .navigation(IncreaseTheQuotaActivity.this, new LoginNavigationCallback());
@@ -146,22 +144,22 @@ public class IncreaseTheQuotaActivity extends BaseActivity<IncreaseTheQuotaActiv
     }
 
     @Override
-    public void getBannerSuccess(BannerModel bannerModel) {
-        if (bannerModel.getData() != null) {
-            List<BannerModel.DataBean.BannerBean> banner = bannerModel.getData().getBanner();
+    public void getBannerSuccess(BannerBean bannerBean) {
+        if (bannerBean.getData() != null) {
+            List<BannerBean.DataBean.Banner> banner = bannerBean.getData().getBanner();
             if (banner != null) {
                 bannerList.clear();
-                for (BannerModel.DataBean.BannerBean b : banner
+                for (BannerBean.DataBean.Banner b : banner
                 ) {
                     bannerList.add(b.getPath());
                 }
                 SetCustomBannerUtils.setCustomBanner(increaseQuotaBanner, bannerList, ImageView.ScaleType.FIT_CENTER);
                 setBannerLister(banner, increaseQuotaBanner);
             }
-            List<BannerModel.DataBean.MarqueeBean> marquee = bannerModel.getData().getMarquee();
+            List<BannerBean.DataBean.MarqueeBean> marquee = bannerBean.getData().getMarquee();
             if (marquee != null) {
                 marqueeList.clear();
-                for (BannerModel.DataBean.MarqueeBean marqueeBean : marquee
+                for (BannerBean.DataBean.MarqueeBean marqueeBean : marquee
                 ) {
                     marqueeList.add(marqueeBean.getContent());
                 }
@@ -182,7 +180,7 @@ public class IncreaseTheQuotaActivity extends BaseActivity<IncreaseTheQuotaActiv
      * @param bannerBean
      * @param customBanner
      */
-    private void setBannerLister(List<BannerModel.DataBean.BannerBean> bannerBean, CustomBanner customBanner) {
+    private void setBannerLister(List<BannerBean.DataBean.Banner> bannerBean, CustomBanner customBanner) {
         customBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener() {
             @Override
             public void onPageClick(int i, Object o) {

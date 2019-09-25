@@ -98,35 +98,35 @@ public class AddCreditCardActivity extends BaseActivity<AddCreditCardActivityPre
     @OnClick(R.id.add_creditCard_submit)
     public void onClick() {
         if (StringUtils.isSpace(addCreditCardUserName.getText().toString().trim())){
-            ToastUtils.showLong("请输入收款人姓名");
+            ToastUtils.showLong(R.string.toast_1);
             return;
         }
         if (StringUtils.isSpace(addCreditCardUserIdCardNo.toString().trim())){
-            ToastUtils.showLong("请输入身份证号");
+            ToastUtils.showLong(R.string.toast_2);
             return;
         }
         if (!RegexUtils.isIDCard18(addCreditCardUserIdCardNo.getText().toString().trim())){
-            ToastUtils.showLong("请输入有效的身份证号");
+            ToastUtils.showLong(R.string.toast_3);
             return;
         }
         if (StringUtils.isSpace(addCreditCardBankNo.getText().toString().trim())){
-            ToastUtils.showLong("请输入银行卡号");
+            ToastUtils.showLong(R.string.toast_4);
             return;
         }
         if (StringUtils.isSpace(addCreditCardBankPhone.getText().toString().trim())){
-            ToastUtils.showLong("请输入手机号");
+            ToastUtils.showLong(R.string.toast_5);
             return;
         }
         if (!RegexUtils.isMobileSimple(addCreditCardBankPhone.getText().toString().trim())){
-            ToastUtils.showLong("请输入正确的手机号");
+            ToastUtils.showLong(R.string.toast_6);
             return;
         }
         if (StringUtils.isSpace(addCreditCardCvvn.getText().toString().trim()) && addCreditCardCvvn.getText().toString().trim().length()!=3){
-            ToastUtils.showLong("请输入银行卡签名栏后三位");
+            ToastUtils.showLong(R.string.toast_7);
             return;
         }
         if (StringUtils.isSpace(addCreditCardBankValidity.getText().toString().trim())){
-            ToastUtils.showLong("请输入银行卡有效期");
+            ToastUtils.showLong(R.string.toast_8);
             return;
         }
         Map map=new HashMap();

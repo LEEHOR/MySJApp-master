@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
@@ -23,13 +22,11 @@ import androidx.core.content.FileProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.constant.PermissionConstants;
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.IntentUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
-import com.blankj.utilcode.util.PhoneUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -40,7 +37,7 @@ import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
-import com.shenjing.dengyuejinfu.respondModule.PeopleCertificationStatus;
+import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 import com.shenjing.dengyuejinfu.ui.contract.CertificationActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.CertificationActivityPresenter;
 import com.shenjing.dengyuejinfu.utils.GlideUtils;
@@ -181,28 +178,28 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
             case R.id.certification_submit:
                 if (isCanUpload_s) {
                     if (!isFrontPictureSuccess) {
-                        ToastUtils.showLong("请拍摄身份证头像面");
+                        ToastUtils.showLong(R.string.toast_15);
                         return;
                     }
                     if (!isBackPictureSuccess) {
-                        ToastUtils.showLong("请拍摄身份证国徽面");
+                        ToastUtils.showLong(R.string.toast_16);
                         return;
                     }
 
                     if (StringUtils.isSpace(certificationUserName.getText().toString().trim())) {
-                        ToastUtils.showLong("请填写姓名");
+                        ToastUtils.showLong(R.string.toast_17);
                         return;
                     }
                     if (StringUtils.isSpace(certificationIdCardNo.getText().toString().trim())) {
-                        ToastUtils.showLong("请填写银行卡号");
+                        ToastUtils.showLong(R.string.toast_4);
                         return;
                     }
                     if (!FileUtils.isFile(fileFrontZip)) {
-                        ToastUtils.showLong("正在压缩图片，请稍后继续");
+                        ToastUtils.showLong(R.string.toast_9);
                         return;
                     }
                     if (!FileUtils.isFile(fileBackZip)) {
-                        ToastUtils.showLong("正在压缩图片，请稍后继续");
+                        ToastUtils.showLong(R.string.toast_9);
                         return;
                     }
                     Map map = new HashMap();
@@ -227,12 +224,12 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     private void takeBackPhoto() {
         String picture_back = Constant.SAVE_DIR_TAKE_PHOTO;
         if (!FileUtils.createOrExistsDir(picture_back)) {
-            ToastUtils.showLong("创建文件夹失败");
+            ToastUtils.showLong(R.string.toast_12);
             return;
         }
         fileBack = new File(picture_back, "idCard_back_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
         if (!FileUtils.createFileByDeleteOldFile(fileBack)) {
-            ToastUtils.showLong("创建文件失败");
+            ToastUtils.showLong(R.string.toast_13);
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -252,12 +249,12 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     private void takeFrontPhoto() {
         String picture_front = Constant.SAVE_DIR_TAKE_PHOTO;
         if (!FileUtils.createOrExistsDir(picture_front)) {
-            ToastUtils.showLong("创建文件夹失败");
+            ToastUtils.showLong(R.string.toast_12);
             return;
         }
         fileFront = new File(picture_front, "idCard_front_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
         if (!FileUtils.createFileByDeleteOldFile(fileFront)) {
-            ToastUtils.showLong("创建文件失败");
+            ToastUtils.showLong(R.string.toast_13);
             return;
         }
 
@@ -293,7 +290,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
                             //消息发送
                             mhandler.sendMessage(message);
                             if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
-                                LogUtils.d("创建文件夹失败");
+                                LogUtils.d(R.string.toast_12);
                                 return;
                             }
                             fileFrontZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_front.jpeg");
@@ -344,7 +341,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
                             //消息发送
                             mhandler.sendMessage(message);
                             if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
-                                LogUtils.d("创建文件夹失败");
+                                LogUtils.d(R.string.toast_12);
                                 return;
                             }
                             fileBackZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_back.jpeg");
@@ -397,11 +394,14 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     }
 
     @Override
-    public void getStatusSuccess(PeopleCertificationStatus certificationStatus_s) {
+    public void getStatusSuccess(PeopleCertificationStatusBean certificationStatus_s) {
         if (certificationStatus_s.getData() != null) {
             String state = certificationStatus_s.getData().getState();
-            certificationStatus.setText(state.equals("9001")?"审核完成":state.equals("9002")?"未认证"
-                    :state.equals("9003")?"审核中":state.equals("9004")?"审核失败":"未认证");
+            certificationStatus.setText(state.equals("9001")?getResources().getString(R.string.card_27)
+                    :state.equals("9002")?getResources().getString(R.string.card_28)
+                    :state.equals("9003")?getResources().getString(R.string.card_29)
+                    :state.equals("9004")?getResources().getString(R.string.card_30)
+                    :getResources().getString(R.string.card_28));
             if (certificationStatus_s.getData().getFront() != null) {
                 takePhotoIdFront.setVisibility(View.INVISIBLE);
                 GlideUtils.initImageNoCache(this,certificationStatus_s.getData().getFront(),certificationIdCardFront);
@@ -479,7 +479,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
 
                             @Override
                             public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                                ToastUtils.showLong("获取权限失败");
+                                ToastUtils.showLong(R.string.toast_14);
                             }
                         }).request();
             }

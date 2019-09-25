@@ -1,6 +1,6 @@
 package com.shenjing.dengyuejinfu.net.services;
 
-import com.shenjing.dengyuejinfu.respondModule.QRModel;
+import com.shenjing.dengyuejinfu.entity.QRBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -21,6 +21,6 @@ public interface ShareApi {
      */
     @POST("/share/qr/code")
     @FormUrlEncoded
-    Observable<QRModel> getCode(@Field("userId") long userId);
+    Observable<QRBean> getCode(@Field("userId") long userId);
 
 }

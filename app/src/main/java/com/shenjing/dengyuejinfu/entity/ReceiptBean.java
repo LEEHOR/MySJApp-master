@@ -1,12 +1,14 @@
 package com.shenjing.dengyuejinfu.entity;
 
+import java.io.Serializable;
+
 /**
  * author : Leehor
  * date   : 2019/8/1315:48
  * version: 1.0
  * desc   :
  */
-public class ReceiptBean {
+public class ReceiptBean implements Serializable {
     private int type;
     private String title;
 

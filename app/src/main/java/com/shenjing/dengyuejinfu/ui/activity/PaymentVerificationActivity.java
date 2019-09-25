@@ -32,7 +32,7 @@ import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.Constant;
-import com.shenjing.dengyuejinfu.respondModule.PaymentModel;
+import com.shenjing.dengyuejinfu.entity.PaymentBean;
 import com.shenjing.dengyuejinfu.ui.contract.PaymentVerificationActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.PaymentVerificationActivityPresenter;
 import com.shenjing.dengyuejinfu.utils.GlideUtils;
@@ -132,11 +132,11 @@ public class PaymentVerificationActivity extends BaseActivity<PaymentVerificatio
 
 
     @Override
-    public void getTakeStatusSuccess(PaymentModel paymentModel) {
-        if (paymentModel.getData() != null) {
-            if (paymentModel.getData().getTakeImg() != null) {
+    public void getTakeStatusSuccess(PaymentBean paymentBean) {
+        if (paymentBean.getData() != null) {
+            if (paymentBean.getData().getTakeImg() != null) {
                 takeFacePhoto.setEnabled(false);
-                GlideUtils.initImageWithFileCache(this,paymentModel.getData().getTakeImg(),takeFacePic);
+                GlideUtils.initImageWithFileCache(this, paymentBean.getData().getTakeImg(),takeFacePic);
             }
         }
     }
@@ -185,7 +185,7 @@ public class PaymentVerificationActivity extends BaseActivity<PaymentVerificatio
                 if (isCanUpload_s){
                     if (isFacePictureSuccess){
                         if (!FileUtils.isFile(fileFaceZip)) {
-                            ToastUtils.showLong("正在压缩图片，请稍后继续");
+                            ToastUtils.showLong(R.string.toast_9);
                             return;
                         }
                         Map map=new HashMap();
@@ -193,10 +193,10 @@ public class PaymentVerificationActivity extends BaseActivity<PaymentVerificatio
                         map.put("takeImg",fileFaceZip.getAbsolutePath());
                         mPresenter.uploadTake(map);
                     } else {
-                        ToastUtils.showLong("请拍摄照片");
+                        ToastUtils.showLong(R.string.toast_25);
                     }
                 } else {
-                    ToastUtils.showLong("无需上传");
+                    ToastUtils.showLong(R.string.toast_26);
                 }
                 break;
                 default:
@@ -210,12 +210,12 @@ public class PaymentVerificationActivity extends BaseActivity<PaymentVerificatio
     private void takeFrontPhoto() {
         String picture_front = Constant.SAVE_DIR_TAKE_PHOTO;
         if (!FileUtils.createOrExistsDir(picture_front)) {
-            ToastUtils.showLong("创建文件夹失败");
+            ToastUtils.showLong(R.string.toast_12);
             return;
         }
         fileFace = new File(picture_front, "face_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
         if (!FileUtils.createFileByDeleteOldFile(fileFace)) {
-            ToastUtils.showLong("创建文件失败");
+            ToastUtils.showLong(R.string.toast_13);
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -253,7 +253,7 @@ public class PaymentVerificationActivity extends BaseActivity<PaymentVerificatio
 
                             @Override
                             public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                                ToastUtils.showLong("获取权限失败");
+                                ToastUtils.showLong(R.string.toast_14);
                             }
                         }).request();
             }
@@ -281,7 +281,7 @@ public class PaymentVerificationActivity extends BaseActivity<PaymentVerificatio
                         mhandler.sendMessage(message);
                         // mhandler.sendEmptyMessage(MSG1);
                         if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
-                            LogUtils.d("创建文件夹失败");
+                            LogUtils.d(R.string.toast_12);
                             return;
                         }
                         fileFaceZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_face.jpeg");

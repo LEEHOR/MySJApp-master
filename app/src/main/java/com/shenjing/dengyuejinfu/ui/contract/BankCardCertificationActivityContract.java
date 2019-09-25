@@ -1,7 +1,7 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.BankInfoModel;
+import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class BankCardCertificationActivityContract {
      */
     public interface View extends BaseContract.BaseView {
 
-        void getBankInfoSuccess(BankInfoModel model);
+        void getBankInfoSuccess(BankInfoBean model);
         void getBankInfoFailure();
 
         void upLoadSuccess();

@@ -54,7 +54,7 @@
             android:textSize="14dp"
             android:textColor="@color/textColor"
             android:textColorHint="@color/base_hint_text_color"
-            android:hint="请输入身份证号"
+            android:hint="@string/account_14"
             android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -82,7 +82,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/base_hint_text_color"
-                android:hint="请输入邀请码"
+                android:hint="@string/account_15"
                 android:inputType="textVisiblePassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -111,7 +111,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/base_hint_text_color"
-                android:hint="请输入登陆密码"
+                android:hint="@string/account_16"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
         <View
@@ -137,7 +137,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/base_hint_text_color"
-                android:hint="请输入手机号"
+                android:hint="@string/account_6"
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
         <View
@@ -163,7 +163,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/base_hint_text_color"
-                android:hint="请输入真实姓名"
+                android:hint="@string/account_17"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
         <View
@@ -189,7 +189,7 @@
                 android:textSize="14dp"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/base_hint_text_color"
-                android:hint="请输入登录名(昵称)"
+                android:hint="@string/account_18"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
         <View
@@ -207,7 +207,7 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:padding="@dimen/dp_10"
-            android:text="注册"
+            android:text="@string/submit_7"
             android:textSize="16dp" />
     </LinearLayout>
 </LinearLayout>

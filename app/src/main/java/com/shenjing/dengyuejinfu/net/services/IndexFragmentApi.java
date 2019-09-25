@@ -1,6 +1,6 @@
 package com.shenjing.dengyuejinfu.net.services;
 
-import com.shenjing.dengyuejinfu.respondModule.BannerModel;
+import com.shenjing.dengyuejinfu.entity.BannerBean;
 
 
 import io.reactivex.Observable;
@@ -24,5 +24,5 @@ public interface IndexFragmentApi {
      */
     @POST("/homePageInfo")
     @FormUrlEncoded
-    Observable<BannerModel> getBanner(@Field("actionScope") String actionScope);
+    Observable<BannerBean> getBanner(@Field("actionScope") String actionScope);
 }

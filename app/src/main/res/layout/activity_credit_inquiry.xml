@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/blue4"
                 android:padding="10dp"
-                android:text="基本信息"
+                android:text="@string/card_24"
                 android:textColor="@color/white"
                 android:textSize="14dp" />
 
@@ -59,7 +59,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_view_circle1"
-                android:hint="请输入姓名"
+                android:hint="@string/card_7"
                 android:inputType="textPersonName"
                 android:padding="10dp"
                 android:textColor="@color/textColor"
@@ -73,7 +73,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_view_circle1"
-                android:hint="请输入身份证号码"
+                android:hint="@string/card_8"
                 android:inputType="number"
                 android:padding="10dp"
                 android:textColor="@color/textColor"
@@ -87,7 +87,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_view_circle1"
-                android:hint="请输入手机号"
+                android:hint="@string/card_15"
                 android:inputType="phone"
                 android:padding="10dp"
                 android:textColor="@color/textColor"
@@ -101,7 +101,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/shape_view_circle1"
-                android:hint="手机号服务密码"
+                android:hint="@string/card_25"
                 android:inputType="number"
                 android:padding="10dp"
                 android:textColor="@color/textColor"
@@ -126,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="我已阅读并同意"
+                    android:text="@string/card_22"
                     android:textColor="@color/textColor"
                     android:textSize="14dp" />
 
@@ -145,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="查询费："
+                    android:text="@string/card_23"
                     android:textSize="14dp"
                     android:textColor="@color/textColor"
                     android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
                 android:layout_marginTop="15dp"
                 android:textSize="16dp"
                 android:textColor="@color/white"
-                android:text="查询"
+                android:text="@string/submit_4"
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_marginLeft="10dp"
@@ -189,15 +189,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:lineSpacingExtra="5dp"
                 android:textSize="16dp"
                 android:textColor="@color/textColor"
-                android:text="查询须知："
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:textSize="14dp"
-                android:textColor="@color/textColor"
-                android:text="1.手机号服务密码是登录手机营业厅的密码；"
+                android:text="@string/other_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

@@ -2,8 +2,7 @@ package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.amap.api.location.AMapLocation;
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
-import com.shenjing.dengyuejinfu.utils.GaodeMapLocationHelper;
+import com.shenjing.dengyuejinfu.entity.LoginBean;
 import com.shenjing.dengyuejinfu.widgte.TimingButton;
 
 import java.util.Map;
@@ -22,17 +21,17 @@ public class LoginActivityContract {
 
         /**
          * 登陆成功
-         * @param loginModel
+         * @param loginBean
          * @param type //登录方式
          */
-        void showLoginSuccess(LoginModel loginModel, int type);
+        void showLoginSuccess(LoginBean loginBean, int type);
 
         /** 登陆失败
          *
-         * @param loginModel
+         * @param loginBean
          * @param type    //登录方式
          */
-        void  shownLoginFailure(LoginModel loginModel, int type);
+        void  shownLoginFailure(LoginBean loginBean, int type);
 
         /**
          * 获取验证码成功

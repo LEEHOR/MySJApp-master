@@ -85,7 +85,7 @@ public class SettingActivity extends BaseActivity<SettingActivityPresenter> impl
                         && !StringUtils.isSpace(spUtils.getString(BaseParams.USER_NAME_KEY))){
                     mPresenter.loginOut(userId);
                 } else {
-                    ToastUtils.showLong("当前没有登陆");
+                    ToastUtils.showLong(R.string.app_login_state);
                 }
                 break;
         }

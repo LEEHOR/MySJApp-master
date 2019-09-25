@@ -7,9 +7,9 @@ import com.amap.api.location.AMapLocation;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.LoginModel;
-import com.shenjing.dengyuejinfu.respondModule.SmsModel;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
+import com.shenjing.dengyuejinfu.entity.LoginBean;
+import com.shenjing.dengyuejinfu.entity.SmsBean;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
@@ -44,18 +44,18 @@ public class LoginActivityPresenter extends BasePresenter<LoginActivityContract.
     public void LoginAccount(Map<String,Object> map) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).login_account(map)
-                .compose(mView.<LoginModel>bindToLife())
-                .compose(RxSchedulers.<LoginModel>applySchedulers())
-                .subscribe(new Consumer<LoginModel>() {
+                .compose(mView.<LoginBean>bindToLife())
+                .compose(RxSchedulers.<LoginBean>applySchedulers())
+                .subscribe(new Consumer<LoginBean>() {
                     @Override
-                    public void accept(LoginModel loginModel){
+                    public void accept(LoginBean loginBean){
                         mView.hideLoading();
-                        if (loginModel.getCode() != null && loginModel.getCode().equals("0000")) {
-                            mView.showSuccess(loginModel.getMsg());
-                            mView.showLoginSuccess(loginModel,1);
+                        if (loginBean.getCode() != null && loginBean.getCode().equals("0000")) {
+                            mView.showSuccess(loginBean.getMsg());
+                            mView.showLoginSuccess(loginBean,1);
                         } else {
-                            mView.showFail(loginModel.getMsg());
-                            mView.shownLoginFailure(loginModel,1);
+                            mView.showFail(loginBean.getMsg());
+                            mView.shownLoginFailure(loginBean,1);
                         }
                     }
                 },this::loadError);
@@ -66,19 +66,19 @@ public class LoginActivityPresenter extends BasePresenter<LoginActivityContract.
     public void LoginPhone(Map<String,Object> map) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).login_phone(map)
-                .compose(mView.<LoginModel>bindToLife())
-                .compose(RxSchedulers.<LoginModel>applySchedulers())
-                .subscribe(new Consumer<LoginModel>() {
+                .compose(mView.<LoginBean>bindToLife())
+                .compose(RxSchedulers.<LoginBean>applySchedulers())
+                .subscribe(new Consumer<LoginBean>() {
                     @Override
-                    public void accept(LoginModel loginModel)  {
+                    public void accept(LoginBean loginBean)  {
                         mView.hideLoading();
-                        if (loginModel.getCode() != null && loginModel.getCode().equals("0000")) {
-                            mView.showSuccess(loginModel.getMsg());
-                            mView.showLoginSuccess(loginModel,2);
+                        if (loginBean.getCode() != null && loginBean.getCode().equals("0000")) {
+                            mView.showSuccess(loginBean.getMsg());
+                            mView.showLoginSuccess(loginBean,2);
                         } else {
-                            mView.showFail(loginModel.getMsg());
+                            mView.showFail(loginBean.getMsg());
                             mView.getTimeButtonView().TimeOnFinished();
-                            mView.shownLoginFailure(loginModel,2);
+                            mView.shownLoginFailure(loginBean,2);
                         }
                     }
                 },this::loadPhoneLoginError);
@@ -89,17 +89,17 @@ public class LoginActivityPresenter extends BasePresenter<LoginActivityContract.
     public void loginSms(String phone) {
         mView.showLoading();
         RetrofitManager.create(UserApi.class).get_sms(phone)
-                .compose(mView.<SmsModel>bindToLife())
-                .compose(RxSchedulers.<SmsModel>applySchedulers())
-                .subscribe(new Consumer<SmsModel>() {
+                .compose(mView.<SmsBean>bindToLife())
+                .compose(RxSchedulers.<SmsBean>applySchedulers())
+                .subscribe(new Consumer<SmsBean>() {
                     @Override
-                    public void accept(SmsModel smsModel){
+                    public void accept(SmsBean smsBean){
                         mView.hideLoading();
-                        if (smsModel.getCode() != null && smsModel.getCode().equals("0000")) {
-                            mView.showSuccess(smsModel.getMsg());
+                        if (smsBean.getCode() != null && smsBean.getCode().equals("0000")) {
+                            mView.showSuccess(smsBean.getMsg());
                             mView.showSmsSuccess("");
                         } else {
-                            mView.showFail(smsModel.getMsg());
+                            mView.showFail(smsBean.getMsg());
                             mView.getTimeButtonView().TimeOnFinished();
                             mView.shownSmsFailure("");
                         }
@@ -137,12 +137,12 @@ public class LoginActivityPresenter extends BasePresenter<LoginActivityContract.
     @Override
     public void uploadUserInfo(Map<String, Object> map) {
         RetrofitManager.create(UserApi.class).uploadDeviceLocation(map)
-                .compose(mView.<BaseModel>bindToLife())
-                .compose(RxSchedulers.<BaseModel>applySchedulers())
-                .subscribe(new Consumer<BaseModel>() {
+                .compose(mView.<BaseBean>bindToLife())
+                .compose(RxSchedulers.<BaseBean>applySchedulers())
+                .subscribe(new Consumer<BaseBean>() {
                     @Override
-                    public void accept(BaseModel baseModel){
-                        if (baseModel.getCode() != null && baseModel.getCode().equals("0000")) {
+                    public void accept(BaseBean baseBean){
+                        if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
 
                         } else {
 

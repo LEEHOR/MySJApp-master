@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.shenjing.dengyuejinfu.App;
+import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.ui.fragment.ViewPagerTransaction;
 
 
@@ -16,7 +18,7 @@ import com.shenjing.dengyuejinfu.ui.fragment.ViewPagerTransaction;
  * desc   :
  */
 public class ViewPagerTransactionAdapter extends FragmentPagerAdapter {
-    private String[] title = {"代还", "快捷", "扫码"};
+    private String[] title = App.getAppContext().getResources().getStringArray(R.array.card_32);
 
     public ViewPagerTransactionAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);

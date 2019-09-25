@@ -55,7 +55,7 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/textColor"
             android:textSize="14dp"
-            android:text="信用卡评测"
+            android:text="@string/money_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -37,14 +37,13 @@ import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
-import com.shenjing.dengyuejinfu.respondModule.BankInfoModel;
+import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 import com.shenjing.dengyuejinfu.ui.contract.BankCardCertificationActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.BankCardCertificationActivityPresenter;
 import com.shenjing.dengyuejinfu.utils.GlideUtils;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -144,7 +143,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     }
 
     @Override
-    public void getBankInfoSuccess(BankInfoModel model) {
+    public void getBankInfoSuccess(BankInfoBean model) {
         if (model.getData() != null) {
             if (model.getData().getBank_card_img() != null) {
                 bankTakePhoto.setVisibility(View.INVISIBLE);
@@ -201,19 +200,19 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                 if (isCanUpload_s) {
                     if (isBankPictureSuccess) {
                         if (StringUtils.isSpace(bankIdNo.getText().toString().trim())) {
-                            ToastUtils.showLong("请填写银行卡");
+                            ToastUtils.showLong(R.string.toast_4);
                             return;
                         }
                         if (StringUtils.isSpace(bankPhone.getText().toString().trim())) {
-                            ToastUtils.showLong("请填写手机号");
+                            ToastUtils.showLong(R.string.toast_5);
                             return;
                         }
                         if (!RegexUtils.isMobileSimple(bankPhone.getText().toString().trim())) {
-                            ToastUtils.showLong("请填写正确的手机号");
+                            ToastUtils.showLong(R.string.toast_6);
                             return;
                         }
                         if (!FileUtils.isFile(fileFrontZip)) {
-                            ToastUtils.showLong("正在压缩图片，请稍后继续");
+                            ToastUtils.showLong(R.string.toast_9);
                             return;
                         }
                         Map map = new HashMap();
@@ -224,7 +223,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                         map.put("userId", BaseParams.userId);
                         mPresenter.upLoadBankCardInfo(map);
                     } else {
-                        ToastUtils.showLong("照片未就绪");
+                        ToastUtils.showLong(R.string.toast_10);
                     }
                 } else {
                     if (isCanNext_s) {
@@ -242,12 +241,12 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     private void takeFrontPhoto() {
         String picture_front = Constant.SAVE_DIR_TAKE_PHOTO;
         if (!FileUtils.createOrExistsDir(picture_front)) {
-            ToastUtils.showLong("创建文件夹失败");
+            ToastUtils.showLong(R.string.toast_12);
             return;
         }
         fileFront = new File(picture_front, "bank_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
         if (!FileUtils.createFileByDeleteOldFile(fileFront)) {
-            ToastUtils.showLong("创建文件失败");
+            ToastUtils.showLong(R.string.toast_13);
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -281,7 +280,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                         mhandler.sendMessage(message);
                         // mhandler.sendEmptyMessage(MSG1);
                         if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
-                            LogUtils.d("创建文件夹失败");
+                            LogUtils.d(R.string.toast_12);
                             return;
                         }
                         fileFrontZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_bank.jpeg");
@@ -334,7 +333,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
 
                             @Override
                             public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                                ToastUtils.showLong("获取权限失败");
+                                ToastUtils.showLong(R.string.toast_14);
                             }
                         }).request();
             }

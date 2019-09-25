@@ -13,11 +13,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
-import com.shenjing.dengyuejinfu.base.BaseFragment;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.decoration.SpacesItemDecoration;
-import com.shenjing.dengyuejinfu.respondModule.CreditCardListModel;
+import com.shenjing.dengyuejinfu.entity.CreditCardListBean;
 import com.shenjing.dengyuejinfu.ui.activity.adapter.CreditficationCardListAdapter;
 import com.shenjing.dengyuejinfu.ui.contract.CreditCardCertificationActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.CreditCardCertificationActivityPresenter;
@@ -78,7 +77,7 @@ public class CreditCardCertificationActivity extends BaseActivity<CreditCardCert
         creditCardRecycler.setLayoutManager(linearLayoutManager);
         creditCardRecycler.setAdapter(cardListAdapter);
         creditCardRecycler.addItemDecoration(new SpacesItemDecoration(ConvertUtils.dp2px(5f)
-                , ConvertUtils.dp2px(5f)));
+                , ConvertUtils.dp2px(8f)));
 
     }
 
@@ -94,7 +93,7 @@ public class CreditCardCertificationActivity extends BaseActivity<CreditCardCert
         cardListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                CreditCardListModel.DataBean.CreditCardBean creditCardBean = (CreditCardListModel.DataBean.CreditCardBean) adapter.getData().get(position);
+                CreditCardListBean.DataBean.CreditCardBean creditCardBean = (CreditCardListBean.DataBean.CreditCardBean) adapter.getData().get(position);
                 mPresenter.setCardStatus(BaseParams.userId, creditCardBean.getCreditCardNo());
             }
         });
@@ -107,7 +106,7 @@ public class CreditCardCertificationActivity extends BaseActivity<CreditCardCert
     }
 
     @Override
-    public void getCardListSuccess(CreditCardListModel creditCardListModel) {
+    public void getCardListSuccess(CreditCardListBean creditCardListBean) {
 
     }
 

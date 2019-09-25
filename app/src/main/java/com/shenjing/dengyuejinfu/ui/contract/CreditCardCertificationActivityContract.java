@@ -1,7 +1,7 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
-import com.shenjing.dengyuejinfu.respondModule.CreditCardListModel;
+import com.shenjing.dengyuejinfu.entity.CreditCardListBean;
 import com.shenjing.dengyuejinfu.ui.activity.adapter.CreditficationCardListAdapter;
 
 /**
@@ -16,7 +16,7 @@ public class CreditCardCertificationActivityContract {
      */
     public interface View extends BaseContract.BaseView {
 
-        void getCardListSuccess(CreditCardListModel creditCardListModel);
+        void getCardListSuccess(CreditCardListBean creditCardListBean);
 
         void getCardListFailure();
 

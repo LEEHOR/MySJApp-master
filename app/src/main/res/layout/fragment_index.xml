@@ -308,6 +308,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
+                    android:padding="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -318,7 +319,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="账户安全由保险公司提供安全保障"
+                        android:text="@string/index_1"
                         android:textColor="@color/textColor"
                         android:textSize="10dp" />
 
@@ -327,7 +328,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="20dp"
-                        android:text="- 金融服务 -"
+                        android:text="@string/index_2"
                         android:textColor="@color/textColor"
                         android:textSize="16dp" />
                 </LinearLayout>
@@ -350,7 +351,7 @@
                             android:layout_marginLeft="10dp"
                             android:textColor="@color/textColor"
                             android:textSize="14dp"
-                            android:text="信用卡评测"
+                            android:text="@string/index_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -390,7 +391,7 @@
                             android:layout_marginLeft="10dp"
                             android:textColor="@color/textColor"
                             android:textSize="14dp"
-                            android:text="个人征信查询"
+                            android:text="@string/index_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>

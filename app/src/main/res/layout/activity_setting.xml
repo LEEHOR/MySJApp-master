@@ -49,7 +49,7 @@
             <TextView
                 android:gravity="center_vertical"
                 android:drawablePadding="10dp"
-                android:text="修改密码"
+                android:text="@string/setting_1"
                 android:textColor="@color/textColor"
                 android:textSize="14dp"
                 android:drawableLeft="@drawable/icon_pass"
@@ -78,7 +78,7 @@
             <TextView
                 android:gravity="center_vertical"
                 android:drawablePadding="10dp"
-                android:text="联系客服"
+                android:text="@string/setting_2"
                 android:textColor="@color/textColor"
                 android:textSize="14dp"
                 android:drawableLeft="@drawable/icon_customer_service"
@@ -101,7 +101,7 @@
             <TextView
                 android:gravity="center_vertical"
                 android:drawablePadding="10dp"
-                android:text="清除缓存"
+                android:text="@string/setting_3"
                 android:textColor="@color/textColor"
                 android:textSize="14dp"
                 android:drawableLeft="@drawable/icon_clear"
@@ -133,7 +133,7 @@
             <TextView
                 android:gravity="center_vertical"
                 android:drawablePadding="10dp"
-                android:text="版本信息"
+                android:text="@string/setting_4"
                 android:textColor="@color/textColor"
                 android:textSize="14dp"
                 android:drawableLeft="@drawable/icon_version_meassage"
@@ -170,7 +170,7 @@
         android:layout_marginTop="30dp"
         android:textColor="@color/white"
         android:textSize="18dp"
-        android:text="安全退出"
+        android:text="@string/submit_8"
         android:letterSpacing="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

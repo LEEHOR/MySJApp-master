@@ -7,9 +7,8 @@ import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
-import com.shenjing.dengyuejinfu.respondModule.BankInfoModel;
-import com.shenjing.dengyuejinfu.respondModule.BaseModel;
-import com.shenjing.dengyuejinfu.respondModule.PeopleCertificationStatus;
+import com.shenjing.dengyuejinfu.entity.BankInfoBean;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
 import com.shenjing.dengyuejinfu.ui.contract.BankCardCertificationActivityContract;
 
 import java.io.File;
@@ -39,27 +38,27 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
     public void getBankInfo(String userId) {
         mView.showLoading();
         RetrofitManager.create(CertificationApi.class).getBankCardInfo(Long.parseLong(userId))
-                .compose(mView.<BankInfoModel>bindToLife())
-                .compose(RxSchedulers.<BankInfoModel>applySchedulers())
-                .subscribe(new Consumer<BankInfoModel>() {
+                .compose(mView.<BankInfoBean>bindToLife())
+                .compose(RxSchedulers.<BankInfoBean>applySchedulers())
+                .subscribe(new Consumer<BankInfoBean>() {
                     @Override
-                    public void accept(BankInfoModel bankInfoModel)  {
+                    public void accept(BankInfoBean bankInfoBean)  {
                         mView.hideLoading();
-                        if (bankInfoModel.getCode() != null && bankInfoModel.getCode().equals("0000")) {
-                            mView.showSuccess(bankInfoModel.getMsg());
-                            if (bankInfoModel.getData().getState().equals("9001")){
+                        if (bankInfoBean.getCode() != null && bankInfoBean.getCode().equals("0000")) {
+                            mView.showSuccess(bankInfoBean.getMsg());
+                            if (bankInfoBean.getData().getState().equals("9001")){
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            } else if (bankInfoModel.getData().getState().equals("9002")){
+                            } else if (bankInfoBean.getData().getState().equals("9002")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
-                            } else if (bankInfoModel.getData().getState().equals("9003")){
+                            } else if (bankInfoBean.getData().getState().equals("9003")){
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            }else if (bankInfoModel.getData().getState().equals("9004")){
+                            }else if (bankInfoBean.getData().getState().equals("9004")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
@@ -68,9 +67,9 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                                 mView.isCanNext(false);
                                 mView.isCanUpLoad(true);
                             }
-                            mView.getBankInfoSuccess(bankInfoModel);
+                            mView.getBankInfoSuccess(bankInfoBean);
                         } else {
-                            mView.showFail(bankInfoModel.getMsg());
+                            mView.showFail(bankInfoBean.getMsg());
                             mView.getBankInfoFailure();
                             mView.isCanEditor(false);
                             mView.isCanNext(false);
@@ -95,20 +94,20 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                 .build();
 
         RetrofitManager.create(CertificationApi.class).upLoadBankCardInfo(body)
-                .compose(mView.<BaseModel>bindToLife())
-                .compose(RxSchedulers.<BaseModel>applySchedulers())
-                .subscribe(new Consumer<BaseModel>() {
+                .compose(mView.<BaseBean>bindToLife())
+                .compose(RxSchedulers.<BaseBean>applySchedulers())
+                .subscribe(new Consumer<BaseBean>() {
                     @Override
-                    public void accept(BaseModel baseModel)  {
+                    public void accept(BaseBean baseBean)  {
                         mView.hideLoading();
-                        if (baseModel.getCode() != null && baseModel.getCode().equals("0000")) {
-                            mView.showSuccess(baseModel.getMsg());
+                        if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
+                            mView.showSuccess(baseBean.getMsg());
                             mView.upLoadSuccess();
                             mView.isCanNext(true);
                             mView.isCanUpLoad(false);
                             mView.isCanEditor(false);
                         } else {
-                            mView.showFail(baseModel.getMsg());
+                            mView.showFail(baseBean.getMsg());
                             mView.upLoadFailure();
                             mView.isCanNext(false);
                             mView.isCanUpLoad(true);
