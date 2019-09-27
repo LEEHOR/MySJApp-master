@@ -1,4 +1,4 @@
-package com.leehor.lightshare.share;
+package com.leehor.simple.lightShare.share;
 
 
 import android.app.Activity;
@@ -8,8 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
-import com.leehor.lightshare.Config;
-import com.leehor.lightshare.utils.BitmpUtils;
+import com.leehor.simple.Config;
+import com.leehor.simple.lightShare.utils.BitmpUtils;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;

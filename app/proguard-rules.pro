@@ -18,7 +18,7 @@
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
--renamesourcefileattribute SourceFile
+#-renamesourcefileattribute SourceFile
 
 #############################################
 #
@@ -203,6 +203,8 @@
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
+# Application classes that will be serialized/deserialized over Gson
+-keep class com.google.gson.examples.android.model.** { *; }
 -keepattributes Signature
 # 在开发的时候我们可以将所有的实体类放在一个包内，这样我们写一次混淆就行了。
 -keep public class com.shenjing.dengyuejinfu.entity.** {*;}
@@ -213,7 +215,7 @@
 #-keep class com.google.gson.stream.** { *; }
 ## 使用Gson时需要配置Gson的解析对象及变量都不混淆。不然Gson会找不到变量。
 ## 将下面替换成自己的实体类
-#-keep class com.example.bean.** { *; }
+#-keep class com.shenjing.dengyuejinfu.entity.**{ *; }
 ####################################################################################
 #--------------------------------处理第三方依赖库----------------------------------
 ####################################################################################
@@ -283,21 +285,21 @@ public <init>(**, android.view.View);
 #-dontwarn okio.**
 
 # Retrofit2
-#-keepattributes Signature, InnerClasses, EnclosingMethod
-#-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
-#-keepclassmembers,allowshrinking,allowobfuscation interface * {
-#    @retrofit2.http.* <methods>;
-#}
-#-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-##-dontwarn javax.annotation.**
-#-dontwarn kotlin.Unit
-#-if interface * { @retrofit2.http.* <methods>; }
-#-keep,allowobfuscation interface <1>
+-keepattributes Signature, InnerClasses, EnclosingMethod
+-keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
+-keepclassmembers,allowshrinking,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+#-dontwarn javax.annotation.**
+-dontwarn kotlin.Unit
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>
 
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
--keepattributes Signature
--keepattributes Exceptions
+#-dontwarn retrofit2.**
+#-keep class retrofit2.** { *; }
+#-keepattributes Signature
+#-keepattributes Exceptions
 
 # 这是RxJava1 RxAndroid1   RxJava2 RxAndroid2不需要添加混淆规则
 -dontwarn sun.misc.**
@@ -312,11 +314,6 @@ public <init>(**, android.view.View);
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 
-# 微信支付和分享
--dontwarn com.tencent.mm.**
--dontwarn com.tencent.wxop.stat.**
--keep class com.tencent.mm.** {*;}
--keep class com.tencent.wxop.stat.**{*;}
 
 # Dagger2 ProGuard rules.
 -dontwarn dagger.internal.codegen.**
@@ -339,4 +336,71 @@ public <init>(**, android.view.View);
 # 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
 -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
 
+#google zxing(二维码生成)
+-dontwarn com.google.zxing.**
+-keep class com.google.zxing.** {*; }
+
+###############################################################################################
+#  libs
+##############################################################################################
+#-libraryjars libs/open_sdk_r6140_lite.jar
+#-keep class com.tencent.
+
+#begin  有盾
+#-keepparameternames
+#-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
+#-dontwarn cn.fraudmetrix.android.**
+#-dontwarn cn.com.bsfit.volley.toolbox.**
+#-dontwarn org.apache.http.**
+#-dontwarn android.net.http.AndroidHttpClient
+#-keep class com.udcredit.** {*;}
+#-keep class cn.com.bsfit.** {*;}
+#-keep class com.lianlian.face.** { *; }
+#-keep class io.card.** {*;}
+#-keep class com.android.snetjob** {*;}
+#-keep class com.face.** {*;}
+#-keep class com.hotvision.** {*;}
+#-keep class com.android.volley.**{*;}
+#-keep class com.authreal.api.** {*;}
+#-keep class com.authreal.component.** {*;}
+#-keep class com.authreal.module.** {*;}
+#-keep class com.authreal.util.ErrorCode {*;}
+#-keep class com.authreal.util.FVSdk {*;}
+#-keep public class com.udcredit.android.fingerprint.UDCREDIT {*;}
+#-keep public class com.udcredit.android.fingerprint.FingerCallBack {*;}
+#-keep public class com.udcredit.android.function.FingerPrintData {*;}
+#-keep public class com.udcredit.android.entity.FingerprintException {*;}
+#-keep public class com.udcredit.android.controller.FingerprintUpdateReceiver {*;}
+#-keep public class com.udcredit.android.tool.UDHttpsTrustManager {*; }
+#-keep public class com.udcredit.android.collection.EnvValidate {
+#   private boolean isEmulator1();
+#}
+#end  有盾
+
+# 微信支付和分享
+#-dontwarn com.tencent.mm.**
+#-dontwarn com.tencent.wxop.stat.**
+#-keep class com.tencent.mm.** {*;}
+#-keep class com.tencent.wxop.stat.**{*;}
+
+#支付宝
+#-keep class com.alipay.android.app.IAlixPay{*;}
+#-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+#-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+#-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+#-keep class com.alipay.sdk.app.PayTask{ public *;}
+#-keep class com.alipay.sdk.app.AuthTask{ public *;}
+#-keep class com.alipay.sdk.app.H5PayCallback {
+#    <fields>;
+#    <methods>;
+#}
+#-keep class com.alipay.android.phone.mrpc.core.** { *; }
+#-keep class com.alipay.apmobilesecuritysdk.** { *; }
+#-keep class com.alipay.mobile.framework.service.annotation.** { *; }
+#-keep class com.alipay.mobilesecuritysdk.face.** { *; }
+#-keep class com.alipay.tscenter.biz.rpc.** { *; }
+#-keep class org.json.alipay.** { *; }
+#-keep class com.alipay.tscenter.** { *; }
+#-keep class com.ta.utdid2.** { *;}
+#-keep class com.ut.device.** { *;}
 

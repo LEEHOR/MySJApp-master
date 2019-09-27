@@ -31,6 +31,8 @@ import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.leehor.simple.youdun.YouDunHelper;
+import com.leehor.simple.youdun.YouDunListener;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
@@ -38,11 +40,16 @@ import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
 import com.shenjing.dengyuejinfu.entity.BankInfoBean;
+import com.shenjing.dengyuejinfu.entity.BankOcrInfoBean;
 import com.shenjing.dengyuejinfu.ui.contract.BankCardCertificationActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.BankCardCertificationActivityPresenter;
 import com.shenjing.dengyuejinfu.utils.GlideUtils;
+import com.shenjing.dengyuejinfu.utils.YouDunOrderIdUtils;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -61,7 +68,7 @@ import butterknife.OnClick;
  */
 @Route(path = ARouterUrl.BankCardCertificationActivityUrl)
 public class BankCardCertificationActivity extends BaseActivity<BankCardCertificationActivityPresenter>
-        implements BankCardCertificationActivityContract.View {
+        implements BankCardCertificationActivityContract.View, YouDunListener {
     @BindView(R.id.card_certification_mStatusBar)
     View cardCertificationMStatusBar;
     @BindView(R.id.card_certification_titleBar)
@@ -71,25 +78,23 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     @BindView(R.id.bank_take_photo)
     ImageView bankTakePhoto;
     @BindView(R.id.bank_idNo)
-    EditText bankIdNo;
+    TextView bankIdNo;
     @BindView(R.id.bank_phone)
-    EditText bankPhone;
+    TextView bankPhone;
     @BindView(R.id.bank_class)
     TextView bankClass;
     @BindView(R.id.bank_submit)
     TextView bankSubmit;
     private final int TAKE_PHOTO_REQUEST_CODE_FRONT = 1002;
-    private boolean isBankPictureSuccess = false;
-
     /**
      * submit状态控制
      */
     private boolean isCanNext_s = false;
     private boolean isCanUpload_s = false;
-    private File fileFront;
     private final static int MSG1 = 1;
     private final static int MSG2 = 2;
-    private File fileFrontZip;
+    private File fileBank;
+    private boolean isBankOrcSuccess;
     @SuppressLint("HandlerLeak")
     private Handler mhandler = new Handler() {
         @Override
@@ -97,14 +102,28 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG1:
+                    bankTakePhoto.setVisibility(View.INVISIBLE);
                     GlideUtils.initImageByBitMap(BankCardCertificationActivity.this, (Bitmap) msg.obj, bankImage);
+                    if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+                        LogUtils.d(R.string.toast_12);
+                        return;
+                    }
+                    fileBank = new File(Constant.SAVE_DIR_YOUDUN, "image_Bank.jpeg");
+                    if (FileUtils.createFileByDeleteOldFile(fileBank)) {
+                        if (ImageUtils.save((Bitmap) msg.obj, fileBank, Bitmap.CompressFormat.JPEG, false)) {
+                            bankOcrInfoBean.setBank_card_photo(fileBank.getAbsolutePath());
+                            isBankOrcSuccess = true;
+                        } else {
+                            isBankOrcSuccess = false;
+                        }
+                    }
                     break;
                 case MSG2:
-                    isBankPictureSuccess = (int) msg.obj == 1;
                     break;
             }
         }
     };
+    private BankOcrInfoBean bankOcrInfoBean;
 
 
     @Override
@@ -135,10 +154,9 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
 
     @Override
     protected void initFunc() {
+        bankOcrInfoBean = new BankOcrInfoBean();
         mPresenter.getBankInfo(BaseParams.userId);
         bankImage.setEnabled(false);
-        bankIdNo.setEnabled(false);
-        bankPhone.setEnabled(false);
         bankTakePhoto.setEnabled(false);
     }
 
@@ -193,32 +211,20 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
         switch (view.getId()) {
             case R.id.bank_image:
             case R.id.bank_take_photo:
-                isBankPictureSuccess = false;
+                isBankOrcSuccess = false;
                 getPermissions();
                 break;
             case R.id.bank_submit:
                 if (isCanUpload_s) {
-                    if (isBankPictureSuccess) {
-                        if (StringUtils.isSpace(bankIdNo.getText().toString().trim())) {
-                            ToastUtils.showLong(R.string.toast_4);
-                            return;
-                        }
-                        if (StringUtils.isSpace(bankPhone.getText().toString().trim())) {
-                            ToastUtils.showLong(R.string.toast_5);
-                            return;
-                        }
-                        if (!RegexUtils.isMobileSimple(bankPhone.getText().toString().trim())) {
-                            ToastUtils.showLong(R.string.toast_6);
-                            return;
-                        }
-                        if (!FileUtils.isFile(fileFrontZip)) {
+                    if (isBankOrcSuccess) {
+                        if (!FileUtils.isFile(fileBank)) {
                             ToastUtils.showLong(R.string.toast_9);
                             return;
                         }
                         Map map = new HashMap();
-                        map.put("bankCardImg", fileFrontZip.getAbsolutePath());
+                        map.put("bankCardImg", bankOcrInfoBean.getBank_card_photo());
                         map.put("phoneNumber", bankPhone.getText().toString().trim());
-                        map.put("bank", "");
+                        map.put("bank", bankOcrInfoBean.getBank_name());
                         map.put("bankCardNo", bankIdNo.getText().toString().trim());
                         map.put("userId", BaseParams.userId);
                         mPresenter.upLoadBankCardInfo(map);
@@ -235,87 +241,10 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
         }
     }
 
-    /**
-     * 拍照
-     */
-    private void takeFrontPhoto() {
-        String picture_front = Constant.SAVE_DIR_TAKE_PHOTO;
-        if (!FileUtils.createOrExistsDir(picture_front)) {
-            ToastUtils.showLong(R.string.toast_12);
-            return;
-        }
-        fileFront = new File(picture_front, "bank_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
-        if (!FileUtils.createFileByDeleteOldFile(fileFront)) {
-            ToastUtils.showLong(R.string.toast_13);
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri photoUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", fileFront);
-            Intent captureIntent_front = IntentUtils.getCaptureIntent(photoUri);
-            startActivityForResult(captureIntent_front, TAKE_PHOTO_REQUEST_CODE_FRONT);
-        } else {
-            Uri imageUri = Uri.fromFile(fileFront);
-            Intent captureIntent_front = IntentUtils.getCaptureIntent(imageUri);
-            startActivityForResult(captureIntent_front, TAKE_PHOTO_REQUEST_CODE_FRONT);
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TAKE_PHOTO_REQUEST_CODE_FRONT) {
-            // File file_front = new File(picture_front);
-            if (FileUtils.isFile(fileFront)) {
-                bankTakePhoto.setVisibility(View.INVISIBLE);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap front_image = ImageUtils.getBitmap(fileFront);
-                        Bitmap bitmap_front_zip = ImageUtils.compressByQuality(front_image, 40, true);
-                        Message message = new Message();
-                        message.what = MSG1;
-                        message.obj = bitmap_front_zip;
-                        //然后将消息发送出去
-                        mhandler.sendMessage(message);
-                        // mhandler.sendEmptyMessage(MSG1);
-                        if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
-                            LogUtils.d(R.string.toast_12);
-                            return;
-                        }
-                        fileFrontZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_bank.jpeg");
-                        Message message2 = new Message();
-                        if (FileUtils.createFileByDeleteOldFile(fileFrontZip)) {
-                            if (ImageUtils.save(bitmap_front_zip, fileFrontZip, Bitmap.CompressFormat.JPEG, false)) {
-                                FileUtils.delete(fileFront);
-                                message2.what = MSG2;
-                                message2.obj = 1;
-                                //然后将消息发送出去
-                                mhandler.sendMessage(message2);
-                            } else {
-                                message2.what = MSG2;
-                                message2.obj = 2;
-                                //然后将消息发送出去
-                                mhandler.sendMessage(message2);
-                            }
-                        } else {
-                            message2.what = MSG2;
-                            message2.obj = 1;
-                            //然后将消息发送出去
-                            mhandler.sendMessage(message2);
-                        }
-                    }
-                }).start();
-            } else {
-                isBankPictureSuccess = false;
-            }
-        }
-    }
-
     private void getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (PermissionUtils.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA)) {
-                takeFrontPhoto();
+                YouDunHelper.getInstance().optionBankOCR(BankCardCertificationActivity.this, YouDunOrderIdUtils.getYDOrderId());
             } else {
                 PermissionUtils.permission(PermissionConstants.CAMERA, PermissionConstants.STORAGE)
                         .rationale(new PermissionUtils.OnRationaleListener() {
@@ -328,7 +257,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                         .callback(new PermissionUtils.FullCallback() {
                             @Override
                             public void onGranted(List<String> permissionsGranted) {
-                                takeFrontPhoto();
+                                YouDunHelper.getInstance().optionBankOCR(BankCardCertificationActivity.this, YouDunOrderIdUtils.getYDOrderId());
                             }
 
                             @Override
@@ -338,13 +267,98 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                         }).request();
             }
         } else {
-            takeFrontPhoto();
+            YouDunHelper.getInstance().optionBankOCR(BankCardCertificationActivity.this, YouDunOrderIdUtils.getYDOrderId());
         }
+    }
+
+
+    /**
+     * 获取银行卡图片
+     *
+     * @param url
+     * @param tag
+     */
+    public void getUrlBitmap(final String url, final int tag) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Bitmap bitMap = GlideUtils.getBitMap(BankCardCertificationActivity.this, url);
+                if (bitMap != null) {
+                    Message message = Message.obtain();
+                    message.arg1 = tag;
+                    message.obj = bitMap;
+                    mhandler.sendMessage(message);
+                }
+            }
+        }.start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mhandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void optionBankOcrSuccess(JSONObject jsonObject) {
+
+//        {
+//            "partner_order_id": "andr_1545967493371",
+//                "bank_card_photo": "http://10.1.30.51:8080/idsafe-front/front/1.0/......",
+//                "bank_name": "杭州商业银行",
+//                "bank_card_no": "1234567890122222",
+//                "card_type": "借记卡",
+//                "org_code": "1234568",
+//                "sdk_bank_card_photo":"Bitmap",
+//                "success": "true",
+//                "message": "操作成功"
+//        }
+        try {
+            String bank_card_photo = jsonObject.getString("bank_card_photo");
+            getUrlBitmap(bank_card_photo,MSG1);
+            String bank_name = jsonObject.getString("bank_name");
+            String bank_card_no = jsonObject.getString("bank_card_no");
+            String card_type = jsonObject.getString("card_type");
+            String org_code = jsonObject.getString("org_code");
+            bankOcrInfoBean.setBank_name(bank_name);
+            bankOcrInfoBean.setBank_card_no(bank_card_no);
+            bankOcrInfoBean.setCard_type(card_type);
+            bankOcrInfoBean.setOrg_code(org_code);
+            isBankOrcSuccess=true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            isBankOrcSuccess=false;
+        }
+    }
+
+    @Override
+    public void optionIdOcrSuccess(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void optionLivelinessSuccess(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void optionCompareFace(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void optionVerifyCompare(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    public void optionError(JSONObject jsonObject) {
+        isBankOrcSuccess=false;
+    }
+
+    @Override
+    public void JSONExceptionError(JSONException e) {
+        isBankOrcSuccess=false;
     }
 }

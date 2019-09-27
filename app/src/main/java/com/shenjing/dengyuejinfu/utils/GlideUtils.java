@@ -1,12 +1,14 @@
 package com.shenjing.dengyuejinfu.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
-
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.FutureTarget;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 /**
  * author : Leehor
@@ -16,7 +18,7 @@ import java.io.File;
  */
 public class GlideUtils {
 
-    public static void initImageWithFileCache(Context context, String url, ImageView imageView){
+    public static void initImageWithFileCache(Context context, String url, ImageView imageView) {
         GlideApp.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -24,7 +26,9 @@ public class GlideUtils {
                 .centerCrop()
                 .into(imageView);
     }
-    public static void initImageNoCache(Context context, String url, ImageView imageView){
+
+    public static void initImageNoCache(Context context, String url, ImageView imageView) {
+
         GlideApp.with(context)
                 .load(url)
                 .skipMemoryCache(true)
@@ -32,7 +36,8 @@ public class GlideUtils {
                 .centerCrop()
                 .into(imageView);
     }
-    public static void initImageByResouceIdNoCache(Context context, int drawableId, ImageView imageView){
+
+    public static void initImageByResouceIdNoCache(Context context, int drawableId, ImageView imageView) {
         GlideApp.with(context)
                 .load(drawableId)
                 .skipMemoryCache(true)
@@ -40,7 +45,8 @@ public class GlideUtils {
                 .centerCrop()
                 .into(imageView);
     }
-    public static void initImageByBitMap(Context context, Bitmap bitmap, ImageView imageView){
+
+    public static void initImageByBitMap(Context context, Bitmap bitmap, ImageView imageView) {
         GlideApp.with(context)
                 .load(bitmap)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -48,7 +54,8 @@ public class GlideUtils {
                 .centerCrop()
                 .into(imageView);
     }
-    public static void initImageByFile(Context context, File file, ImageView imageView){
+
+    public static void initImageByFile(Context context, File file, ImageView imageView) {
         GlideApp.with(context)
                 .load(file)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -56,15 +63,37 @@ public class GlideUtils {
                 .centerCrop()
                 .into(imageView);
     }
-    public static void clearMemoryCache(Context context){
+
+    public static Bitmap getBitMap(Context context,String url){
+        FutureTarget<Bitmap> submit = GlideApp.with(context)
+                .asBitmap()
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .submit();
+        try {
+            Bitmap bitmap = submit.get();
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void clearMemoryCache(Context context) {
         GlideApp.get(context).clearMemory();
     }
-    public static void clearFileCache(Context context){
+
+    public static void clearFileCache(Context context) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 GlideApp.get(context).clearDiskCache();
             }
         }).start();
+    }
+
+    @SuppressLint("CheckResult")
+    private void GlideDownLoad(Context context, String url) {
+
     }
 }

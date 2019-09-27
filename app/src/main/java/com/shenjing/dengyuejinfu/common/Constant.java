@@ -37,4 +37,10 @@ public class Constant {
      */
     public static String SAVE_DIR_DOWNLOAD_APK = SAVE_DIR_BASE.concat("apkDownLoad/");
 
+    /**
+     * 有盾认证图片地址
+     */
+    public static String SAVE_DIR_YOUDUN = SAVE_DIR_BASE.concat("youDun/");
+
+
 }

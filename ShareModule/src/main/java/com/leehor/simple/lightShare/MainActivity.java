@@ -1,4 +1,4 @@
-package com.leehor.lightshare;
+package com.leehor.simple.lightShare;
 
 import android.Manifest;
 import android.content.Intent;
@@ -11,10 +11,10 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.lightshare.R;
-import com.leehor.lightshare.share.OnShareListener;
-import com.leehor.lightshare.share.QQShareTask;
-import com.leehor.lightshare.share.ShareKeeper;
+import com.leehor.simple.lightShare.R;
+import com.leehor.simple.lightShare.share.OnShareListener;
+import com.leehor.simple.lightShare.share.QQShareTask;
+import com.leehor.simple.lightShare.share.ShareKeeper;
 
 
 public class MainActivity extends AppCompatActivity implements OnShareListener {

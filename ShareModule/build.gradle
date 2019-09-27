@@ -8,21 +8,31 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        ndk {
+            // 设置支持的SO库架构，第三方给的so库哪几种架构，就配置这几种架构
+            abiFilters 'armeabi' , 'armeabi-v7a'
+        }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             multiDexEnabled = true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            zipAlignEnabled true
+            // 移除无用的resource文件
+           // shrinkResources true
+            consumerProguardFile 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        android {
-
+        debug{
+            minifyEnabled true
+            multiDexEnabled = true
+            zipAlignEnabled true
+            consumerProguardFile 'proguard-rules.pro'
         }
+
     }
 }
-
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'androidx.appcompat:appcompat:1.1.0-rc01'
@@ -32,5 +42,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
    // api files('libs/open_sdk_r6140_lite.jar')
    // api files('libs/weibo-open-sdk-4.2.7.aar')
-    api 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation (name:'alipaySdk-15.6.5-20190718211148', ext: 'aar')
+    //友盾sdk
+    implementation (name:'UDSDKV4.3.LL190912.20190912', ext: 'aar')
 }

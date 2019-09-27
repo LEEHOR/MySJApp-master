@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +31,8 @@ import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.leehor.simple.youdun.YouDunHelper;
+import com.leehor.simple.youdun.YouDunListener;
 import com.shenjing.dengyuejinfu.App;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
@@ -37,12 +40,17 @@ import com.shenjing.dengyuejinfu.common.ARouterUrl;
 import com.shenjing.dengyuejinfu.common.BaseParams;
 import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
+import com.shenjing.dengyuejinfu.entity.PeopleCertificationBean;
 import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 import com.shenjing.dengyuejinfu.ui.contract.CertificationActivityContract;
 import com.shenjing.dengyuejinfu.ui.presenter.CertificationActivityPresenter;
 import com.shenjing.dengyuejinfu.utils.GlideUtils;
+import com.shenjing.dengyuejinfu.utils.YouDunOrderIdUtils;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
@@ -61,7 +69,7 @@ import butterknife.OnClick;
  */
 @Route(path = ARouterUrl.CertificationActivityUrl)
 public class CertificationActivity extends BaseActivity<CertificationActivityPresenter>
-        implements CertificationActivityContract.View {
+        implements CertificationActivityContract.View, YouDunListener {
     @BindView(R.id.certification_mStatusBar)
     View certificationMStatusBar;
     @BindView(R.id.certification_titleBar)
@@ -75,25 +83,29 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     @BindView(R.id.take_photo_id_back)
     ImageView takePhotoIdBack;
     @BindView(R.id.certification_userName)
-    EditText certificationUserName;
+    TextView certificationUserName;
     @BindView(R.id.certification_idCardNo)
-    EditText certificationIdCardNo;
+    TextView certificationIdCardNo;
     @BindView(R.id.certification_status)
     TextView certificationStatus;
     @BindView(R.id.certification_submit)
     TextView certificationSubmit;
-    private final int TAKE_PHOTO_REQUEST_CODE_BACK = 1001;
-    private final int TAKE_PHOTO_REQUEST_CODE_FRONT = 1002;
-    private boolean isBackPictureSuccess = false;
-    private boolean isFrontPictureSuccess = false;
     /**
      * submit状态控制
      */
     private boolean isCanNext_s = false;
     private boolean isCanEditor_s = false;
     private boolean isCanUpload_s = false;
-    private File fileFront;
-    private File fileBack;
+
+    private File fileIdFront;  //身份证人像面照
+    private File fileIdBack;   //身份证国面会照
+    private PeopleCertificationBean pcb;
+    private File fileIdFace;     //身份证头像照
+    private File fileLiving;     //活体检测照片
+    private boolean isIdOcrSuccess; //身份证识别是否通过
+    private boolean isLivingRecSuccess;  //活体检测是否通过
+    private boolean isRealNameVerifyRecSuccess; //实人认证是否通过
+    private boolean isFaceRecSuccess;    //人脸识别是否通过
     private final static int MSG1 = 1;
     private final static int MSG2 = 2;
     private final static int MSG3 = 3;
@@ -105,24 +117,74 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG1:
+                    takePhotoIdFront.setVisibility(View.INVISIBLE);
                     GlideUtils.initImageByBitMap(CertificationActivity.this, (Bitmap) msg.obj, certificationIdCardFront);
+                    if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+                        LogUtils.d(R.string.toast_12);
+                        return;
+                    }
+                    fileIdFront = new File(Constant.SAVE_DIR_YOUDUN, "image_IdFront.jpeg");
+                    if (FileUtils.createFileByDeleteOldFile(fileIdFront)) {
+                        if (ImageUtils.save((Bitmap) msg.obj, fileIdFront, Bitmap.CompressFormat.JPEG, false)) {
+                            pcb.setCardPositive(fileIdFront.getAbsolutePath());
+                            isIdOcrSuccess = true;
+                        } else {
+                            isIdOcrSuccess = false;
+                        }
+                    }
                     break;
                 case MSG2:
+                    takePhotoIdBack.setVisibility(View.INVISIBLE);
                     GlideUtils.initImageByBitMap(CertificationActivity.this, (Bitmap) msg.obj, certificationIdCardBack);
+                    if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+                        LogUtils.d(R.string.toast_12);
+                        return;
+                    }
+                    fileIdBack = new File(Constant.SAVE_DIR_YOUDUN, "image_IdBack.jpeg");
+                    if (FileUtils.createFileByDeleteOldFile(fileIdBack)) {
+                        if (ImageUtils.save((Bitmap) msg.obj, fileIdBack, Bitmap.CompressFormat.JPEG, false)) {
+                            isIdOcrSuccess = true;
+                            pcb.setCardOpposite(fileIdBack.getAbsolutePath());
+                        } else {
+                            isIdOcrSuccess = false;
+                        }
+                    }
+
                     break;
                 case MSG3:
-                    isFrontPictureSuccess = (int) msg.obj == 1;
-                    LogUtils.d("消息发送3--"+isFrontPictureSuccess);
+                    if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+                        LogUtils.d(R.string.toast_12);
+                        return;
+                    }
+                    fileIdFace = new File(Constant.SAVE_DIR_YOUDUN, "image_IdFace.jpeg");
+                    if (FileUtils.createFileByDeleteOldFile(fileIdFace)) {
+                        if (ImageUtils.save((Bitmap) msg.obj, fileIdFace, Bitmap.CompressFormat.JPEG, false)) {
+                            pcb.setFaceImg(fileIdFace.getAbsolutePath());
+                            isIdOcrSuccess = true;
+                        } else {
+                            isIdOcrSuccess = false;
+                        }
+                    }
                     break;
                 case MSG4:
-                    isBackPictureSuccess = (int) msg.obj == 1;
-                    LogUtils.d("消息发送4--"+isBackPictureSuccess);
+                    if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+                        LogUtils.d(R.string.toast_12);
+                        return;
+                    }
+                    fileLiving = new File(Constant.SAVE_DIR_YOUDUN, "image_IdLiving.jpeg");
+                    if (FileUtils.createFileByDeleteOldFile(fileLiving)) {
+                        if (ImageUtils.save((Bitmap) msg.obj, fileLiving, Bitmap.CompressFormat.JPEG, false)) {
+                            isLivingRecSuccess = true;
+                            pcb.setLivingImg(fileLiving.getAbsolutePath());
+                        } else {
+                            isLivingRecSuccess = false;
+                        }
+                    }
                     break;
             }
         }
     };
-    private File fileFrontZip;
-    private File fileBackZip;
+
 
     @Override
     protected int getLayoutId() {
@@ -152,6 +214,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
 
     @Override
     protected void initFunc() {
+        pcb = new PeopleCertificationBean();
         certificationIdCardFront.setEnabled(false);
         certificationIdCardBack.setEnabled(false);
         takePhotoIdFront.setEnabled(false);
@@ -166,47 +229,53 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
         switch (view.getId()) {
             case R.id.certification_idCard_front:
             case R.id.take_photo_id_front:
-                isFrontPictureSuccess = false;
-                getPermissions(1);
-
-                break;
             case R.id.certification_idCard_back:
             case R.id.take_photo_id_back:
-                isBackPictureSuccess = false;
-                getPermissions(2);
+                isIdOcrSuccess = false;
+                isLivingRecSuccess = false;
+                isFaceRecSuccess = false;
+                isRealNameVerifyRecSuccess = false;
+                getPermissions();
                 break;
             case R.id.certification_submit:
                 if (isCanUpload_s) {
-                    if (!isFrontPictureSuccess) {
+                    if (!isIdOcrSuccess) {
                         ToastUtils.showLong(R.string.toast_15);
                         return;
                     }
-                    if (!isBackPictureSuccess) {
+                    if (!isLivingRecSuccess) {
                         ToastUtils.showLong(R.string.toast_16);
                         return;
                     }
-
-                    if (StringUtils.isSpace(certificationUserName.getText().toString().trim())) {
-                        ToastUtils.showLong(R.string.toast_17);
+                    if (!isRealNameVerifyRecSuccess) {
+                        ToastUtils.showLong(R.string.toast_30);
                         return;
                     }
-                    if (StringUtils.isSpace(certificationIdCardNo.getText().toString().trim())) {
-                        ToastUtils.showLong(R.string.toast_4);
+                    if (!isFaceRecSuccess) {
+                        ToastUtils.showLong(R.string.toast_31);
                         return;
                     }
-                    if (!FileUtils.isFile(fileFrontZip)) {
+                    if (!FileUtils.isFile(fileIdFront)) {
                         ToastUtils.showLong(R.string.toast_9);
                         return;
                     }
-                    if (!FileUtils.isFile(fileBackZip)) {
+                    if (!FileUtils.isFile(fileIdBack)) {
+                        ToastUtils.showLong(R.string.toast_9);
+                        return;
+                    }
+                    if (!FileUtils.isFile(fileIdFace)) {
+                        ToastUtils.showLong(R.string.toast_9);
+                        return;
+                    }
+                    if (!FileUtils.isFile(fileLiving)) {
                         ToastUtils.showLong(R.string.toast_9);
                         return;
                     }
                     Map map = new HashMap();
-                    map.put("fornt", fileFrontZip.getAbsolutePath());
-                    map.put("back", fileBackZip.getAbsolutePath());
-                    map.put("idNo", certificationIdCardNo.getText().toString().trim());
-                    map.put("realName", certificationUserName.getText().toString().trim());
+                    map.put("fornt", pcb.getCardPositive());
+                    map.put("back", pcb.getCardOpposite());
+                    map.put("idNo", pcb.getCardNo());
+                    map.put("realName", pcb.getName());
                     map.put("userId", Long.parseLong(BaseParams.userId));
                     mPresenter.uploadPeopleInfo(map);
                 } else {
@@ -215,171 +284,6 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
                     }
                 }
                 break;
-        }
-    }
-
-    /**
-     * 拍摄背面
-     */
-    private void takeBackPhoto() {
-        String picture_back = Constant.SAVE_DIR_TAKE_PHOTO;
-        if (!FileUtils.createOrExistsDir(picture_back)) {
-            ToastUtils.showLong(R.string.toast_12);
-            return;
-        }
-        fileBack = new File(picture_back, "idCard_back_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
-        if (!FileUtils.createFileByDeleteOldFile(fileBack)) {
-            ToastUtils.showLong(R.string.toast_13);
-            return;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri photoUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", fileBack);
-            Intent captureIntent_pre = IntentUtils.getCaptureIntent(photoUri);
-            startActivityForResult(captureIntent_pre, TAKE_PHOTO_REQUEST_CODE_BACK);
-        } else {
-            Uri imageUri = Uri.fromFile(fileBack);
-            Intent captureIntent_pre = IntentUtils.getCaptureIntent(imageUri);
-            startActivityForResult(captureIntent_pre, TAKE_PHOTO_REQUEST_CODE_BACK);
-        }
-    }
-
-    /**
-     * 拍摄正面图片
-     */
-    private void takeFrontPhoto() {
-        String picture_front = Constant.SAVE_DIR_TAKE_PHOTO;
-        if (!FileUtils.createOrExistsDir(picture_front)) {
-            ToastUtils.showLong(R.string.toast_12);
-            return;
-        }
-        fileFront = new File(picture_front, "idCard_front_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
-        if (!FileUtils.createFileByDeleteOldFile(fileFront)) {
-            ToastUtils.showLong(R.string.toast_13);
-            return;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri photoUri = FileProvider.getUriForFile(App.getAppContext(), getPackageName() + ".fileProvider", fileFront);
-            Intent captureIntent_front = IntentUtils.getCaptureIntent(photoUri);
-            startActivityForResult(captureIntent_front, TAKE_PHOTO_REQUEST_CODE_FRONT);
-        } else {
-            Uri imageUri = Uri.fromFile(fileFront);
-            Intent captureIntent_front = IntentUtils.getCaptureIntent(imageUri);
-            startActivityForResult(captureIntent_front, TAKE_PHOTO_REQUEST_CODE_FRONT);
-        }
-
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case TAKE_PHOTO_REQUEST_CODE_FRONT:
-                if (FileUtils.isFile(fileFront)) {
-                    takePhotoIdFront.setVisibility(View.INVISIBLE);
-                    //mhandler.sendEmptyMessage(MSG1);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Bitmap front_image = ImageUtils.getBitmap(fileFront);
-                            Bitmap bitmap_front_zip = ImageUtils.compressByQuality(front_image, 40, true);
-                            Message message = new Message();
-                            message.what = MSG1;
-                            message.obj = bitmap_front_zip;
-                            //消息发送
-                            mhandler.sendMessage(message);
-                            if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
-                                LogUtils.d(R.string.toast_12);
-                                return;
-                            }
-                            fileFrontZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_front.jpeg");
-                            Message message2 = new Message();
-                            if (FileUtils.createFileByDeleteOldFile(fileFrontZip)) {
-                                if (ImageUtils.save(bitmap_front_zip, fileFrontZip, Bitmap.CompressFormat.JPEG, false)) {
-                                    FileUtils.delete(fileFront);
-                                    message2.what = MSG3;
-                                    message2.obj = 1;
-                                    //消息发送
-                                    LogUtils.d("消息发送3——1");
-                                    mhandler.sendMessage(message2);
-
-                                } else {
-                                    message2.what = MSG3;
-                                    message2.obj = 2;
-                                    //消息发送
-                                    LogUtils.d("消息发送3——2");
-                                    mhandler.sendMessage(message2);
-                                }
-                            } else {
-                                message2.what = MSG3;
-                                message2.obj = 2;
-                                //消息发送
-                                LogUtils.d("消息发送3——3");
-                                mhandler.sendMessage(message2);
-                            }
-                        }
-                    }).start();
-                    // GlideUtils.initImageByFile(this, fileFront, certificationIdCardFront);
-                } else {
-                    LogUtils.d("消息发送3——4");
-                    isFrontPictureSuccess = false;
-                }
-                break;
-            case TAKE_PHOTO_REQUEST_CODE_BACK:
-                //  File file_back = new File(picture_back);
-                if (FileUtils.isFile(fileBack)) {
-                    takePhotoIdBack.setVisibility(View.INVISIBLE);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Bitmap back_image = ImageUtils.getBitmap(fileBack);
-                            Bitmap bitmap_back_zip = ImageUtils.compressByQuality(back_image, 40, true);
-                            Message message = new Message();
-                            message.what = MSG2;
-                            message.obj = bitmap_back_zip;
-                            //消息发送
-                            mhandler.sendMessage(message);
-                            if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_GLIDE_CACHE)) {
-                                LogUtils.d(R.string.toast_12);
-                                return;
-                            }
-                            fileBackZip = new File(Constant.SAVE_DIR_GLIDE_CACHE, "image_back.jpeg");
-                            Message message2 = new Message();
-                            if (FileUtils.createFileByDeleteOldFile(fileBackZip)) {
-                                if (ImageUtils.save(bitmap_back_zip, fileBackZip, Bitmap.CompressFormat.JPEG, false)) {
-                                    FileUtils.delete(fileBack);
-                                    message2.what = MSG4;
-                                    message2.obj = 1;
-                                    //消息发送
-                                    LogUtils.d("消息发送4——1");
-                                    mhandler.sendMessage(message2);
-                                } else {
-                                    message2.what = MSG4;
-                                    message2.obj = 2;
-                                    //消息发送
-                                    LogUtils.d("消息发送4——2");
-                                    mhandler.sendMessage(message2);
-                                }
-                            } else {
-                                message2.what = MSG4;
-                                message2.obj = 2;
-                                //消息发送
-                                LogUtils.d("消息发送4——3");
-                                mhandler.sendMessage(message2);
-                            }
-                        }
-                    }).start();
-                    // mhandler.sendEmptyMessage(MSG2);
-                    //  GlideUtils.initImageByFile(this, fileBack, certificationIdCardBack);
-                } else {
-                    LogUtils.d("消息发送4——4");
-                    isBackPictureSuccess = false;
-                }
-                break;
-
-            default:
-                throw new IllegalStateException("Unexpected value: " + requestCode);
         }
     }
 
@@ -397,18 +301,18 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     public void getStatusSuccess(PeopleCertificationStatusBean certificationStatus_s) {
         if (certificationStatus_s.getData() != null) {
             String state = certificationStatus_s.getData().getState();
-            certificationStatus.setText(state.equals("9001")?getResources().getString(R.string.card_27)
-                    :state.equals("9002")?getResources().getString(R.string.card_28)
-                    :state.equals("9003")?getResources().getString(R.string.card_29)
-                    :state.equals("9004")?getResources().getString(R.string.card_30)
-                    :getResources().getString(R.string.card_28));
+            certificationStatus.setText(state.equals("9001") ? getResources().getString(R.string.card_27)
+                    : state.equals("9002") ? getResources().getString(R.string.card_28)
+                    : state.equals("9003") ? getResources().getString(R.string.card_29)
+                    : state.equals("9004") ? getResources().getString(R.string.card_30)
+                    : getResources().getString(R.string.card_28));
             if (certificationStatus_s.getData().getFront() != null) {
                 takePhotoIdFront.setVisibility(View.INVISIBLE);
-                GlideUtils.initImageNoCache(this,certificationStatus_s.getData().getFront(),certificationIdCardFront);
+                GlideUtils.initImageNoCache(this, certificationStatus_s.getData().getFront(), certificationIdCardFront);
             }
-            if (certificationStatus_s.getData().getBack() !=null){
+            if (certificationStatus_s.getData().getBack() != null) {
                 takePhotoIdBack.setVisibility(View.INVISIBLE);
-                GlideUtils.initImageNoCache(this,certificationStatus_s.getData().getFront(),certificationIdCardBack);
+                GlideUtils.initImageNoCache(this, certificationStatus_s.getData().getFront(), certificationIdCardBack);
             }
             certificationUserName.setText(certificationStatus_s.getData().getReal_name());
             certificationIdCardNo.setText(certificationStatus_s.getData().getId_no());
@@ -437,27 +341,23 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
 
     @Override
     public void isCanEditor(boolean isCanEditor) {
-        certificationIdCardFront.setEnabled(isCanEditor);
-        certificationIdCardBack.setEnabled(isCanEditor);
-        takePhotoIdFront.setEnabled(isCanEditor);
-        takePhotoIdBack.setEnabled(isCanEditor);
-        certificationUserName.setEnabled(isCanEditor);
-        certificationIdCardNo.setEnabled(isCanEditor);
+        certificationIdCardFront.setEnabled(true);
+        certificationIdCardBack.setEnabled(true);
+        takePhotoIdFront.setEnabled(true);
+        takePhotoIdBack.setEnabled(true);
+        // certificationUserName.setEnabled(isCanEditor);
+        // certificationIdCardNo.setEnabled(isCanEditor);
     }
 
     /**
      * 权限
      *
-     * @param i
+     * @param
      */
-    private void getPermissions(int i) {
+    private void getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (PermissionUtils.isGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, Manifest.permission.CAMERA)) {
-                if (i == 1) {
-                    takeFrontPhoto();
-                } else {
-                    takeBackPhoto();
-                }
+                YouDunHelper.getInstance().AllOcr(CertificationActivity.this, YouDunOrderIdUtils.getYDOrderId());
             } else {
                 PermissionUtils.permission(PermissionConstants.CAMERA, PermissionConstants.STORAGE)
                         .rationale(new PermissionUtils.OnRationaleListener() {
@@ -470,11 +370,8 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
                         .callback(new PermissionUtils.FullCallback() {
                             @Override
                             public void onGranted(List<String> permissionsGranted) {
-                                if (i == 1) {
-                                    takeFrontPhoto();
-                                } else {
-                                    takeBackPhoto();
-                                }
+                                YouDunHelper.getInstance().AllOcr(CertificationActivity.this, YouDunOrderIdUtils.getYDOrderId());
+//
                             }
 
                             @Override
@@ -484,11 +381,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
                         }).request();
             }
         } else {
-            if (i == 1) {
-                takeFrontPhoto();
-            } else {
-                takeBackPhoto();
-            }
+            YouDunHelper.getInstance().AllOcr(CertificationActivity.this, YouDunOrderIdUtils.getYDOrderId());
         }
     }
 
@@ -496,5 +389,212 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     protected void onDestroy() {
         super.onDestroy();
         mhandler.removeCallbacksAndMessages(null);
+    }
+
+    //********************************友盾回调监听*********************************
+    @Override
+    public void optionBankOcrSuccess(JSONObject jsonObject) {
+
+    }
+    @Override
+    public void optionIdOcrSuccess(JSONObject jsonObject) {  //  1
+//        {
+//            "address":"浙江省杭州市滨江区越达巷",
+//                "age":"27",
+//                "birthday":"1990.04.12",
+//                "gender":"男",
+//                "id_name":"周伯通",
+//                "id_number":"320421199011121234",
+//                "idcard_back_photo":"https://idsafe-auth.udcredit.com/front/4.0/api/file_download/....",
+//                "idcard_front_photo":"https://idsafe-auth.udcredit.com/front/4.0/api/file_download/....",
+//                "idcard_portrait_photo":"https://idsafe-auth.udcredit.com/front/4.0/api/file_download/....",
+//                "issuing_authority":"滨江公安局",
+//                "nation":"汉",
+//                "partner_order_id":"andr_1496712433370",
+//                "validity_period":"2017.02.03-2037.02.03",
+//                "validity_period_expired":"0",
+//                "sdk_idcard_front_photo":"Bitmap",
+//                "sdk_idcard_portrait_photo":"Bitmap",
+//                "sdk_idcard_back_photo":"Bitmap",
+//                "classify":"2",
+//                "score":"0.9104828"
+//            "message":"操作成功",
+//                "session_id":"193852619297587200",
+//                "success":"true"
+//        }
+        if (jsonObject != null) {
+            try {
+                String classify = jsonObject.getString("classify");
+                //0：复印件
+                //1：PS证件
+                //2：正常证件
+                //3：屏幕翻拍
+                //4：临时身份证
+                //5：其他
+                if (StringUtils.equals(classify, "2")) {
+
+                    getUrlBitmap(jsonObject.getString("idcard_front_photo"), MSG1);
+                    getUrlBitmap(jsonObject.getString("idcard_back_photo"), MSG2);
+                    getUrlBitmap(jsonObject.getString("idcard_portrait_photo"), MSG3);
+                    //身份证号码
+                    pcb.setCardNo(jsonObject.getString("id_number"));
+                    //身份证姓名
+                    pcb.setName(jsonObject.getString("id_name"));
+                    //添加:年龄、性别、民族、签发机关、身份证有效期
+                    pcb.setAge(jsonObject.getInt("age"));
+                    pcb.setGender(jsonObject.getString("gender"));
+                    pcb.setNation(jsonObject.getString("nation"));
+                    pcb.setAddress(jsonObject.getString("address"));
+                    pcb.setIssuingAuthority(jsonObject.getString("issuing_authority"));
+                    pcb.setValidityPeriod(jsonObject.getString("validity_period"));
+                    certificationUserName.setText(jsonObject.getString("id_name"));
+                    certificationIdCardNo.setText(jsonObject.getString("id_number"));
+                    isIdOcrSuccess = true;
+                } else {
+                    isIdOcrSuccess = false;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                isIdOcrSuccess = false;
+            }
+        }
+    }
+
+    @Override
+    public void optionLivelinessSuccess(JSONObject jsonObject) {  //2
+//        {
+//            "partner_order_id":"andr_1496711670963",
+//                "risk_tag":{
+//            "living_attack":"1"
+//        },
+//            "living_photo":"https://idsafe-auth.udcredit.com/front/4.0/api/file_download/....",
+//                "session_id":"193849591345643520",
+//                "success":"true",
+//                "message":"操作成功"
+//        }
+        //风险标签
+        JSONObject risk = jsonObject.optJSONObject("risk_tag");
+        // 0-未检测到活体攻击;  1-存在活体攻击风险
+        try {
+            String living_attack = risk.getString("living_attack");
+            //请求是否成功
+            boolean isLivingSuccess = jsonObject.getBoolean("success");
+            if ("0".equals(living_attack) && isLivingSuccess) {
+                isLivingRecSuccess = true;
+                //活体检测图片
+                getUrlBitmap(jsonObject.getString("living_photo"), MSG4);
+            } else {
+                isLivingRecSuccess = false;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            isLivingRecSuccess = false;
+        }
+    }
+
+    @Override
+    public void optionCompareFace(JSONObject jsonObject) {  //4
+//        {
+//            "partner_order_id":"andr_1496711670963",
+//                "thresholds":{
+//            "1e-5":"0.9",
+//                    "1e-4":"0.8",
+//                    "1e-3":"0.7"
+//        },
+//            "similarity":"0.9668",
+//                "session_id":"193849591345643520",
+//                "success":"1",
+//                "suggest_result":"F",
+//                "message":"操作成功"
+//        }
+        try {
+            String suggest_result = jsonObject.getString("suggest_result");
+            if (StringUtils.equals(suggest_result,"T")) {  //认证是否通过
+                String similarity = jsonObject.getString("similarity");
+                double simil = Double.valueOf(similarity);
+                //相似度
+                if (simil > 0.7) {
+                    isFaceRecSuccess = true;
+                } else {
+                    isFaceRecSuccess = false;
+                }
+            } else {
+                isFaceRecSuccess = false;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            isFaceRecSuccess = false;
+        }
+
+    }
+
+    @Override
+    public void optionVerifyCompare(JSONObject jsonObject) {  //3
+        //验证状态
+        try {
+            String verifyStatus = jsonObject.optString("verify_status");
+            // 结果状态
+            String resultStatus = jsonObject.optString("result_status");
+            switch (verifyStatus) {
+                //姓名与号码一致，取得网格照
+                case "1":
+                    if (resultStatus.equals("01")) {
+                        isRealNameVerifyRecSuccess = true;
+                    } else {
+                        isRealNameVerifyRecSuccess = false;
+                    }
+                    break;
+                //姓名与号码不一致
+                case "2":
+                    isRealNameVerifyRecSuccess = false;
+                    //查询无结果
+                case "3":
+                    isRealNameVerifyRecSuccess = false;
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            isFaceRecSuccess = false;
+        }
+
+    }
+
+    @Override
+    public void optionError(JSONObject jsonObject) {
+        isIdOcrSuccess = false;
+        isLivingRecSuccess = false;
+        isFaceRecSuccess = false;
+        isRealNameVerifyRecSuccess = false;
+    }
+
+    @Override
+    public void JSONExceptionError(JSONException e) {
+        isIdOcrSuccess = false;
+        isLivingRecSuccess = false;
+        isFaceRecSuccess = false;
+        isRealNameVerifyRecSuccess = false;
+    }
+
+    /**
+     * 获取身份证图片
+     *
+     * @param url
+     * @param tag
+     */
+    public void getUrlBitmap(final String url, final int tag) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Bitmap bitMap = GlideUtils.getBitMap(CertificationActivity.this, url);
+                if (bitMap != null) {
+                    Message message = Message.obtain();
+                    message.arg1 = tag;
+                    message.obj = bitMap;
+                    mhandler.sendMessage(message);
+                }
+            }
+        }.start();
     }
 }

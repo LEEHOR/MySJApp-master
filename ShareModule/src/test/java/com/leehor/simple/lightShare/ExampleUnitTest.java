@@ -1,4 +1,4 @@
-package com.example.lightshare;
+package com.leehor.simple.lightShare;
 
 import org.junit.Test;
 

@@ -1,13 +1,13 @@
-package com.leehor.lightshare.share;
+package com.leehor.simple.lightShare.share;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
-import com.leehor.lightshare.utils.BitmpUtils;
-import com.leehor.lightshare.utils.FileUtils;
-import com.leehor.lightshare.utils.UriUtils;
+import com.leehor.simple.lightShare.utils.BitmpUtils;
+import com.leehor.simple.lightShare.utils.FileUtils;
+import com.leehor.simple.lightShare.utils.UriUtils;
 import java.io.IOException;
 
 /**

@@ -60,6 +60,8 @@ public  class  ARouterUrl {
     public static final String IncreaseQuotaActivityUrl="/activity/IncreaseQuotaActivity";
 
     public static final String IncreaseQuotaInformationActivityUrl="/activity/IncreaseQuotaInformationActivity";
+
+    public static final String CertificationFaceActivityUrl="/activity/CertificationFaceActivityUrl";
     /*dialog*/
     public static final String ShareDialogFragmentUrl="/fragment/ShareDialogFragment";
 

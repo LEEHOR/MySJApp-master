@@ -29,6 +29,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        ndk {
+            // 设置支持的SO库架构，第三方给的so库哪几种架构，就配置这几种架构
+            abiFilters 'armeabi' , 'armeabi-v7a'
+        }
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
@@ -65,9 +69,7 @@ android {
     //AS3.0版本--多渠道打包配置
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            
-                outputFileName = "${name}_${BuildApkTime()}_.apk"
-
+            outputFileName = "${name}_${BuildApkTime()}_.apk"
         }
 
     }
@@ -79,6 +81,7 @@ android {
 
 }
 
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
@@ -88,7 +91,9 @@ dependencies {
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
+    //支付分享
     implementation project(':ShareModule')
+
     //butterknife
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
@@ -162,7 +167,7 @@ dependencies {
     implementation 'com.superluo:textbannerview:1.0.5'
 
     //二维码生成工具
-    implementation files('libs/zxing-3.3.3.jar')
+    //implementation files('libs/zxing-3.3.3.jar')
 
     //高德地图
     implementation 'com.amap.api:location:latest.integration'

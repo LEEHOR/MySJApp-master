@@ -44,7 +44,7 @@
     <string name="card_7">请输入您的姓名</string>
     <string name="card_8">请输入您的身份证号</string>
     <string name="card_9">请输入银行预留手机号</string>
-    <string name="card_10">身份证认证</string>
+    <string name="card_10">身份认证</string>
     <string name="card_11">安全支付认证</string>
     <string name="card_12">*储蓄卡正面</string>
     <string name="card_13">请核对您的银行卡信息</string>
@@ -71,6 +71,11 @@
         <item>快捷</item>
         <item>扫码</item>
     </string-array>
+    <string name="card_33">请衣着整齐，平视屏幕</string>
+    <string name="card_34">不能佩戴眼镜</string>
+    <string name="card_35">不能佩戴帽子</string>
+    <string name="card_36">不能光线太暗</string>
+    <string name="card_37">人脸识别</string>
     <!--关于账户类字段（注册、登录、修改密码、找回密码）-->
     <string name="account_1">原始登录密码</string>
     <string name="account_2">请输入新密码</string>
@@ -150,8 +155,8 @@
     <string name="toast_12">创建文件夹失败</string>
     <string name="toast_13">创建文件失败</string>
     <string name="toast_14">获取权限失败</string>
-    <string name="toast_15">请拍摄身份证头像面</string>
-    <string name="toast_16">请拍摄身份证国徽面</string>
+    <string name="toast_15">身份证认证失败</string>
+    <string name="toast_16">活体检测失败</string>
     <string name="toast_17">请输入姓名</string>
     <string name="toast_18">请输入旧密码</string>
     <string name="toast_19">请输入新密码</string>
@@ -165,6 +170,8 @@
     <string name="toast_27">请输入登录密码</string>
     <string name="toast_28">请输真实姓名</string>
     <string name="toast_29">请输入用户名</string>
+    <string name="toast_30">实名认证失败</string>
+    <string name="toast_31">人脸比对失败</string>
     <!--关于dialog弹窗字段-->
     <string name="dialog_1">去更新</string>
     <string name="dialog_2">下次再说</string>
@@ -190,6 +197,7 @@
     <string name="submit_6">登录</string>
     <string name="submit_7">注册</string>
     <string name="submit_8">安全退出</string>
+    <string name="submit_9">开始认证</string>
     <!--其他协议或声明-->
     <string name="other_1">查询须知：\n
         1.两个月内银卡请勿查询，否则查询无结果；\n

@@ -1,4 +1,4 @@
-package com.leehor.lightshare.share;
+package com.leehor.simple.lightShare.share;
 
 
 import android.app.Activity;
@@ -11,10 +11,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import com.leehor.lightshare.Config;
-import com.leehor.lightshare.utils.BitmpUtils;
-import com.leehor.lightshare.utils.FileUtils;
-import com.leehor.lightshare.utils.UriUtils;
+import com.leehor.simple.Config;
+import com.leehor.simple.lightShare.utils.BitmpUtils;
+import com.leehor.simple.lightShare.utils.FileUtils;
+import com.leehor.simple.lightShare.utils.UriUtils;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.tauth.IUiListener;

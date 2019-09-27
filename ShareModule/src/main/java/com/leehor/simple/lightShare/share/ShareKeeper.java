@@ -1,4 +1,4 @@
-package com.leehor.lightshare.share;
+package com.leehor.simple.lightShare.share;
 
 import android.app.Activity;
 import android.content.Context;

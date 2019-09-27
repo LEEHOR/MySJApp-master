@@ -82,44 +82,55 @@
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.WebViewActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.QRShareActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.IncreaseTheQuotaActivity"/>
-        <activity android:name=".ui.activity.IncreaseQuotaInformationActivity"/>
+        <activity android:name="com.shenjing.dengyuejinfu.ui.activity.IncreaseQuotaInformationActivity"/>
+        <activity android:name="com.shenjing.dengyuejinfu.ui.activity.CertificationFaceActivity"/>
+
 
         <!--高德定位-->
         <service android:name="com.amap.api.location.APSService"/>
         <meta-data android:name="com.amap.api.v2.apikey" android:value="09c807797c4641903147709374a132ce"/>
-
+        <!--下载的广播-->
         <receiver android:name=".ui.broadcastReceiver.DownloadReceive">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
                 <!--<action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />-->
             </intent-filter>
         </receiver>
-        <!-- 腾讯第三方认证页面 -->
-        <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="tencentqq-app-id" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <!-- 腾讯QQ第三方认证页面 -->
+<!--        <activity-->
+<!--            android:name="com.tencent.tauth.AuthActivity"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:noHistory="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="tencentqq-app-id" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        <activity-->
+<!--            android:name="com.tencent.connect.common.AssistActivity"-->
+<!--            android:configChanges="orientation|keyboardHidden"-->
+<!--            android:screenOrientation="behind"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />-->
 
         <!-- 微信分享 -->
-        <activity
-            android:name="com.leehor.lightshare.wxapi.WXEntryActivity"
+     <!--   <activity
+            android:name="com.leehor.simple.wxapi.WXEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        &lt;!&ndash;微信支付&ndash;&gt;
+        <activity android:name="com.leehor.simple.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="这里替换自己申请的scheme" />
+            </intent-filter>
+        </activity>-->
 
         <provider
             android:name="androidx.core.content.FileProvider"

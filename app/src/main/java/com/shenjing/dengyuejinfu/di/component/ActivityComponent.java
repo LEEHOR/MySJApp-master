@@ -11,6 +11,7 @@ import com.shenjing.dengyuejinfu.ui.activity.CardEvaluationActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CardEvaluationRecordActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CashWithdrawalActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CertificationActivity;
+import com.shenjing.dengyuejinfu.ui.activity.CertificationFaceActivity;
 import com.shenjing.dengyuejinfu.ui.activity.ChangePassWordActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CreditCardCertificationActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CreditInquiryActivity;
@@ -83,5 +84,7 @@ public interface ActivityComponent {
     void inject(IncreaseTheQuotaActivity increaseTheQuotaActivity);
 
     void inject(IncreaseQuotaInformationActivity increaseQuotaInformationActivity);
+
+    void inject(CertificationFaceActivity certificationFaceActivity);
 
 }

@@ -40,9 +40,11 @@ public class QRActivityPresenter extends BasePresenter<QRActivityContract.View>
                         if (qrBean.getCode() != null && qrBean.getCode().equals("0000")) {
                             mView.showSuccess(qrBean.getMsg());
                             mView.getSuccess(qrBean);
+                            mView.isCanShare(true);
                         }else {
                             mView.showFail(qrBean.getMsg());
                             mView.getFailure();
+                            mView.isCanShare(false);
                         }
                         mView.hideLoading();
                     }
@@ -52,6 +54,7 @@ public class QRActivityPresenter extends BasePresenter<QRActivityContract.View>
     private void LoadingError(Throwable throwable) {
         throwable.printStackTrace();
         mView.hideLoading();
+        mView.isCanShare(false);
         ToastUtils.showShort("加载错误..");
     }
 }

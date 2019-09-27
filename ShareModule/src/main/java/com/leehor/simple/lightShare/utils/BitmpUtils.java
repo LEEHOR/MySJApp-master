@@ -1,4 +1,4 @@
-package com.leehor.lightshare.utils;
+package com.leehor.simple.lightShare.utils;
 
 import android.content.Context;
 import android.content.Intent;
