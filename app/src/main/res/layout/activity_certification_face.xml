@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/face_mStatusBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/linaColor1"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <com.shenjing.dengyuejinfu.widgte.TitleBar
+            android:id="@+id/face_titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/bgColor_overlay" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
+                android:background="@color/blue3" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+
+                    <TextView
+                        android:drawableTop="@drawable/icon_dian_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/card_10"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:drawableTop="@drawable/icon_dian_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/card_37"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:drawableTop="@drawable/icon_dian_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/bank_card_1"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:drawableTop="@drawable/icon_dian_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/card_11"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/card_33"
+            android:textColor="@color/textColor"
+            android:textSize="16dp" />
+
+
+        <ImageView
+            android:id="@+id/face_img"
+            android:layout_width="202dp"
+            android:layout_height="161dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/icon_face_verify" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/icon_face_no_glass"
+                android:gravity="center_horizontal"
+                android:text="@string/card_34"
+                android:textColor="#ff333333"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/icon_face_no_hat"
+                android:gravity="center_horizontal"
+                android:text="@string/card_35"
+                android:textColor="#ff333333"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/icon_face_too_dark"
+                android:gravity="center_horizontal"
+                android:text="@string/card_36"
+                android:textColor="#ff333333"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/face_submit"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:padding="10dp"
+            android:text="@string/submit_9"
+            android:textSize="14dp"
+            android:textColor="@color/white"
+            android:background="@drawable/submit_button_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>
