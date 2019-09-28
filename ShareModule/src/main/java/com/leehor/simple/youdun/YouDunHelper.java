@@ -174,10 +174,10 @@ public class YouDunHelper {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     Log.d("友盾","解析"+jsonObject.toString());
-                    if (jsonObject.has("success") && (
-                            jsonObject.getString("success").equals("true")
-                            || jsonObject.getString("success").equals("1")
-                    )) {
+//                    if (jsonObject.has("success") && (
+//                            jsonObject.getString("success").equals("true")
+//                            || jsonObject.getString("success").equals("1")
+//                    )) {
                         switch (i) {
                             //银行卡识别Ocr
                             case AuthBuilder.OPTION_OCR_BANK:
@@ -225,12 +225,6 @@ public class YouDunHelper {
                                 }
                                 break;
                         }
-                    } else {
-                        Log.d("友盾","操作错误"+jsonObject.toString());
-                        if (youDunListener != null) {
-                            youDunListener.optionError(jsonObject);
-                        }
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.d("友盾","解析错误"+e.toString());

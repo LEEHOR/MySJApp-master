@@ -415,37 +415,45 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
 //        }
         if (jsonObject != null) {
             try {
-                String classify = jsonObject.getString("classify");
-                if (StringUtils.equals(classify, "2")) {
-
-                    //显示
-                    Bitmap sdk_idcard_front_photo = (Bitmap) jsonObject.opt("sdk_idcard_front_photo");
-                    getUrlBitmap(sdk_idcard_front_photo, MSG1);
-                    Bitmap sdk_idcard_back_photo = (Bitmap) jsonObject.opt("sdk_idcard_back_photo");
-                    getUrlBitmap(sdk_idcard_back_photo, MSG2);
-                    // Bitmap sdk_idcard_portrait_photo = (Bitmap) jsonObject.opt("sdk_idcard_portrait_photo");
-                    //getUrlBitmap(sdk_idcard_portrait_photo,MSG3);
-                    //下载
-                    getDownLoadUrl(jsonObject.getString("idcard_front_photo"), "idCardFront.jpeg", 1, MSG3);
-                    getDownLoadUrl(jsonObject.getString("idcard_back_photo"), "idCardBack.jpeg", 2, MSG3);
-                    getDownLoadUrl(jsonObject.getString("idcard_portrait_photo"), "idCardPortrait.jpeg", 3, MSG3);
-                    //身份证号码
-                    pcb.setId_number(jsonObject.getString("id_number"));
-                    //身份证姓名
-                    pcb.setId_name(jsonObject.getString("id_name"));
-                    //添加:年龄、性别、民族、签发机关、身份证有效期
-                    pcb.setAge(jsonObject.getString("age"));
-                    pcb.setGender(jsonObject.getString("gender"));
-                    pcb.setNation(jsonObject.getString("nation"));
-                    pcb.setAddress(jsonObject.getString("address"));
-                    pcb.setIssuing_authority(jsonObject.getString("issuing_authority"));
-                    pcb.setValidity_period(jsonObject.getString("validity_period"));
-                    pcb.setValidity_period_expired(jsonObject.getString("validity_period_expired"));
-                    pcb.setClassify(classify);
-                    pcb.setScore(jsonObject.getString("score"));
-                    certificationUserName.setText(jsonObject.getString("id_name"));
-                    certificationIdCardNo.setText(jsonObject.getString("id_number"));
-                    certificationAddress.setText(jsonObject.getString("address"));
+                //显示
+                Bitmap sdk_idcard_front_photo = (Bitmap) jsonObject.opt("sdk_idcard_front_photo");
+                getUrlBitmap(sdk_idcard_front_photo, MSG1);
+                Bitmap sdk_idcard_back_photo = (Bitmap) jsonObject.opt("sdk_idcard_back_photo");
+                getUrlBitmap(sdk_idcard_back_photo, MSG2);
+                if (jsonObject.has("success") &&
+                        jsonObject.getString("success").equals("true")) {
+                    String classify = jsonObject.getString("classify");
+                    if (StringUtils.equals(classify, "2")) {
+//                        Bitmap sdk_idcard_front_photo = (Bitmap) jsonObject.opt("sdk_idcard_front_photo");
+//                        getUrlBitmap(sdk_idcard_front_photo, MSG1);
+//                        Bitmap sdk_idcard_back_photo = (Bitmap) jsonObject.opt("sdk_idcard_back_photo");
+//                        getUrlBitmap(sdk_idcard_back_photo, MSG2);
+                        // Bitmap sdk_idcard_portrait_photo = (Bitmap) jsonObject.opt("sdk_idcard_portrait_photo");
+                        //getUrlBitmap(sdk_idcard_portrait_photo,MSG3);
+                        //下载
+                        getDownLoadUrl(jsonObject.getString("idcard_front_photo"), "idCardFront.jpeg", 1, MSG3);
+                        getDownLoadUrl(jsonObject.getString("idcard_back_photo"), "idCardBack.jpeg", 2, MSG3);
+                        getDownLoadUrl(jsonObject.getString("idcard_portrait_photo"), "idCardPortrait.jpeg", 3, MSG3);
+                        //身份证号码
+                        pcb.setId_number(jsonObject.getString("id_number"));
+                        //身份证姓名
+                        pcb.setId_name(jsonObject.getString("id_name"));
+                        //添加:年龄、性别、民族、签发机关、身份证有效期
+                        pcb.setAge(jsonObject.getString("age"));
+                        pcb.setGender(jsonObject.getString("gender"));
+                        pcb.setNation(jsonObject.getString("nation"));
+                        pcb.setAddress(jsonObject.getString("address"));
+                        pcb.setIssuing_authority(jsonObject.getString("issuing_authority"));
+                        pcb.setValidity_period(jsonObject.getString("validity_period"));
+                        pcb.setValidity_period_expired(jsonObject.getString("validity_period_expired"));
+                        pcb.setClassify(classify);
+                        pcb.setScore(jsonObject.getString("score"));
+                        certificationUserName.setText(jsonObject.getString("id_name"));
+                        certificationIdCardNo.setText(jsonObject.getString("id_number"));
+                        certificationAddress.setText(jsonObject.getString("address"));
+                    } else {
+                        isIdOcrSuccess = false;
+                    }
                 } else {
                     isIdOcrSuccess = false;
                 }
@@ -468,16 +476,22 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
 //                "success":"true",
 //                "message":"操作成功"
 //        }
-        //风险标签
-        JSONObject risk = jsonObject.optJSONObject("risk_tag");
-        // 0-未检测到活体攻击;  1-存在活体攻击风险
         try {
-            String living_attack = risk.getString("living_attack");
-            //请求是否成功
-            boolean isLivingSuccess = jsonObject.getBoolean("success");
-            if ("0".equals(living_attack) && isLivingSuccess) {
-                //活体检测图片
-                getDownLoadUrl(jsonObject.getString("living_photo"), "livingFace.jpeg", 4, MSG3);
+            if (jsonObject.has("success") &&
+                    jsonObject.getString("success").equals("true")) {
+                //风险标签
+                JSONObject risk = jsonObject.optJSONObject("risk_tag");
+                // 0-未检测到活体攻击;  1-存在活体攻击风险
+
+                String living_attack = risk.getString("living_attack");
+                //请求是否成功
+                boolean isLivingSuccess = jsonObject.getBoolean("success");
+                if ("0".equals(living_attack) && isLivingSuccess) {
+                    //活体检测图片
+                    getDownLoadUrl(jsonObject.getString("living_photo"), "livingFace.jpeg", 4, MSG3);
+                } else {
+                    isLivingRecSuccess = false;
+                }
             } else {
                 isLivingRecSuccess = false;
             }
@@ -485,6 +499,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
             e.printStackTrace();
             isLivingRecSuccess = false;
         }
+
     }
 
     @Override
@@ -503,20 +518,24 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
 //                "message":"操作成功"
 //        }
         try {
-            String suggest_result = jsonObject.getString("suggest_result");
-            if (StringUtils.equals(suggest_result, "T")) {  //认证是否通过
-                String similarity = jsonObject.getString("similarity");
-                double simil = Double.valueOf(similarity);
-                //相似度
-                if (simil > 0.7) {
-                    isFaceRecSuccess = true;
+            if (jsonObject.has("success") &&
+                    (jsonObject.getString("success").equals("1") || jsonObject.getString("success").equals("true"))) {
+                String suggest_result = jsonObject.getString("suggest_result");
+                if (StringUtils.equals(suggest_result, "T")) {  //认证是否通过
+                    String similarity = jsonObject.getString("similarity");
+                    double simil = Double.valueOf(similarity);
+                    //相似度
+                    if (simil > 0.7) {
+                        isFaceRecSuccess = true;
+                    } else {
+                        isFaceRecSuccess = false;
+                    }
                 } else {
                     isFaceRecSuccess = false;
                 }
             } else {
                 isFaceRecSuccess = false;
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
             isFaceRecSuccess = false;
@@ -528,25 +547,30 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     public void optionVerifyCompare(JSONObject jsonObject) {  //3
         //验证状态
         try {
-            String verifyStatus = jsonObject.optString("verify_status");
-            // 结果状态
-            String resultStatus = jsonObject.optString("result_status");
-            switch (verifyStatus) {
-                //姓名与号码一致，取得网格照
-                case "1":
-                    if (resultStatus.equals("01")) {
-                        isRealNameVerifyRecSuccess = true;
-                    } else {
+            if (jsonObject.has("success") &&
+                    jsonObject.getString("success").equals("true")) {
+                String verifyStatus = jsonObject.optString("verify_status");
+                // 结果状态
+                String resultStatus = jsonObject.optString("result_status");
+                switch (verifyStatus) {
+                    //姓名与号码一致，取得网格照
+                    case "1":
+                        if (resultStatus.equals("01")) {
+                            isRealNameVerifyRecSuccess = true;
+                        } else {
+                            isRealNameVerifyRecSuccess = false;
+                        }
+                        break;
+                    //姓名与号码不一致
+                    case "2":
                         isRealNameVerifyRecSuccess = false;
-                    }
-                    break;
-                //姓名与号码不一致
-                case "2":
-                    isRealNameVerifyRecSuccess = false;
-                    //查询无结果
-                case "3":
-                    isRealNameVerifyRecSuccess = false;
-                    break;
+                        //查询无结果
+                    case "3":
+                        isRealNameVerifyRecSuccess = false;
+                        break;
+                }
+            } else {
+                isRealNameVerifyRecSuccess = false;
             }
         } catch (Exception e) {
             e.printStackTrace();

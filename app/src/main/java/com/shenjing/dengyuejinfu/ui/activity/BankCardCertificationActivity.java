@@ -227,11 +227,11 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
             case R.id.bank_submit:
                 if (isCanUpload_s) {
                     if (isBankOrcSuccess) {
-                        if (StringUtils.isSpace(bankPhone.getText().toString())){
+                        if (StringUtils.isSpace(bankPhone.getText().toString())) {
                             ToastUtils.showLong("填写手机号");
                             return;
                         }
-                        if (!RegexUtils.isMobileSimple(bankPhone.getText().toString())){
+                        if (!RegexUtils.isMobileSimple(bankPhone.getText().toString())) {
                             ToastUtils.showLong("填写正确的手机号");
                             return;
                         }
@@ -308,7 +308,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                 }
             }).start();
         } else {
-            isBankOrcSuccess=false;
+            isBankOrcSuccess = false;
         }
 
 
@@ -372,22 +372,26 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
 //                "message": "操作成功"
 //        }
         try {
-            //显示
+            //显示银行卡图片
             Bitmap sdk_bank_card_photo = (Bitmap) jsonObject.opt("sdk_bank_card_photo");
             getUrlBitmap(sdk_bank_card_photo, MSG1);
-            //下载
-            getDownLoadUrl(jsonObject.getString("bank_card_photo"), "image_bank.jpeg", MSG2);
-
-            String bank_name = jsonObject.getString("bank_name");
-            String bank_card_no = jsonObject.getString("bank_card_no");
-            String card_type = jsonObject.getString("card_type");
-            String org_code = jsonObject.getString("org_code");
-            bankIdNo.setText(bank_card_no);
-            bankName.setText(bank_name);
-            bankOcrInfoBean.setBank_name(bank_name);
-            bankOcrInfoBean.setBank_card_no(bank_card_no);
-            bankOcrInfoBean.setCard_type(card_type);
-            bankOcrInfoBean.setOrg_code(org_code);
+            if (jsonObject.has("success") &&
+                    (jsonObject.getString("success").equals("1") || jsonObject.getString("success").equals("true"))) {
+                //下载
+                getDownLoadUrl(jsonObject.getString("bank_card_photo"), "image_bank.jpeg", MSG2);
+                String bank_name = jsonObject.getString("bank_name");
+                String bank_card_no = jsonObject.getString("bank_card_no");
+                String card_type = jsonObject.getString("card_type");
+                String org_code = jsonObject.getString("org_code");
+                bankIdNo.setText(bank_card_no);
+                bankName.setText(bank_name);
+                bankOcrInfoBean.setBank_name(bank_name);
+                bankOcrInfoBean.setBank_card_no(bank_card_no);
+                bankOcrInfoBean.setCard_type(card_type);
+                bankOcrInfoBean.setOrg_code(org_code);
+            } else {
+                isBankOrcSuccess = false;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             isBankOrcSuccess = false;
