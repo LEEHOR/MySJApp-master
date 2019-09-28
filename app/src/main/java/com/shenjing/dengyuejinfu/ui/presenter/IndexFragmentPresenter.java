@@ -2,10 +2,15 @@ package com.shenjing.dengyuejinfu.ui.presenter;
 
 import android.annotation.SuppressLint;
 
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
+import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
+import com.shenjing.dengyuejinfu.net.services.CertificationApi;
 import com.shenjing.dengyuejinfu.net.services.IndexFragmentApi;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
 import com.shenjing.dengyuejinfu.entity.BannerBean;
@@ -13,9 +18,23 @@ import com.shenjing.dengyuejinfu.entity.BaseBean;
 import com.shenjing.dengyuejinfu.entity.VersionBean;
 import com.shenjing.dengyuejinfu.ui.contract.IndexFragmentContract;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.IOException;
+
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Consumer;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * author : Leehor
@@ -102,7 +121,6 @@ public class IndexFragmentPresenter extends BasePresenter<IndexFragmentContract.
                     }
                 },this::checkVersionError);
     }
-
     private void lostPassError(Throwable throwable) {
         throwable.printStackTrace();
         mView.hideLoading();

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
@@ -80,12 +81,11 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     @BindView(R.id.bank_idNo)
     TextView bankIdNo;
     @BindView(R.id.bank_phone)
-    TextView bankPhone;
-    @BindView(R.id.bank_class)
-    TextView bankClass;
+    EditText bankPhone;
+    @BindView(R.id.bank_name)
+    TextView bankName;
     @BindView(R.id.bank_submit)
     TextView bankSubmit;
-    private final int TAKE_PHOTO_REQUEST_CODE_FRONT = 1002;
     /**
      * submit状态控制
      */
@@ -93,8 +93,9 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     private boolean isCanUpload_s = false;
     private final static int MSG1 = 1;
     private final static int MSG2 = 2;
-    private File fileBank;
+    private final static int MSG3 = 3;
     private boolean isBankOrcSuccess;
+    private BankOcrInfoBean bankOcrInfoBean;
     @SuppressLint("HandlerLeak")
     private Handler mhandler = new Handler() {
         @Override
@@ -102,28 +103,27 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG1:
-                    bankTakePhoto.setVisibility(View.INVISIBLE);
                     GlideUtils.initImageByBitMap(BankCardCertificationActivity.this, (Bitmap) msg.obj, bankImage);
-                    if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
-                        LogUtils.d(R.string.toast_12);
-                        return;
-                    }
-                    fileBank = new File(Constant.SAVE_DIR_YOUDUN, "image_Bank.jpeg");
-                    if (FileUtils.createFileByDeleteOldFile(fileBank)) {
-                        if (ImageUtils.save((Bitmap) msg.obj, fileBank, Bitmap.CompressFormat.JPEG, false)) {
-                            bankOcrInfoBean.setBank_card_photo(fileBank.getAbsolutePath());
-                            isBankOrcSuccess = true;
-                        } else {
-                            isBankOrcSuccess = false;
-                        }
-                    }
                     break;
-                case MSG2:
+                case MSG2:  //下载
+                    Bundle data = msg.getData();
+                    String url = data.getString("url");
+                    String fileName = data.getString("fileName");
+                    mPresenter.DownLoadImg(url, fileName);
+                    break;
+                case MSG3:  //获取下载的图片地址
+                    Bundle dataPath = msg.getData();
+                    if (dataPath != null) {
+                        String filePath = dataPath.getString("filePath");
+                        bankOcrInfoBean.setBank_card_photo(filePath);
+                        isBankOrcSuccess = true;
+                    } else {
+                        isBankOrcSuccess = false;
+                    }
                     break;
             }
         }
     };
-    private BankOcrInfoBean bankOcrInfoBean;
 
 
     @Override
@@ -168,7 +168,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                 GlideUtils.initImageWithFileCache(this, model.getData().getBank_card_img(), bankImage);
             }
             bankPhone.setText(model.getData().getPhone_number());
-            bankClass.setText(model.getData().getBank());
+            bankName.setText(model.getData().getBank());
             bankIdNo.setText(model.getData().getBank_card_no());
         }
     }
@@ -186,6 +186,16 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     @Override
     public void upLoadFailure() {
 
+    }
+
+    @Override
+    public void downLoadImgSuccess(String filePath, File file) {
+        getImagePath(filePath, file, MSG3);
+    }
+
+    @Override
+    public void downLoadImgFailure() {
+        isBankOrcSuccess = false;
     }
 
     @Override
@@ -217,15 +227,21 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
             case R.id.bank_submit:
                 if (isCanUpload_s) {
                     if (isBankOrcSuccess) {
-                        if (!FileUtils.isFile(fileBank)) {
-                            ToastUtils.showLong(R.string.toast_9);
+                        if (StringUtils.isSpace(bankPhone.getText().toString())){
+                            ToastUtils.showLong("填写手机号");
+                            return;
+                        }
+                        if (!RegexUtils.isMobileSimple(bankPhone.getText().toString())){
+                            ToastUtils.showLong("填写正确的手机号");
                             return;
                         }
                         Map map = new HashMap();
-                        map.put("bankCardImg", bankOcrInfoBean.getBank_card_photo());
+                        map.put("bank_card_photo", bankOcrInfoBean.getBank_card_photo());
+                        map.put("bank_name", bankOcrInfoBean.getBank_name());
+                        map.put("bank_card_no", bankOcrInfoBean.getBank_card_no());
+                        map.put("card_type", bankOcrInfoBean.getCard_type());
+                        map.put("org_code", bankOcrInfoBean.getOrg_code());
                         map.put("phoneNumber", bankPhone.getText().toString().trim());
-                        map.put("bank", bankOcrInfoBean.getBank_name());
-                        map.put("bankCardNo", bankIdNo.getText().toString().trim());
                         map.put("userId", BaseParams.userId);
                         mPresenter.upLoadBankCardInfo(map);
                     } else {
@@ -273,25 +289,66 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
 
 
     /**
-     * 获取银行卡图片
+     * 获取银行卡显示的图片
+     *
+     * @param tag
+     */
+    public void getUrlBitmap(Bitmap bitmap, final int tag) {
+        if (bitmap != null) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap bitmaps = ImageUtils.compressByQuality(bitmap, 60);
+                    if (bitmaps != null) {
+                        Message message = Message.obtain();
+                        message.arg1 = tag;
+                        message.obj = bitmaps;
+                        mhandler.sendMessage(message);
+                    }
+                }
+            }).start();
+        } else {
+            isBankOrcSuccess=false;
+        }
+
+
+    }
+
+    /**
+     * 下载图片指令
      *
      * @param url
      * @param tag
      */
-    public void getUrlBitmap(final String url, final int tag) {
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                Bitmap bitMap = GlideUtils.getBitMap(BankCardCertificationActivity.this, url);
-                if (bitMap != null) {
-                    Message message = Message.obtain();
-                    message.arg1 = tag;
-                    message.obj = bitMap;
-                    mhandler.sendMessage(message);
-                }
-            }
-        }.start();
+    public void getDownLoadUrl(String url, String fileName, int tag) {
+        if (url != null) {
+            Message message = Message.obtain();
+            message.arg1 = tag;
+            Bundle bundle = new Bundle();
+            bundle.putString("url", url);
+            bundle.putString("fileName", fileName);
+            message.setData(bundle);
+            mhandler.sendMessage(message);
+        } else {
+            isBankOrcSuccess = false;
+        }
+
+    }
+
+    /**
+     * 下载完成获取地址
+     *
+     * @param filePath
+     * @param tag
+     */
+    public void getImagePath(String filePath, File file, int tag) {
+        Message message = Message.obtain();
+        message.arg1 = tag;
+        message.obj = file;
+        Bundle bundle = new Bundle();
+        bundle.putString("filePath", filePath);
+        message.setData(bundle);
+        mhandler.sendMessage(message);
     }
 
     @Override
@@ -315,20 +372,25 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
 //                "message": "操作成功"
 //        }
         try {
-            String bank_card_photo = jsonObject.getString("bank_card_photo");
-            getUrlBitmap(bank_card_photo,MSG1);
+            //显示
+            Bitmap sdk_bank_card_photo = (Bitmap) jsonObject.opt("sdk_bank_card_photo");
+            getUrlBitmap(sdk_bank_card_photo, MSG1);
+            //下载
+            getDownLoadUrl(jsonObject.getString("bank_card_photo"), "image_bank.jpeg", MSG2);
+
             String bank_name = jsonObject.getString("bank_name");
             String bank_card_no = jsonObject.getString("bank_card_no");
             String card_type = jsonObject.getString("card_type");
             String org_code = jsonObject.getString("org_code");
+            bankIdNo.setText(bank_card_no);
+            bankName.setText(bank_name);
             bankOcrInfoBean.setBank_name(bank_name);
             bankOcrInfoBean.setBank_card_no(bank_card_no);
             bankOcrInfoBean.setCard_type(card_type);
             bankOcrInfoBean.setOrg_code(org_code);
-            isBankOrcSuccess=true;
         } catch (JSONException e) {
             e.printStackTrace();
-            isBankOrcSuccess=false;
+            isBankOrcSuccess = false;
         }
     }
 
@@ -354,11 +416,11 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
 
     @Override
     public void optionError(JSONObject jsonObject) {
-        isBankOrcSuccess=false;
+        isBankOrcSuccess = false;
     }
 
     @Override
     public void JSONExceptionError(JSONException e) {
-        isBankOrcSuccess=false;
+        isBankOrcSuccess = false;
     }
 }

@@ -6,6 +6,8 @@ import com.shenjing.dengyuejinfu.base.BaseContract;
 import com.shenjing.dengyuejinfu.entity.BannerBean;
 import com.shenjing.dengyuejinfu.entity.VersionBean;
 
+import java.io.File;
+
 
 /**
  * author : Leehor
@@ -37,5 +39,6 @@ public class IndexFragmentContract {
        void uploadCallRecord(String userId,String contacts);
 
        void getVersion();
+
     }
 }

@@ -76,6 +76,8 @@
     <string name="card_35">不能佩戴帽子</string>
     <string name="card_36">不能光线太暗</string>
     <string name="card_37">人脸识别</string>
+    <string name="card_38">卡片种类</string>
+    <string name="card_39">身份证地址</string>
     <!--关于账户类字段（注册、登录、修改密码、找回密码）-->
     <string name="account_1">原始登录密码</string>
     <string name="account_2">请输入新密码</string>

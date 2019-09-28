@@ -1,5 +1,4 @@
 package com.shenjing.dengyuejinfu.entity;
-
 import java.io.Serializable;
 
 /**
@@ -10,131 +9,138 @@ import java.io.Serializable;
  */
 public class PeopleCertificationBean implements Serializable {
     /**
-     * 身份证肖像图片
-     */
-    private String faceImg;
-    /**
-     * 身份证正面
-     */
-    private String cardPositive;
-    /**
-     * 身份证反面
-     */
-    private String cardOpposite;
-
-    /**
-     * 活体检测照片
-     */
-    private String livingImg;
-    /**
-     * 姓名
-     */
-    private String name;
-
-    /**
-     * 身份证号
-     */
-    private String cardNo;
-
-    // update 2019-7-15
-    /**
-     * 性别
-     */
-    private String gender;
-    /**
-     * 年龄
-     */
-    private Integer age;
-
-    /**
-     * 签发机关
-     */
-    private String issuingAuthority;
-
-    /**
-     * 身份证有效期
-     */
-    private String validityPeriod;
-
-    /**
-     * 民族
-     */
-    private String nation;
-
-    /**
-     * 学历
-     */
-    private String education;
-    /**
-     * 地址
+     * address :"浙江省杭州市滨江区越达巷"  身份证住址
+     * age : 27  年龄
+     * birthday : 1990.04.12  生日
+     * id_name : 周伯通     姓名
+     * id_number : 320421199011121234  身份证号码
+     * gender: 男  性别
+     * nation：汉  民族
+     * idcard_back_photo :  身份证人面面路径
+     * idcard_front_photo :  身份证国徽面路径
+     * idcard_portrait_photo :   身份证头像照
+     * issuing_authority : 滨江公安局   签发机关
+     * validity_period : 2017.02.03-2037.02.03  有效期限
+     * validity_period_expired : 0  是否过期 0-证件未过期 1-证件已过期
+     * classify : 2  五分类检测 0：复印件 1：PS证件 2：正常证件 3：屏幕翻拍 4：临时身份证 5：其他
+     * score : 0.9104828   五分类检测置信度   值在0-1之间
+     * living_photo:活体清晰照保存路径
+     * coordinate：  经纬度（经度，纬度）
+     * locationAddress: 定位地址
      */
     private String address;
-    /**
-     * 经度
-     */
-    private String longitude;
-    /**
-     * 纬度
-     */
-    private String latitude;
-    /**
-     * 地址-门牌号
-     */
-    private String addressDetail;
-    /**
-     * 婚姻状态
-     */
-    private String marriage;
-    /**
-     * 居住时长
-     */
-    private String liveTime;
+    private String age;
+    private String birthday;
+    private String id_name;
+    private String id_number;
+    private String gender;
+    private String nation;
+    private String idcard_back_photo;
+    private String idcard_front_photo;
+    private String idcard_portrait_photo;
+    private String issuing_authority;
+    private String validity_period;
+    private String validity_period_expired;
+    private String classify;
+    private String score;
+    private String living_photo;
+    private String coordinate;
+    private String locationAddress;
 
-    /**
-     * ocr识别可操作次数
-     */
-    private String ocrTime;
-
-    private int ocrTimeInt;
-
-    public String getFaceImg() {
-        return faceImg;
+    public String getAddress() {
+        return address;
     }
 
-    public void setFaceImg(String faceImg) {
-        this.faceImg = faceImg;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getCardPositive() {
-        return cardPositive;
+    public String getAge() {
+        return age;
     }
 
-    public void setCardPositive(String cardPositive) {
-        this.cardPositive = cardPositive;
+    public void setAge(String age) {
+        this.age = age;
     }
 
-    public String getCardOpposite() {
-        return cardOpposite;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setCardOpposite(String cardOpposite) {
-        this.cardOpposite = cardOpposite;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
-    public String getName() {
-        return name;
+    public String getId_name() {
+        return id_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId_name(String id_name) {
+        this.id_name = id_name;
     }
 
-    public String getCardNo() {
-        return cardNo;
+    public String getId_number() {
+        return id_number;
     }
 
-    public void setCardNo(String cardNo) {
-        this.cardNo = cardNo;
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
+    }
+
+    public String getIdcard_back_photo() {
+        return idcard_back_photo;
+    }
+
+    public void setIdcard_back_photo(String idcard_back_photo) {
+        this.idcard_back_photo = idcard_back_photo;
+    }
+
+    public String getIdcard_front_photo() {
+        return idcard_front_photo;
+    }
+
+    public void setIdcard_front_photo(String idcard_front_photo) {
+        this.idcard_front_photo = idcard_front_photo;
+    }
+
+    public String getIdcard_portrait_photo() {
+        return idcard_portrait_photo;
+    }
+
+    public void setIdcard_portrait_photo(String idcard_portrait_photo) {
+        this.idcard_portrait_photo = idcard_portrait_photo;
+    }
+
+    public String getIssuing_authority() {
+        return issuing_authority;
+    }
+
+    public void setIssuing_authority(String issuing_authority) {
+        this.issuing_authority = issuing_authority;
+    }
+
+    public String getValidity_period() {
+        return validity_period;
+    }
+
+    public void setValidity_period(String validity_period) {
+        this.validity_period = validity_period;
+    }
+
+    public String getValidity_period_expired() {
+        return validity_period_expired;
+    }
+
+    public void setValidity_period_expired(String validity_period_expired) {
+        this.validity_period_expired = validity_period_expired;
+    }
+
+    public String getClassify() {
+        return classify;
+    }
+
+    public void setClassify(String classify) {
+        this.classify = classify;
     }
 
     public String getGender() {
@@ -145,30 +151,6 @@ public class PeopleCertificationBean implements Serializable {
         this.gender = gender;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getIssuingAuthority() {
-        return issuingAuthority;
-    }
-
-    public void setIssuingAuthority(String issuingAuthority) {
-        this.issuingAuthority = issuingAuthority;
-    }
-
-    public String getValidityPeriod() {
-        return validityPeriod;
-    }
-
-    public void setValidityPeriod(String validityPeriod) {
-        this.validityPeriod = validityPeriod;
-    }
-
     public String getNation() {
         return nation;
     }
@@ -177,109 +159,35 @@ public class PeopleCertificationBean implements Serializable {
         this.nation = nation;
     }
 
-    public String getEducation() {
-        return education;
+    public String getScore() {
+        return score;
     }
 
-    public void setEducation(String education) {
-        this.education = education;
+    public void setScore(String score) {
+        this.score = score;
     }
 
-    public String getAddress() {
-        return address;
+    public String getLiving_photo() {
+        return living_photo;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLiving_photo(String living_photo) {
+        this.living_photo = living_photo;
     }
 
-    public String getLongitude() {
-        return longitude;
+    public String getCoordinate() {
+        return coordinate;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setCoordinate(String coordinate) {
+        this.coordinate = coordinate;
     }
 
-    public String getLatitude() {
-        return latitude;
+    public String getLocationAddress() {
+        return locationAddress;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getAddressDetail() {
-        return addressDetail;
-    }
-
-    public void setAddressDetail(String addressDetail) {
-        this.addressDetail = addressDetail;
-    }
-
-    public String getMarriage() {
-        return marriage;
-    }
-
-    public void setMarriage(String marriage) {
-        this.marriage = marriage;
-    }
-
-    public String getLiveTime() {
-        return liveTime;
-    }
-
-    public void setLiveTime(String liveTime) {
-        this.liveTime = liveTime;
-    }
-
-    public String getOcrTime() {
-        return ocrTime;
-    }
-
-    public void setOcrTime(String ocrTime) {
-        this.ocrTime = ocrTime;
-    }
-
-    public int getOcrTimeInt() {
-        return ocrTimeInt;
-    }
-
-    public void setOcrTimeInt(int ocrTimeInt) {
-        this.ocrTimeInt = ocrTimeInt;
-    }
-
-    public String getLivingImg() {
-        return livingImg;
-    }
-
-    public void setLivingImg(String livingImg) {
-        this.livingImg = livingImg;
-    }
-
-    @Override
-    public String toString() {
-        return "PeopleCertificationBean{" +
-                "faceImg='" + faceImg + '\'' +
-                ", cardPositive='" + cardPositive + '\'' +
-                ", cardOpposite='" + cardOpposite + '\'' +
-                ", name='" + name + '\'' +
-                ", cardNo='" + cardNo + '\'' +
-                ", gender='" + gender + '\'' +
-                ", age=" + age +
-                ", issuingAuthority='" + issuingAuthority + '\'' +
-                ", validityPeriod='" + validityPeriod + '\'' +
-                ", nation='" + nation + '\'' +
-                ", education='" + education + '\'' +
-                ", address='" + address + '\'' +
-                ", longitude='" + longitude + '\'' +
-                ", latitude='" + latitude + '\'' +
-                ", addressDetail='" + addressDetail + '\'' +
-                ", marriage='" + marriage + '\'' +
-                ", liveTime='" + liveTime + '\'' +
-                ", ocrTime='" + ocrTime + '\'' +
-                ", ocrTimeInt=" + ocrTimeInt +
-                "，livingImg=" + livingImg +
-                '}';
+    public void setLocationAddress(String locationAddress) {
+        this.locationAddress = locationAddress;
     }
 }

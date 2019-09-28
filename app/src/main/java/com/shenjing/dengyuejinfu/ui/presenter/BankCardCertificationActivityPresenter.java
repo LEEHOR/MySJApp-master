@@ -2,15 +2,19 @@ package com.shenjing.dengyuejinfu.ui.presenter;
 
 import android.annotation.SuppressLint;
 
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
+import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
 import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 import com.shenjing.dengyuejinfu.entity.BaseBean;
 import com.shenjing.dengyuejinfu.ui.contract.BankCardCertificationActivityContract;
-
 import java.io.File;
 import java.util.Map;
 
@@ -20,6 +24,7 @@ import io.reactivex.functions.Consumer;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 /**
  * author : Leehor
@@ -29,6 +34,7 @@ import okhttp3.RequestBody;
  */
 public class BankCardCertificationActivityPresenter extends BasePresenter<BankCardCertificationActivityContract.View>
         implements BankCardCertificationActivityContract.Presenter {
+
     @Inject
     public BankCardCertificationActivityPresenter() {
     }
@@ -117,6 +123,38 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                 },this::loadUploadError);
     }
 
+    @SuppressLint("CheckResult")
+    @Override
+    public void DownLoadImg(String url, String fileName) {
+        if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+            LogUtils.d(R.string.toast_12);
+            return;
+        }
+        File file = new File(Constant.SAVE_DIR_YOUDUN, TimeUtils.millis2String(System.currentTimeMillis())+"_"+fileName);
+        if (FileUtils.createFileByDeleteOldFile(file)) {
+            RetrofitManager.DownLoadFile(url)
+                    .compose(mView.<ResponseBody>bindToLife())
+                    .compose(RxSchedulers.<ResponseBody>applySchedulers())
+                    .subscribe(new Consumer<ResponseBody>() {
+                        @Override
+                        public void accept(ResponseBody o) throws Exception {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean b = com.shenjing.dengyuejinfu.utils.FileUtils.writeResponseBodyToDisk(o, file);
+                                    if (b) {
+                                        mView.downLoadImgSuccess(file.getAbsolutePath(), file);
+                                    } else {
+                                        mView.downLoadImgFailure();
+                                    }
+                                }
+                            }).start();
+
+                        }
+                    },this::downLoadError);
+        }
+    }
+
     private void loadUploadError(Throwable throwable) {
         throwable.printStackTrace();
         mView.hideLoading();
@@ -133,5 +171,9 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
         mView.isCanNext(false);
         mView.isCanEditor(true);
         mView.isCanUpLoad(true);
+    }
+    private void downLoadError(Throwable throwable) {
+        throwable.printStackTrace();
+        mView.downLoadImgFailure();
     }
 }

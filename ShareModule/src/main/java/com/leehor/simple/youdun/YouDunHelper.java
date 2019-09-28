@@ -173,6 +173,7 @@ public class YouDunHelper {
             public void onResult(int i, String s) {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
+                    Log.d("友盾","解析"+jsonObject.toString());
                     if (jsonObject.has("success") && (
                             jsonObject.getString("success").equals("true")
                             || jsonObject.getString("success").equals("1")
@@ -180,6 +181,7 @@ public class YouDunHelper {
                         switch (i) {
                             //银行卡识别Ocr
                             case AuthBuilder.OPTION_OCR_BANK:
+                                Log.d("友盾","银行卡识别");
                                 if (youDunListener != null) {
                                     youDunListener.optionBankOcrSuccess(jsonObject);
                                 }
@@ -189,42 +191,49 @@ public class YouDunHelper {
 
                                 break;
                             case AuthBuilder.OPTION_ERROR:
+                                Log.d("友盾","错误_OPTION_ERROR");
                                 if (youDunListener != null) {
                                     youDunListener.optionError(jsonObject);
                                 }
                                 break;
                             // 身份证OCR识别
                             case AuthBuilder.OPTION_OCR:
+                                Log.d("友盾","身份证识别");
                                 if (youDunListener != null) {
                                     youDunListener.optionIdOcrSuccess(jsonObject);
                                 }
                                 break;
                             // 活体检测 回调
                             case AuthBuilder.OPTION_LIVENESS:
+                                Log.d("友盾","活体检测识别");
                                 if (youDunListener != null) {
                                     youDunListener.optionLivelinessSuccess(jsonObject);
                                 }
                                 break;
                             // 人脸比对 回调
                             case AuthBuilder.OPTION_COMPARE_FACE:
+                                Log.d("友盾","人脸比对");
                                 if (youDunListener != null) {
                                     youDunListener.optionCompareFace(jsonObject);
                                 }
                                 break;
                             // 实人认证
                             case AuthBuilder.OPTION_VERIFY_COMPARE:
+                                Log.d("友盾","实人认证");
                                 if (youDunListener != null) {
                                     youDunListener.optionVerifyCompare(jsonObject);
                                 }
                                 break;
                         }
                     } else {
+                        Log.d("友盾","操作错误"+jsonObject.toString());
                         if (youDunListener != null) {
                             youDunListener.optionError(jsonObject);
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.d("友盾","解析错误"+e.toString());
                     if (youDunListener != null) {
                         youDunListener.JSONExceptionError(e);
                     }

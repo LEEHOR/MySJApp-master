@@ -3,9 +3,13 @@ package com.shenjing.dengyuejinfu.ui.presenter;
 
 import android.annotation.SuppressLint;
 
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
+import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
@@ -22,6 +26,7 @@ import io.reactivex.functions.Consumer;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 /**
  * author : Leehor
@@ -29,7 +34,7 @@ import okhttp3.RequestBody;
  * version: 1.0
  * desc   :
  */
-public class CertificationActivityPresenter extends BasePresenter<CertificationActivityContract.View>
+public  class CertificationActivityPresenter extends BasePresenter<CertificationActivityContract.View>
         implements CertificationActivityContract.Presenter {
 
     @Inject
@@ -40,18 +45,54 @@ public class CertificationActivityPresenter extends BasePresenter<CertificationA
     @SuppressLint("CheckResult")
     @Override
     public void uploadPeopleInfo(Map<String, Object> map) {
+       /* map.put("address",pcb.getAddress());
+        map.put("age",pcb.getAge());
+        map.put("birthday",pcb.getBirthday());
+        map.put("id_name",pcb.getId_name());
+        map.put("id_number",pcb.getId_number());
+        map.put("gender",pcb.getGender());
+        map.put("nation",pcb.getNation());
+        map.put("idcard_back_photo",pcb.getIdcard_back_photo());
+        map.put("idcard_front_photo",pcb.getIdcard_front_photo());
+        map.put("idcard_portrait_photo",pcb.getIdcard_portrait_photo());
+        map.put("issuing_authority",pcb.getIssuing_authority());
+        map.put("validity_period",pcb.getValidity_period());
+        map.put("validity_period_expired",pcb.getValidity_period_expired());
+        map.put("classify",pcb.getClassify());
+        map.put("score",pcb.getScore());
+        map.put("living_photo",pcb.getLiving_photo());*/
         mView.showLoading("正在上传..");
-        File back=new File(map.get("back").toString());
-        RequestBody requestBody_back  =RequestBody.create(back,MediaType.parse("multipart/form-data"));
-        File fornt=new File(map.get("fornt").toString());
-        RequestBody requestBody_fornt  =RequestBody.create(fornt,MediaType.parse("multipart/form-data"));
-     //   MultipartBody.Part part_back = MultipartBody.Part.createFormData("back", back.getName(), requestBody_back);
+        //身份证国徽面
+        File file_back=new File(map.get("idcard_back_photo").toString());
+        RequestBody requestBody_back  =RequestBody.create(file_back,MediaType.parse("multipart/form-data"));
+        //身份证人像面
+        File file_front=new File(map.get("idcard_front_photo").toString());
+        RequestBody requestBody_front  =RequestBody.create(file_front,MediaType.parse("multipart/form-data"));
+        //身份证头像
+        File file_portrait=new File(map.get("idcard_portrait_photo").toString());
+        RequestBody requestBody_portrait  =RequestBody.create(file_portrait,MediaType.parse("multipart/form-data"));
+        //活体照片
+        File file_living=new File(map.get("living_photo").toString());
+        RequestBody requestBody_living  =RequestBody.create(file_living,MediaType.parse("multipart/form-data"));
+
         RequestBody body=new MultipartBody.Builder()
-                .addFormDataPart("realName",map.get("realName").toString())
-                .addFormDataPart("idNo",map.get("idNo").toString())
+                .addFormDataPart("realName",map.get("id_name").toString())
+                .addFormDataPart("idNo",map.get("id_number").toString())
+                .addFormDataPart("idAddress",map.get("address").toString())
+                .addFormDataPart("age",map.get("age").toString())
+                .addFormDataPart("gender",map.get("gender").toString())
+                .addFormDataPart("nation",map.get("nation").toString())
+                .addFormDataPart("birthday",map.get("birthday").toString())
+                .addFormDataPart("issuingAuthority",map.get("issuing_authority").toString())
+                .addFormDataPart("validityPeriod",map.get("validity_period").toString())
+                .addFormDataPart("validityPeriodExpired",map.get("validity_period_expired").toString())
+                //.addFormDataPart("classify",map.get("classify").toString())
+                .addFormDataPart("score",map.get("score").toString())
+                .addFormDataPart("fornt",file_front.getName(),requestBody_front)
+                .addFormDataPart("back",file_back.getName(),requestBody_back)
+                .addFormDataPart("head",file_portrait.getName(),requestBody_portrait)
+                .addFormDataPart("takeImage",file_living.getName(),requestBody_living)
                 .addFormDataPart("userIds",map.get("userId").toString())
-                .addFormDataPart("fornt",fornt.getName(),requestBody_fornt)
-                .addFormDataPart("back",back.getName(),requestBody_back)
                 .build();
 
         RetrofitManager.create(CertificationApi.class).uploadCreditPeople(body)
@@ -123,6 +164,43 @@ public class CertificationActivityPresenter extends BasePresenter<CertificationA
                         }
                     }
                 },this::loadStatusError);
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void downLoadImg(String url, String fileName, int type) {
+        if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+            LogUtils.d(R.string.toast_12);
+            return;
+        }
+        File file = new File(Constant.SAVE_DIR_YOUDUN, TimeUtils.millis2String(System.currentTimeMillis())+"_"+fileName);
+        if (FileUtils.createFileByDeleteOldFile(file)) {
+            RetrofitManager.DownLoadFile(url)
+                    .compose(mView.<ResponseBody>bindToLife())
+                    .compose(RxSchedulers.<ResponseBody>applySchedulers())
+                    .subscribe(new Consumer<ResponseBody>() {
+                        @Override
+                        public void accept(ResponseBody o) throws Exception {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean b = com.shenjing.dengyuejinfu.utils.FileUtils.writeResponseBodyToDisk(o, file);
+                                    if (b) {
+                                        mView.downLoadImgSuccess(file.getAbsolutePath(), file, type);
+                                    } else {
+                                        mView.downLoadImgFailure(type);
+                                    }
+                                }
+                            }).start();
+
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            mView.downLoadImgFailure(type);
+                        }
+                    });
+        }
     }
 
     private void loadUploadError(Throwable throwable) {

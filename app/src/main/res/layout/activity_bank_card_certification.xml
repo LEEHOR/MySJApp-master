@@ -190,43 +190,6 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:layout_marginLeft="20dp"
-                        android:hint="@string/bank_card_3"
-                        android:textSize="14dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <View
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@color/linaColor1"
-                    android:layout_width="match_parent"
-                    android:layout_height="1sp"/>
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:gravity="left"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:textColor="@color/textColor"
-                        android:textSize="14dp"
-                        android:text="@string/card_14"
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content" />
-                    <TextView
-                        android:id="@+id/bank_phone"
-                        android:textColor="@color/textColor"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:hint="@string/card_15"
                         android:textSize="14dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -256,11 +219,10 @@
                         android:layout_width="65dp"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/bank_class"
+                        android:id="@+id/bank_Name"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:layout_marginLeft="20dp"
-                        android:text="@string/card_2"
                         android:textSize="14dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -273,6 +235,80 @@
                     android:background="@color/linaColor1"
                     android:layout_width="match_parent"
                     android:layout_height="1sp"/>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp"
+                        android:text="@string/card_38"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/bank_card_type"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="14dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/linaColor1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"/>
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:gravity="left"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp"
+                        android:text="@string/card_14"
+                        android:layout_width="65dp"
+                        android:layout_height="wrap_content" />
+                    <EditText
+                        android:textCursorDrawable="@drawable/shape_text_cursor"
+                        android:background="@null"
+                        android:id="@+id/bank_phone"
+                        android:textColor="@color/textColor"
+                        android:gravity="center_vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:hint="@string/card_9"
+                        android:textSize="14dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/linaColor1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"/>
+
+
             </LinearLayout>
 
             <TextView

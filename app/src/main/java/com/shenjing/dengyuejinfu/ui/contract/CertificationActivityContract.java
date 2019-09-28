@@ -5,6 +5,7 @@ import android.widget.TextView;
 import com.shenjing.dengyuejinfu.base.BaseContract;
 import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -20,27 +21,36 @@ public class CertificationActivityContract {
     public interface View extends BaseContract.BaseView {
 
         void upLoadSuccess();
+
         void upLoadFailure();
 
         void getStatusSuccess(PeopleCertificationStatusBean certificationStatus);
+
         void getStatusFailure();
 
         TextView submitText();
 
+        void downLoadImgSuccess(String filePath, File file,int type);
+
+        void downLoadImgFailure(int type);
+
         /**
          * 是否可以跳转
+         *
          * @param isCanNext
          */
-        void  isCanNext(boolean isCanNext);
+        void isCanNext(boolean isCanNext);
 
         /**
          * 是否需要上传
+         *
          * @param isCanUpLoad
          */
-        void  isCanUpLoad(boolean isCanUpLoad);
+        void isCanUpLoad(boolean isCanUpLoad);
 
         /**
          * 控件是否可编辑
+         *
          * @param isCanEditor
          */
         void isCanEditor(boolean isCanEditor);
@@ -49,17 +59,30 @@ public class CertificationActivityContract {
     /**
      * 逻辑
      */
-   public interface Presenter extends BaseContract.BasePresenter<View>{
+    public interface Presenter extends BaseContract.BasePresenter<View> {
         /**
          * 认证
+         *
          * @param map
          */
-       void uploadPeopleInfo(Map<String,Object> map);
+        void uploadPeopleInfo(Map<String, Object> map);
 
         /**
          * 获取认证状态
+         *
          * @param userId
          */
-       void getPeopleStatus(String userId);
+        void getPeopleStatus(String userId);
+
+
+        /**
+         * @param url
+         * @param fileName
+         * @param type     1 身份证前
+         *                 2 身份证背
+         *                 3 身份证头
+         *                 4 活体
+         */
+        void downLoadImg(String url, String fileName, int type);
     }
 }

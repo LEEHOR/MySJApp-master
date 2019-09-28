@@ -215,7 +215,7 @@
                     android:paddingRight="20dp">
 
                     <TextView
-                        android:layout_width="65dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:gravity="left"
                         android:paddingTop="10dp"
@@ -229,10 +229,9 @@
                         android:textColor="@color/textColor"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:hint="@string/card_7"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:textSize="14dp" />
@@ -255,7 +254,7 @@
                     android:paddingRight="20dp">
 
                     <TextView
-                        android:layout_width="65dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:gravity="left"
                         android:paddingTop="10dp"
@@ -268,16 +267,49 @@
                         android:id="@+id/certification_idCardNo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:hint="@string/card_8"
                        android:textColor="@color/textColor"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:textSize="14dp" />
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/linaColor1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/card_39"
+                        android:textColor="@color/textColor"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/certification_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textSize="14dp" />
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1sp"
@@ -295,7 +327,7 @@
                     android:paddingRight="20dp">
 
                     <TextView
-                        android:layout_width="65dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:gravity="left"
                         android:paddingTop="10dp"
@@ -308,7 +340,7 @@
                         android:id="@+id/certification_status"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"

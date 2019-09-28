@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.annotation.UiThread;
 import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -43,6 +44,7 @@ import com.shenjing.dengyuejinfu.widgte.TitleBar;
 import com.superluo.textbannerlibrary.ITextBannerItemClickListener;
 import com.superluo.textbannerlibrary.TextBannerView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,6 +188,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
 
     @Override
     public void getVersionSuccess(VersionBean versionBean) {
+
         if (versionBean != null) {
             if (versionBean.getData() != null) {
                 versionId = versionBean.getData().getVersionId();

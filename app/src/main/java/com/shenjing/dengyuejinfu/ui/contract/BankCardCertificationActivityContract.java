@@ -3,6 +3,7 @@ package com.shenjing.dengyuejinfu.ui.contract;
 import com.shenjing.dengyuejinfu.base.BaseContract;
 import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -22,6 +23,10 @@ public class BankCardCertificationActivityContract {
 
         void upLoadSuccess();
         void upLoadFailure();
+
+        void downLoadImgSuccess(String filePath,File file);
+
+        void downLoadImgFailure();
 
         /**
          * 是否可以跳转
@@ -51,5 +56,13 @@ public class BankCardCertificationActivityContract {
 
         void upLoadBankCardInfo(Map<String,Object> map);
 
+        /**
+         *  下载
+         * @param url
+         * @param fileName
+         */
+        void DownLoadImg(String url,String fileName);
+
     }
+
 }

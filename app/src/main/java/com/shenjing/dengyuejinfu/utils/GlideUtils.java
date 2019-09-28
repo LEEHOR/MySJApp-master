@@ -6,10 +6,7 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
-
 import java.io.File;
-import java.util.concurrent.ExecutionException;
-
 /**
  * author : Leehor
  * date   : 2019/9/1816:42
