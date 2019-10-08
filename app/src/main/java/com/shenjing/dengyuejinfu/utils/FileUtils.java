@@ -12,7 +12,7 @@ import okhttp3.ResponseBody;
  * author : Leehor
  * date   : 2019/8/2918:18
  * version: 1.0
- * desc   :map和javabean互相转化
+ * desc   :保存二进制流互相转化
  */
 public class FileUtils {
 
@@ -31,7 +31,7 @@ public class FileUtils {
             OutputStream outputStream = null;
             try {
                 //设置每次读写的字节
-                byte[] fileReader = new byte[4096];
+                byte[] fileReader = new byte[1024];
                 //long fileSize = body.contentLength();
                 //请求返回的字节流
                 inputStream = body.byteStream();

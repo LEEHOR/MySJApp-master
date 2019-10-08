@@ -3,6 +3,7 @@ package com.shenjing.dengyuejinfu.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.FutureTarget;
@@ -60,6 +61,14 @@ public class GlideUtils {
                 .centerCrop()
                 .into(imageView);
     }
+    public static void initImageByBytes(Context context, byte[] bytes, ImageView imageView) {
+        GlideApp.with(context)
+                .load(bytes)
+                .skipMemoryCache(true)
+                .dontAnimate()
+                .centerCrop()
+                .into(imageView);
+    }
 
     public static Bitmap getBitMap(Context context,String url){
         FutureTarget<Bitmap> submit = GlideApp.with(context)
@@ -70,6 +79,21 @@ public class GlideUtils {
         try {
             Bitmap bitmap = submit.get();
             return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Drawable getDrawable(Context context, String url){
+        FutureTarget<Drawable> submit = GlideApp.with(context)
+                .asDrawable()
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .submit();
+        try {
+            Drawable drawable = submit.get();
+            return drawable;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

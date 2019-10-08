@@ -105,10 +105,10 @@ public class PaymentVerificationActivityPresenter extends BasePresenter<PaymentV
     public void uploadTake(Map<String, Object> map) {
         mView.showLoading("正在上传..");
         File faceImgFile=new File(map.get("takeImg").toString());
-        RequestBody requestBody_faceFile  =RequestBody.create(faceImgFile, MediaType.parse("multipart/form-data"));
+     //   RequestBody requestBody_faceFile  =RequestBody.create(faceImgFile, MediaType.parse("multipart/form-data"));
         RequestBody body=new MultipartBody.Builder()
                 .addFormDataPart("userId",map.get("userId").toString())
-                .addFormDataPart("takeImg",faceImgFile.getName(),requestBody_faceFile)
+           //     .addFormDataPart("takeImg",faceImgFile.getName(),requestBody_faceFile)
                 .build();
 
         RetrofitManager.create(CertificationApi.class).upLoadTakeImag(body)

@@ -1,6 +1,9 @@
 package com.shenjing.dengyuejinfu.net.services;
 
+import com.shenjing.dengyuejinfu.entity.BankListBean;
 import com.shenjing.dengyuejinfu.entity.BannerBean;
+import com.shenjing.dengyuejinfu.entity.CardListBean;
+import com.shenjing.dengyuejinfu.entity.LoanListBean;
 
 
 import io.reactivex.Observable;
@@ -25,4 +28,26 @@ public interface IndexFragmentApi {
     @POST("/homePageInfo")
     @FormUrlEncoded
     Observable<BannerBean> getBanner(@Field("actionScope") String actionScope);
+
+    /**
+     * 获取银行列表
+     * @return
+     */
+    @POST("/getBankList")
+    Observable<BankListBean> getBankList();
+
+    /**
+     * 获取银行卡列表
+     * @return
+     */
+    @POST("/getCardList")
+    @FormUrlEncoded
+    Observable<CardListBean> getCardList(@Field("bankId") long bankId);
+
+    /**
+     * 获取贷款列表
+     * @return
+     */
+    @POST("/getLoanList")
+    Observable<LoanListBean> getLoanList();
 }

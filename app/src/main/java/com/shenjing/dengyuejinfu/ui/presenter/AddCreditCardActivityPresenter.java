@@ -36,21 +36,21 @@ public class AddCreditCardActivityPresenter extends BasePresenter<AddCreditCardA
         mView.showLoading();
         RetrofitManager.create(CertificationApi.class).uploadCreditCardInfo(map)
                 .compose(mView.<AddCreditCardBean>bindToLife())
-                .compose(RxSchedulers.<AddCreditCardBean>applySchedulers())
-                .subscribe(new Consumer<AddCreditCardBean>() {
-                    @Override
-                    public void accept(AddCreditCardBean loginModel){
-                        mView.hideLoading();
-                        if (loginModel.getCode() != null && loginModel.getCode().equals("0000")) {
-                            mView.showSuccess(loginModel.getMsg());
-                            mView.uploadInfoSuccess();
-                        } else {
-                            mView.showFail(loginModel.getMsg());
-                            mView.uploadInfoFailure();
-                        }
-                    }
-                },this::loadError);
-    }
+            .compose(RxSchedulers.<AddCreditCardBean>applySchedulers())
+            .subscribe(new Consumer<AddCreditCardBean>() {
+        @Override
+        public void accept(AddCreditCardBean loginModel){
+            mView.hideLoading();
+            if (loginModel.getCode() != null && loginModel.getCode().equals("0000")) {
+                mView.showSuccess(loginModel.getMsg());
+                mView.uploadInfoSuccess();
+            } else {
+                mView.showFail(loginModel.getMsg());
+                mView.uploadInfoFailure();
+            }
+        }
+    },this::loadError);
+}
 
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();

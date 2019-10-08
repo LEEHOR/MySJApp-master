@@ -97,7 +97,7 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
         mView.getAdapter().setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-
+                mView.getSwipe().setRefreshing(false);
                 startLoadMoreOrRefresh(2);
             }
         }, mView.getRecycler());
@@ -150,6 +150,7 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
         throwable.printStackTrace();
         ToastUtils.showLong("加载错误");
         if (t == 2) {
+            mView.getSwipe().setRefreshing(false);
             mView.getAdapter().loadMoreFail();
         } else {
             mView.isCanRefresh(false);
@@ -167,7 +168,6 @@ public class IncreaseTheQuotaInformationActivityPresenter extends BasePresenter<
      * @param dataBean
      */
     private void setData(boolean isRefresh, List<IncreaseQuotaInformationBean.DataBean> dataBean) {
-
         final int size = dataBean == null ? 0 : dataBean.size();
         if (isRefresh) {
             if (size>0){

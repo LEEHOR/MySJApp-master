@@ -36,7 +36,7 @@
     <string name="bank_card_3">请输入银行卡号</string>
     <!--银行卡和信用卡通用字段-->
     <string name="card_1">所属银行</string>
-    <string name="card_2">选择所属银行</string>
+    <string name="card_2">请填写所属银行</string>
     <string name="card_3">收款人姓名</string>
     <string name="card_4">收款人身份证</string>
     <string name="card_5">银行预留手机</string>
@@ -200,6 +200,7 @@
     <string name="submit_7">注册</string>
     <string name="submit_8">安全退出</string>
     <string name="submit_9">开始认证</string>
+    <string name="submit_10">立即申请</string>
     <!--其他协议或声明-->
     <string name="other_1">查询须知：\n
         1.两个月内银卡请勿查询，否则查询无结果；\n

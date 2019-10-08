@@ -10,6 +10,8 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.common.Constant;
+import com.shenjing.dengyuejinfu.entity.AliyunNotificationBean;
+import com.shenjing.dengyuejinfu.entity.AliyunToken;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
@@ -18,6 +20,7 @@ import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 import com.shenjing.dengyuejinfu.ui.contract.CertificationActivityContract;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -34,7 +37,7 @@ import okhttp3.ResponseBody;
  * version: 1.0
  * desc   :
  */
-public  class CertificationActivityPresenter extends BasePresenter<CertificationActivityContract.View>
+public class CertificationActivityPresenter extends BasePresenter<CertificationActivityContract.View>
         implements CertificationActivityContract.Presenter {
 
     @Inject
@@ -42,10 +45,10 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
 
     }
 
-    @SuppressLint("CheckResult")
+/*    @SuppressLint("CheckResult")
     @Override
     public void uploadPeopleInfo(Map<String, Object> map) {
-       /* map.put("address",pcb.getAddress());
+       *//* map.put("address",pcb.getAddress());
         map.put("age",pcb.getAge());
         map.put("birthday",pcb.getBirthday());
         map.put("id_name",pcb.getId_name());
@@ -60,7 +63,7 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
         map.put("validity_period_expired",pcb.getValidity_period_expired());
         map.put("classify",pcb.getClassify());
         map.put("score",pcb.getScore());
-        map.put("living_photo",pcb.getLiving_photo());*/
+        map.put("living_photo",pcb.getLiving_photo());*//*
         mView.showLoading("正在上传..");
         //身份证国徽面
         File file_back=new File(map.get("idcard_back_photo").toString());
@@ -104,7 +107,6 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
                         mView.hideLoading();
                         if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
                             mView.showSuccess(baseBean.getMsg());
-                            mView.upLoadSuccess();
                             mView.isCanNext(true);
                             mView.isCanUpLoad(false);
                             mView.isCanEditor(false);
@@ -112,13 +114,75 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
                         } else {
                             LogUtils.d(baseBean.getCode());
                             mView.showFail(baseBean.getMsg());
-                            mView.upLoadFailure();
                             mView.isCanNext(false);
                             mView.isCanUpLoad(true);
                             mView.isCanEditor(true);
                         }
                     }
                 },this::loadUploadError);
+    }*/
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void verifyToken(String userId) {
+        RetrofitManager.create(CertificationApi.class).getAliToken(Long.parseLong(userId))
+                .compose(mView.bindToLife())
+                .compose(RxSchedulers.applySchedulers())
+                .subscribe(new Consumer<AliyunToken>() {
+                    @Override
+                    public void accept(AliyunToken aliyunToken) throws Exception {
+                        if (aliyunToken.getCode() != null && aliyunToken.getCode().equals("0000")) {
+                            if (aliyunToken.getData() != null && aliyunToken.getData().getToken() != null) {
+                                mView.getVerifyTokenSuccess(aliyunToken.getData().getToken());
+                            } else {
+                                mView.getVerifyTokenFailure();
+                            }
+
+                        } else {
+                            mView.getVerifyTokenFailure();
+                        }
+                    }
+                }, this::tokenError);
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void sendOcrResult(String userId, String result, String token) {
+        mView.showLoading();
+        RetrofitManager.create(CertificationApi.class).sendAliyunNotification(Long.parseLong(userId), result, token)
+                .compose(mView.<AliyunNotificationBean>bindToLife())
+                .compose(RxSchedulers.<AliyunNotificationBean>applySchedulers())
+                .subscribe(new Consumer<AliyunNotificationBean>() {
+                    @Override
+                    public void accept(AliyunNotificationBean notificationBean) {
+                        mView.hideLoading();
+                        if (notificationBean.getCode() != null && notificationBean.getCode().equals("0000")) {
+                            mView.showSuccess(notificationBean.getMsg());
+                            if (notificationBean.getData().getState().equals("9001")) {
+                                mView.isCanNext(true);
+                                mView.isCanEditor(false);
+                            } else if (notificationBean.getData().getState().equals("9002")) {
+                                mView.isCanNext(false);
+                                mView.isCanEditor(true);
+                            } else if (notificationBean.getData().getState().equals("9003")) {
+                                mView.isCanNext(true);
+                                mView.isCanEditor(false);
+                            } else if (notificationBean.getData().getState().equals("9004")) {
+                                mView.isCanNext(false);
+                                mView.isCanEditor(true);
+                            } else {
+                                mView.isCanEditor(true);
+                                mView.isCanNext(false);
+                            }
+                            mView.getOcrResultSuccess();
+                        } else {
+                            mView.showFail(notificationBean.getMsg());
+                            mView.getOcrResultFailure();
+                            mView.isCanEditor(false);
+                            mView.isCanNext(false);
+                        }
+                    }
+                }, this::loadStatusError);
     }
 
     @SuppressLint("CheckResult")
@@ -130,30 +194,25 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
                 .compose(RxSchedulers.<PeopleCertificationStatusBean>applySchedulers())
                 .subscribe(new Consumer<PeopleCertificationStatusBean>() {
                     @Override
-                    public void accept(PeopleCertificationStatusBean peopleCertificationStatusBean)  {
+                    public void accept(PeopleCertificationStatusBean peopleCertificationStatusBean) {
                         mView.hideLoading();
                         if (peopleCertificationStatusBean.getCode() != null && peopleCertificationStatusBean.getCode().equals("0000")) {
                             mView.showSuccess(peopleCertificationStatusBean.getMsg());
-                            if (peopleCertificationStatusBean.getData().getState().equals("9001")){
-                                mView.isCanUpLoad(false);
+                            if (peopleCertificationStatusBean.getData().getState().equals("9001")) {
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            } else if (peopleCertificationStatusBean.getData().getState().equals("9002")){
-                                mView.isCanUpLoad(true);
+                            } else if (peopleCertificationStatusBean.getData().getState().equals("9002")) {
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
-                            } else if (peopleCertificationStatusBean.getData().getState().equals("9003")){
-                                mView.isCanUpLoad(false);
+                            } else if (peopleCertificationStatusBean.getData().getState().equals("9003")) {
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
-                            }else if (peopleCertificationStatusBean.getData().getState().equals("9004")){
-                                mView.isCanUpLoad(true);
+                            } else if (peopleCertificationStatusBean.getData().getState().equals("9004")) {
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
                             } else {
                                 mView.isCanEditor(true);
                                 mView.isCanNext(false);
-                                mView.isCanUpLoad(true);
                             }
                             mView.getStatusSuccess(peopleCertificationStatusBean);
                         } else {
@@ -163,45 +222,9 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
                             mView.isCanNext(false);
                         }
                     }
-                },this::loadStatusError);
+                }, this::loadStatusError);
     }
 
-    @SuppressLint("CheckResult")
-    @Override
-    public void downLoadImg(String url, String fileName, int type) {
-        if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
-            LogUtils.d(R.string.toast_12);
-            return;
-        }
-        File file = new File(Constant.SAVE_DIR_YOUDUN, TimeUtils.millis2String(System.currentTimeMillis())+"_"+fileName);
-        if (FileUtils.createFileByDeleteOldFile(file)) {
-            RetrofitManager.DownLoadFile(url)
-                    .compose(mView.<ResponseBody>bindToLife())
-                    .compose(RxSchedulers.<ResponseBody>applySchedulers())
-                    .subscribe(new Consumer<ResponseBody>() {
-                        @Override
-                        public void accept(ResponseBody o) throws Exception {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    boolean b = com.shenjing.dengyuejinfu.utils.FileUtils.writeResponseBodyToDisk(o, file);
-                                    if (b) {
-                                        mView.downLoadImgSuccess(file.getAbsolutePath(), file, type);
-                                    } else {
-                                        mView.downLoadImgFailure(type);
-                                    }
-                                }
-                            }).start();
-
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            mView.downLoadImgFailure(type);
-                        }
-                    });
-        }
-    }
 
     private void loadUploadError(Throwable throwable) {
         throwable.printStackTrace();
@@ -209,7 +232,6 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
         ToastUtils.showShort("加载错误..");
         mView.isCanNext(false);
         mView.isCanEditor(true);
-        mView.isCanUpLoad(true);
     }
 
     private void loadStatusError(Throwable throwable) {
@@ -218,7 +240,14 @@ public  class CertificationActivityPresenter extends BasePresenter<Certification
         ToastUtils.showShort("加载错误..");
         mView.isCanNext(false);
         mView.isCanEditor(true);
-        mView.isCanUpLoad(true);
+        mView.getStatusFailure();
+    }
+
+    private void tokenError(Throwable throwable) {
+        throwable.printStackTrace();
+        mView.hideLoading();
+        ToastUtils.showShort("加载错误..");
+        mView.getVerifyTokenFailure();
     }
 
 }

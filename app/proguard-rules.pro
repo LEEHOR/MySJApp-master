@@ -270,7 +270,7 @@ public <init>(**, android.view.View);
 #for DexGuard only(If you use DexGuard you may also want to include:)
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
-## ---------Retrofit混淆方法---------------
+### ---------Retrofit混淆方法---------------
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 # OkHttp3
@@ -403,4 +403,17 @@ public <init>(**, android.view.View);
 #-keep class com.alipay.tscenter.** { *; }
 #-keep class com.ta.utdid2.** { *;}
 #-keep class com.ut.device.** { *;}
+
+#阿里云盾
+-keep class com.taobao.securityjni.**{*;}
+ -keep class com.taobao.wireless.security.**{*;}
+ -keep class com.ut.secbody.**{*;}
+ -keep class com.taobao.dp.**{*;}
+ -keep class com.alibaba.wireless.security.**{*;}
+ -keep class com.alibaba.security.rp.**{*;}
+ -keep class com.alibaba.sdk.android.**{*;}
+ -keep class com.alibaba.security.biometrics.**{*;}
+ -keep class android.taobao.windvane.**{*;}
+
+
 

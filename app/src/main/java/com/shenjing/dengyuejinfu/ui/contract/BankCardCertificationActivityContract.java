@@ -1,5 +1,7 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
+import android.widget.TextView;
+
 import com.shenjing.dengyuejinfu.base.BaseContract;
 import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 
@@ -23,11 +25,6 @@ public class BankCardCertificationActivityContract {
 
         void upLoadSuccess();
         void upLoadFailure();
-
-        void downLoadImgSuccess(String filePath,File file);
-
-        void downLoadImgFailure();
-
         /**
          * 是否可以跳转
          * @param isCanNext
@@ -45,6 +42,8 @@ public class BankCardCertificationActivityContract {
          * @param isCanEditor
          */
         void isCanEditor(boolean isCanEditor);
+
+         TextView submit();
     }
 
     /**
@@ -56,12 +55,6 @@ public class BankCardCertificationActivityContract {
 
         void upLoadBankCardInfo(Map<String,Object> map);
 
-        /**
-         *  下载
-         * @param url
-         * @param fileName
-         */
-        void DownLoadImg(String url,String fileName);
 
     }
 

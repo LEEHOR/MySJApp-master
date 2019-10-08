@@ -16,6 +16,7 @@
     <color name="transparent">#00000000</color>
     <color name="GhostWhite">#F8F8FF</color>
     <color name="bg_color">#F2F2F2</color>
+    <color name="bgColor_overlay">#F6F6F6</color>
 
     <!--文字颜色-->
     <color name="textColor">#333333</color>

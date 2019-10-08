@@ -1,1 +1,1 @@
-include ':app', 'ShareModule'
+include ':app', ':youDunModule', ':ShareModule'

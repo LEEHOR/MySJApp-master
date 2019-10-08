@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.annotation.UiThread;
 import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -44,7 +43,6 @@ import com.shenjing.dengyuejinfu.widgte.TitleBar;
 import com.superluo.textbannerlibrary.ITextBannerItemClickListener;
 import com.superluo.textbannerlibrary.TextBannerView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +72,10 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     TextBannerView indexBannerView;
     @BindView(R.id.index_IncreaseTheQuota)
     LinearLayout indexIncreaseTheQuota;
+    @BindView(R.id.index_bankList)
+    LinearLayout index_bankList;
+    @BindView(R.id.index_loanList)
+    LinearLayout index_loanList;
     private List<String> bannerList = new ArrayList<>();
     private List<String> marqueeList = new ArrayList<>();
     private static final int INSTALL_PERMISSION_SETTING = 1;
@@ -120,7 +122,6 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
             @Override
             public void onRefresh() {
                 mPresenter.Banner("1");
-                //mPresenter.getVersion();
             }
         });
     }
@@ -134,17 +135,26 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
         }
     }
 
-    @OnClick({R.id.index_cardEvaluation, R.id.index_creditInquiry,R.id.index_IncreaseTheQuota})
+    @OnClick({R.id.index_cardEvaluation, R.id.index_creditInquiry, R.id.index_IncreaseTheQuota
+            ,R.id.index_bankList,R.id.index_loanList})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.index_cardEvaluation:
-                ARouter.getInstance().build(ARouterUrl.CardEvaluationActivityUrl).navigation(getActivity(),new LoginNavigationCallback());
+                ARouter.getInstance().build(ARouterUrl.CardEvaluationActivityUrl).navigation(getActivity(), new LoginNavigationCallback());
                 break;
             case R.id.index_creditInquiry:
-                ARouter.getInstance().build(ARouterUrl.CreditInquiryActivityUrl).navigation(getActivity(),new LoginNavigationCallback());
+                ARouter.getInstance().build(ARouterUrl.CreditInquiryActivityUrl).navigation(getActivity(), new LoginNavigationCallback());
+                break;
+            case R.id.index_bankList:  //申请信用卡
+                ARouter.getInstance().build(ARouterUrl.BankListActivityUrl)
+                        .navigation(getActivity(), new LoginNavigationCallback());
+                break;
+            case R.id.index_loanList:  //申请信用卡
+                ARouter.getInstance().build(ARouterUrl.LoanListActivityUrl)
+                        .navigation(getActivity(), new LoginNavigationCallback());
                 break;
             case R.id.index_IncreaseTheQuota:
-                ARouter.getInstance().build(ARouterUrl.IncreaseQuotaActivityUrl).navigation(getActivity(),new LoginNavigationCallback());
+                ARouter.getInstance().build(ARouterUrl.IncreaseQuotaActivityUrl).navigation(getActivity(), new LoginNavigationCallback());
                 break;
         }
     }
@@ -152,6 +162,15 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     @Override
     public void getBannerSuccess(BannerBean bannerBean) {
         if (bannerBean.getData() != null) {
+            if (bannerBean.getData().getSwitchs() != null) {
+                if (bannerBean.getData().getSwitchs().equals("1")) {
+                    index_loanList.setVisibility(View.VISIBLE);
+                } else {
+                    index_loanList.setVisibility(View.INVISIBLE);
+                }
+            } else {
+
+            }
             List<BannerBean.DataBean.Banner> banner = bannerBean.getData().getBanner();
             if (banner != null) {
                 bannerList.clear();
@@ -197,10 +216,6 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
                 int i = CompareVersion.compareVersionNumber(appVersionName, versionId);
                 LogUtils.d("版本", i);
                 if (i == 1) {
-
-//                    showVisionDialog(versionBean.getData().getDescription(), versionId
-//                            , versionBean.getData().getForceUpdate()
-//                            , apkDownLoadUrl);
                     ForcedUpdateDialog(versionBean.getData().getDescription(), versionId
                             , versionBean.getData().getForceUpdate()
                             , apkDownLoadUrl);
@@ -311,7 +326,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
             materialDialog.setCancelable(true);
             materialDialog.setCanceledOnTouchOutside(true);
             materialDialog.setActionButton(DialogAction.POSITIVE, getResources().getString(R.string.dialog_1));
-            materialDialog.setActionButton(DialogAction.NEGATIVE,  getResources().getString(R.string.dialog_2));
+            materialDialog.setActionButton(DialogAction.NEGATIVE, getResources().getString(R.string.dialog_2));
         }
         materialDialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -373,20 +388,21 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
 
     /**
      * 强制跟新的弹窗
+     *
      * @param describe
      * @param visionId
      * @param apkDownLoadUrl
      */
-    private void ForcedUpdateDialog(String describe, String visionId, String forceUpdate,String apkDownLoadUrl){
+    private void ForcedUpdateDialog(String describe, String visionId, String forceUpdate, String apkDownLoadUrl) {
         MaterialDialog.Builder mBuilder = new MaterialDialog.Builder(getActivity());
         String format = getResources().getString(R.string.dialog_3);
         String title = String.format(format, visionId);
-        mBuilder.titleColor(getResources().getColor(R.color.colorPrimary,null));
-        mBuilder.widgetColor(getResources().getColor(R.color.colorPrimary,null));
+        mBuilder.titleColor(getResources().getColor(R.color.colorPrimary, null));
+        mBuilder.widgetColor(getResources().getColor(R.color.colorPrimary, null));
         mBuilder.titleGravity(GravityEnum.CENTER);
         mBuilder.title(title);
         mBuilder.content(describe);
-        if (forceUpdate.equals("1")){
+        if (forceUpdate.equals("1")) {
             mBuilder.cancelable(false);
             mBuilder.canceledOnTouchOutside(false);
             mBuilder.neutralText(getResources().getString(R.string.dialog_1));
@@ -401,7 +417,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
         mBuilder.onAny(new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                switch (which){
+                switch (which) {
                     case NEGATIVE:
                         materialDialog.dismiss();
                         break;

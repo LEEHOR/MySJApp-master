@@ -31,7 +31,7 @@ android {
         multiDexEnabled true
         ndk {
             // 设置支持的SO库架构，第三方给的so库哪几种架构，就配置这几种架构
-            abiFilters 'armeabi' , 'armeabi-v7a'
+            abiFilters 'armeabi-v7a','arm64-v8a','armeabi'
         }
         javaCompileOptions {
             annotationProcessorOptions {
@@ -49,7 +49,7 @@ android {
             zipAlignEnabled true
             // 移除无用的resource文件
             shrinkResources true
-            multiDexEnabled = true
+            
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
@@ -62,7 +62,6 @@ android {
             zipAlignEnabled true
             // 移除无用的resource文件
             shrinkResources true
-            multiDexEnabled = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -85,14 +84,14 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    //implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-
-    //implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
+
     //支付分享
     implementation project(':ShareModule')
+    //杭州有盾
+   // implementation project(':youDunModule')
 
     //butterknife
     implementation 'com.jakewharton:butterknife:10.1.0'
@@ -104,20 +103,21 @@ dependencies {
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-
-    ////Json数据解析
+    //Json数据解析
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
 
-    //rxjava  // 2.1.17    2.0.2
+    //logging-interceptor
+     implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
+
+    //rxjava
     implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 
-    //logging-interceptor
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
-
-    //multidex
+    // 1.如果是android 5.0以上的设备，只需要设置为multiDexEnabled true
+    //2.（1）如果需要适配android 5.0以下的设备需要分包支持库，
+    // （2）java代码中 继承MultiDexApplication 或者 在Application中attachBaseContext()方法添加MultiDex.install(this);
     implementation 'androidx.multidex:multidex:2.0.1'
 
     //Glide图片加载框架  4.7.1
@@ -128,34 +128,41 @@ dependencies {
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 
+    //阿里云盾实人认证
+    implementation(name: 'oss-android-sdk-2.9.2', ext: 'aar')
+    implementation(name: 'FaceLivenessOpen-2.1.6.15', ext: 'aar')
+    implementation(name: 'rpsdk-3.1.0.1', ext: 'aar')
+    implementation(name: 'SecurityGuardSDK-external-release-5.4.9901', ext: 'aar')
+    implementation(name: 'SecurityBodySDK-external-release-5.4.79', ext: 'aar')
+    implementation(name: 'NoCaptchaSDK-external-release-5.4.33', ext: 'aar')
+
     /** *----------------- 其它的三方库（Module  引入的自定义View等）  start-----------------  ****/
 
     // DatePick 效果的弹出选择框(日期选择)
-    implementation 'com.bigkoo:pickerview:2.0.8'
+  //  implementation 'com.bigkoo:pickerview:2.0.8'
 
     //仿支付宝密码
-    implementation 'com.jungly:gridPasswordView:0.3'
+   // implementation 'com.jungly:gridPasswordView:0.3'
 
     // URL路由
     implementation 'com.alibaba:arouter-api:1.5.0'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 
     // android权限管理 https://github.com/yanzhenjie/AndPermission
-
     // implementation 'com.yanzhenjie:permission:2.0.0'
-    implementation 'com.yanzhenjie.alertdialog:alertdialog:1.0.0'
+   // implementation 'com.yanzhenjie.alertdialog:alertdialog:1.0.0'
 
-    //弹窗
+    //支持material风格的弹窗
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
-    //安卓开发工具类
+    //安卓工具类
     implementation 'com.blankj:utilcodex:1.25.9'
 
     //底部菜单
     implementation 'com.ashokvarma.android:bottom-navigation-bar:1.3.0'
 
     //eventbus
-    implementation 'org.greenrobot:eventbus:3.1.1'
+   // implementation 'org.greenrobot:eventbus:3.1.1'
 
     //简洁adapter
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
@@ -165,9 +172,6 @@ dependencies {
 
     //文字轮播，可垂直跑、可水平跑的跑马灯
     implementation 'com.superluo:textbannerview:1.0.5'
-
-    //二维码生成工具
-    //implementation files('libs/zxing-3.3.3.jar')
 
     //高德地图
     implementation 'com.amap.api:location:latest.integration'

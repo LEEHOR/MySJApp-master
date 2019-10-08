@@ -56,22 +56,27 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
+                                mView.submit().setText("完成");
                             } else if (bankInfoBean.getData().getState().equals("9002")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
+                                mView.submit().setText("上传");
                             } else if (bankInfoBean.getData().getState().equals("9003")){
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
+                                mView.submit().setText("完成");
                             }else if (bankInfoBean.getData().getState().equals("9004")){
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
+                                mView.submit().setText("上传");
                             } else {
                                 mView.isCanEditor(true);
                                 mView.isCanNext(false);
                                 mView.isCanUpLoad(true);
+                                mView.submit().setText("上传");
                             }
                             mView.getBankInfoSuccess(bankInfoBean);
                         } else {
@@ -80,6 +85,7 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                             mView.isCanEditor(false);
                             mView.isCanNext(false);
                             mView.isCanUpLoad(false);
+                            mView.submit().setText("返回");
                         }
                     }
                 },this::loadStatusError);
@@ -93,10 +99,10 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
         RequestBody requestBody_bankCardFile  =RequestBody.create(bankCardFile, MediaType.parse("multipart/form-data"));
         RequestBody body=new MultipartBody.Builder()
                 .addFormDataPart("phoneNumber",map.get("phoneNumber").toString())
-                .addFormDataPart("bank","天地银行")
+                .addFormDataPart("bank",map.get("bankName").toString())
                 .addFormDataPart("bankCardNo",map.get("bankCardNo").toString())
                 .addFormDataPart("userId",map.get("userId").toString())
-                .addFormDataPart("bankCardImg",bankCardFile.getName(),requestBody_bankCardFile)
+               .addFormDataPart("bankCardImg",bankCardFile.getName(),requestBody_bankCardFile)
                 .build();
 
         RetrofitManager.create(CertificationApi.class).upLoadBankCardInfo(body)
@@ -123,38 +129,6 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                 },this::loadUploadError);
     }
 
-    @SuppressLint("CheckResult")
-    @Override
-    public void DownLoadImg(String url, String fileName) {
-        if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
-            LogUtils.d(R.string.toast_12);
-            return;
-        }
-        File file = new File(Constant.SAVE_DIR_YOUDUN, TimeUtils.millis2String(System.currentTimeMillis())+"_"+fileName);
-        if (FileUtils.createFileByDeleteOldFile(file)) {
-            RetrofitManager.DownLoadFile(url)
-                    .compose(mView.<ResponseBody>bindToLife())
-                    .compose(RxSchedulers.<ResponseBody>applySchedulers())
-                    .subscribe(new Consumer<ResponseBody>() {
-                        @Override
-                        public void accept(ResponseBody o) throws Exception {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    boolean b = com.shenjing.dengyuejinfu.utils.FileUtils.writeResponseBodyToDisk(o, file);
-                                    if (b) {
-                                        mView.downLoadImgSuccess(file.getAbsolutePath(), file);
-                                    } else {
-                                        mView.downLoadImgFailure();
-                                    }
-                                }
-                            }).start();
-
-                        }
-                    },this::downLoadError);
-        }
-    }
-
     private void loadUploadError(Throwable throwable) {
         throwable.printStackTrace();
         mView.hideLoading();
@@ -170,10 +144,8 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
         ToastUtils.showShort("加载错误..");
         mView.isCanNext(false);
         mView.isCanEditor(true);
-        mView.isCanUpLoad(true);
+        mView.isCanUpLoad(false);
+        mView.submit().setText("返回");
     }
-    private void downLoadError(Throwable throwable) {
-        throwable.printStackTrace();
-        mView.downLoadImgFailure();
-    }
+
 }

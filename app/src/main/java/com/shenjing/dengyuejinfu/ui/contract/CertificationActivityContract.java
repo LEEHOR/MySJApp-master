@@ -3,6 +3,7 @@ package com.shenjing.dengyuejinfu.ui.contract;
 import android.widget.TextView;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
+import com.shenjing.dengyuejinfu.entity.BaseBean;
 import com.shenjing.dengyuejinfu.entity.PeopleCertificationStatusBean;
 
 import java.io.File;
@@ -20,19 +21,25 @@ public class CertificationActivityContract {
      */
     public interface View extends BaseContract.BaseView {
 
-        void upLoadSuccess();
-
-        void upLoadFailure();
 
         void getStatusSuccess(PeopleCertificationStatusBean certificationStatus);
 
         void getStatusFailure();
 
+        void getVerifyTokenSuccess(String token);
+
+        void getVerifyTokenFailure();
+
+        void getOcrResultSuccess();
+
+        void getOcrResultFailure();
+
+//        void downLoadImgSuccess(int type, byte[] bytes);
+//
+//        void downLoadImgFailure(int type);
+
         TextView submitText();
 
-        void downLoadImgSuccess(String filePath, File file,int type);
-
-        void downLoadImgFailure(int type);
 
         /**
          * 是否可以跳转
@@ -40,13 +47,6 @@ public class CertificationActivityContract {
          * @param isCanNext
          */
         void isCanNext(boolean isCanNext);
-
-        /**
-         * 是否需要上传
-         *
-         * @param isCanUpLoad
-         */
-        void isCanUpLoad(boolean isCanUpLoad);
 
         /**
          * 控件是否可编辑
@@ -60,12 +60,21 @@ public class CertificationActivityContract {
      * 逻辑
      */
     public interface Presenter extends BaseContract.BasePresenter<View> {
+
+
         /**
-         * 认证
-         *
-         * @param map
+         * 获取阿里云认证Token
          */
-        void uploadPeopleInfo(Map<String, Object> map);
+        void verifyToken(String userId);
+
+        /**
+         * 发送结果通知后台
+         * @param userId
+         * @param result
+         */
+        void sendOcrResult(String userId,String result,String token);
+
+//        void downLoadImg(String url,int type);
 
         /**
          * 获取认证状态
@@ -75,14 +84,7 @@ public class CertificationActivityContract {
         void getPeopleStatus(String userId);
 
 
-        /**
-         * @param url
-         * @param fileName
-         * @param type     1 身份证前
-         *                 2 身份证背
-         *                 3 身份证头
-         *                 4 活体
-         */
-        void downLoadImg(String url, String fileName, int type);
+
+
     }
 }

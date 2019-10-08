@@ -1,4 +1,4 @@
-package com.leehor.simple.youdun;
+package com.shengjing.youdunmoduel.youdun;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +21,7 @@ public interface YouDunListener {
 
     void optionVerifyCompare(JSONObject jsonObject);
 
-    void optionError(JSONObject jsonObject);
-
     void JSONExceptionError(JSONException e);
+
+    void optionError(JSONObject jsonObject);
 }

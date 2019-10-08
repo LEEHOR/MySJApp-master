@@ -82,6 +82,23 @@ public class RetrofitManager {
                 .build();
         return retrofit.create(clazz);
 
+    }
+
+    /**
+     * 测试
+     * @param clazz
+     * @param baseUrl
+     * @param <T>
+     * @return
+     */
+    public static <T> T createTest(Class<T> clazz,String baseUrl) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(getOkHttpClient())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(clazz);
 
     }
     /**

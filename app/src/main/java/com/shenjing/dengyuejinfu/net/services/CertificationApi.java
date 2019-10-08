@@ -1,6 +1,8 @@
 package com.shenjing.dengyuejinfu.net.services;
 
 import com.shenjing.dengyuejinfu.entity.AddCreditCardBean;
+import com.shenjing.dengyuejinfu.entity.AliyunNotificationBean;
+import com.shenjing.dengyuejinfu.entity.AliyunToken;
 import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 import com.shenjing.dengyuejinfu.entity.BaseBean;
 import com.shenjing.dengyuejinfu.entity.PaymentBean;
@@ -35,18 +37,32 @@ public interface CertificationApi {
     Observable<AddCreditCardBean> uploadCreditCardInfo(@FieldMap Map<String,Object> map);
 
     /**
-     * 实名认证（身份证认证）
+     * 获取认证状态（身份证认证）状态
      */
-    @POST("/act/upload/identity/card")
-    Observable<BaseBean> uploadCreditPeople(@Body RequestBody requestBody);
-
-    /**
-     * getBankCardInfo
-     * 实名认证（身份证认证）状态
-     */
-    @POST("/act/authentication/identity")
+    @POST("/authentication/identity")
     @FormUrlEncoded
     Observable<PeopleCertificationStatusBean> getCreditPeopleStatus(@Field("userId") long userId);
+
+
+    /**
+     * 获取阿里云认证token
+     * @param userId
+     * @return
+     */
+    @POST("/upload/identity/token")
+    @FormUrlEncoded
+    Observable<AliyunToken> getAliToken(@Field("userId") long userId);
+
+
+    /**
+     * 阿里云Ocr结果通知
+     * @param userId
+     * @param result
+     * @return
+     */
+    @POST("/upload/identity/notification")
+    @FormUrlEncoded
+    Observable<AliyunNotificationBean> sendAliyunNotification(@Field("userId") long userId, @Field("result") String result,@Field("token")String token);
 
 
     /**
@@ -86,11 +102,5 @@ public interface CertificationApi {
     @POST("/upLoadTakeImg")
     Observable<BaseBean> upLoadTakeImag(@Body RequestBody requestBody);
 
-    /**
-     * 下载
-     * @return
-     */
-    @GET
-    Observable<ResponseBody> downLoadFile();
 
 }

@@ -5,8 +5,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
+
 import androidx.multidex.MultiDex;
+
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.alibaba.security.rp.RPSDK;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -32,6 +35,7 @@ public class App extends Application {
         initApplicationComponent();
         intARouter();
         MultiDex.install(this);
+        RPSDK.initialize(this);
         //配置ToastUtils的相关的属性
         Utils.init(this);
         ToastUtils.setGravity(Gravity.TOP, 0, (int) (80 * Utils.getApp().getResources().getDisplayMetrics().density + 0.5));
@@ -93,5 +97,9 @@ public class App extends Application {
         BaseParams.userToken=spUtils.getString(BaseParams.USER_TOKEN_KEY,"");
         LogUtils.d(BaseParams.userName,BaseParams.userId,BaseParams.userToken);
 
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
     }
 }

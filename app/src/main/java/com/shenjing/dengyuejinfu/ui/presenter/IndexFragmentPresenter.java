@@ -12,6 +12,7 @@ import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
 import com.shenjing.dengyuejinfu.net.services.CertificationApi;
 import com.shenjing.dengyuejinfu.net.services.IndexFragmentApi;
+import com.shenjing.dengyuejinfu.net.services.TestApi;
 import com.shenjing.dengyuejinfu.net.services.UserApi;
 import com.shenjing.dengyuejinfu.entity.BannerBean;
 import com.shenjing.dengyuejinfu.entity.BaseBean;
@@ -121,6 +122,21 @@ public class IndexFragmentPresenter extends BasePresenter<IndexFragmentContract.
                     }
                 },this::checkVersionError);
     }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void testApi() {
+        RetrofitManager.create(TestApi.class).testNet()
+                .compose(mView.<BaseBean>bindToLife())
+                .compose(RxSchedulers.<BaseBean>applySchedulers())
+                .subscribe(new Consumer<BaseBean>() {
+                    @Override
+                    public void accept(BaseBean baseBean) {
+
+                    }
+                },this::checkVersionError);
+    }
+
     private void lostPassError(Throwable throwable) {
         throwable.printStackTrace();
         mView.hideLoading();

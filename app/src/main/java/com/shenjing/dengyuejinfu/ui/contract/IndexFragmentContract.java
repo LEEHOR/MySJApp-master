@@ -40,5 +40,8 @@ public class IndexFragmentContract {
 
        void getVersion();
 
+       //测试
+       void testApi();
+
     }
 }

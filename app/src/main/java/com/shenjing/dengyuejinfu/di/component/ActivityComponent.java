@@ -7,8 +7,10 @@ import com.shenjing.dengyuejinfu.di.scope.ActivityScope;
 import com.shenjing.dengyuejinfu.ui.activity.AddCreditCardActivity;
 import com.shenjing.dengyuejinfu.ui.activity.AnnouncementActivity;
 import com.shenjing.dengyuejinfu.ui.activity.BankCardCertificationActivity;
+import com.shenjing.dengyuejinfu.ui.activity.BankListActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CardEvaluationActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CardEvaluationRecordActivity;
+import com.shenjing.dengyuejinfu.ui.activity.CardListActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CashWithdrawalActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CertificationActivity;
 import com.shenjing.dengyuejinfu.ui.activity.CertificationFaceActivity;
@@ -18,6 +20,7 @@ import com.shenjing.dengyuejinfu.ui.activity.CreditInquiryActivity;
 import com.shenjing.dengyuejinfu.ui.activity.DiscountRecordActivity;
 import com.shenjing.dengyuejinfu.ui.activity.IncreaseQuotaInformationActivity;
 import com.shenjing.dengyuejinfu.ui.activity.IncreaseTheQuotaActivity;
+import com.shenjing.dengyuejinfu.ui.activity.LoanListActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LoanPageActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LoginActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LostPassActivity;
@@ -87,4 +90,9 @@ public interface ActivityComponent {
 
     void inject(CertificationFaceActivity certificationFaceActivity);
 
+    void inject(BankListActivity bankListActivity);
+
+    void inject(CardListActivity cardListActivity);
+
+    void inject(LoanListActivity loanListActivity);
 }

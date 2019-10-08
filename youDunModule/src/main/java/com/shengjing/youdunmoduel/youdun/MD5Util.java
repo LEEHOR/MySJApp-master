@@ -1,4 +1,4 @@
-package com.leehor.simple.youdun;
+package com.shengjing.youdunmoduel.youdun;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;

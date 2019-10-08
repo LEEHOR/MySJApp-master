@@ -1,4 +1,4 @@
-package com.leehor.simple.youdun;
+package com.shengjing.youdunmoduel.youdun;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,7 +13,6 @@ import com.authreal.component.LivingComponent;
 import com.authreal.component.OCRBankComponent;
 import com.authreal.component.OCRComponent;
 import com.authreal.component.VerifyCompareComponent;
-import com.leehor.simple.Config;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -174,10 +173,6 @@ public class YouDunHelper {
                 try {
                     JSONObject jsonObject = new JSONObject(s);
                     Log.d("友盾","解析"+jsonObject.toString());
-//                    if (jsonObject.has("success") && (
-//                            jsonObject.getString("success").equals("true")
-//                            || jsonObject.getString("success").equals("1")
-//                    )) {
                         switch (i) {
                             //银行卡识别Ocr
                             case AuthBuilder.OPTION_OCR_BANK:

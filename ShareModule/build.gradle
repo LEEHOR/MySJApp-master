@@ -8,27 +8,28 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled = true
         ndk {
             // 设置支持的SO库架构，第三方给的so库哪几种架构，就配置这几种架构
             abiFilters 'armeabi' , 'armeabi-v7a'
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
     buildTypes {
         release {
             minifyEnabled true
-            multiDexEnabled = true
             zipAlignEnabled true
             // 移除无用的resource文件
            // shrinkResources true
-            consumerProguardFile 'proguard-rules.pro'
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //consumerProguardFile 'proguard-rules.pro'
+           // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug{
             minifyEnabled true
-            multiDexEnabled = true
             zipAlignEnabled true
-            consumerProguardFile 'proguard-rules.pro'
+           // consumerProguardFile 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
     }
@@ -44,6 +45,5 @@ dependencies {
    // api files('libs/weibo-open-sdk-4.2.7.aar')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     implementation (name:'alipaySdk-15.6.5-20190718211148', ext: 'aar')
-    //友盾sdk
-    implementation (name:'UDSDKV4.3.LL190912.20190912', ext: 'aar')
+
 }
