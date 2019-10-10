@@ -3,6 +3,7 @@ package com.shenjing.dengyuejinfu.base;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,7 +128,7 @@ public abstract class BaseDialogFragment<T extends BaseContract.BasePresenter> e
     }
     @Override
     public void hideLoading() {
-        if (mProgressDialog.isShowing()) {
+        if (mProgressDialog!=null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
     }
@@ -198,6 +199,10 @@ public abstract class BaseDialogFragment<T extends BaseContract.BasePresenter> e
      * @param color
      */
     protected  void  setStatusBarTextColor(int color){
-        BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()),getResources().getColor(color,null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()),getResources().getColor(color,null));
+        } else {
+            BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()),getResources().getColor(color));
+        }
     }
 }

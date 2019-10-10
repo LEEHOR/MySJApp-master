@@ -3,6 +3,7 @@ package com.shenjing.dengyuejinfu.base;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -218,7 +219,11 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
      * @param color
      */
     protected  void  setStatusBarTextColor(int color){
-        BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()),getResources().getColor(color,null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()),getResources().getColor(color,null));
+        } else {
+            BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()),getResources().getColor(color));
+        }
     }
     protected  void  setStatusBarTextAlpha(int alpha){
         BarUtils.setStatusBarColor(Objects.requireNonNull(getActivity()), Color.argb(alpha, 0, 0, 0));
@@ -239,12 +244,20 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
      */
     protected void setPageLeftText(TitleBar titleBar, String title, int color, OnOnceClickListener onceClickListener){
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setLeftText(title,getResources().getColor(color,null),onceClickListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setLeftText(title,getResources().getColor(color,null),onceClickListener);
+        } else {
+            titleBar.setLeftText(title,getResources().getColor(color),onceClickListener);
+        }
     }
     /*** 设置左侧页面返回 ***/
     protected void setTitleLeft(TitleBar titleBar,int leftIcon, String leftText,int color, OnOnceClickListener onceClickListener) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setLeftMenu(leftIcon, leftText,getResources().getColor(color,null), onceClickListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setLeftMenu(leftIcon, leftText,getResources().getColor(color,null), onceClickListener);
+        } else {
+            titleBar.setLeftMenu(leftIcon, leftText,getResources().getColor(color), onceClickListener);
+        }
     }
 
     /**
@@ -264,7 +277,11 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
      */
     protected void setPageTitle(TitleBar titleBar,String title,int color) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setTitleText(title,getResources().getColor(color,null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setTitleText(title,getResources().getColor(color,null));
+        } else {
+            titleBar.setTitleText(title,getResources().getColor(color));
+        }
     }
 
     /**
@@ -273,7 +290,11 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
      */
     protected void setTittleBarBackgraound(TitleBar titleBar,int color) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setTitleBarBackground(getResources().getColor(color,null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setTitleBarBackground(getResources().getColor(color,null));
+        } else {
+            titleBar.setTitleBarBackground(getResources().getColor(color));
+        }
 
     }
 

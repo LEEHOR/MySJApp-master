@@ -42,14 +42,11 @@ public class BankListActivityPresenter extends BasePresenter<BankListActivityCon
                         mView.hideLoading();
                         if (bankListBean.getCode() != null && bankListBean.getCode().equals("0000")) {
                             mView.showSuccess(bankListBean.getMsg());
-                            mView.getBankListSuccess(bankListBean.getData().getImg());
                             mView.isCanRefresh(false);
-                            if (bankListBean.getData() != null && bankListBean.getData().getBankList() != null && bankListBean.getData().getBankList().size() > 0) {
-                                mView.getAdapter().setNewData(bankListBean.getData().getBankList());
-                            } else {
-                                mView.getAdapter().setEmptyView(R.layout.view_empty, mView.getRecycler());
+                            mView.getAdapter().setNewData(bankListBean.getData() != null?bankListBean.getData().getBankList():null);
+                            if (bankListBean.getData() != null ) {
+                                mView.getBankListSuccess(bankListBean.getData().getImg());
                             }
-
                         } else {
                             mView.showFail(bankListBean.getMsg());
                             mView.isCanRefresh(false);

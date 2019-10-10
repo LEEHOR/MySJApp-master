@@ -39,6 +39,7 @@ public class RetrofitManager {
 
     private static volatile OkHttpClient mOkHttpClient;
     private static volatile OkHttpClient DOkHttpClient;
+    private static volatile OkHttpClient BaseHttpClient;
     /**
      * 获取OkHttpClient实例
      *
@@ -101,6 +102,40 @@ public class RetrofitManager {
         return retrofit.create(clazz);
 
     }
+    /***************************************通用的网络请求类*************************************/
+    public static <T> T createBase(Class<T> clazz,String baseUrl) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(getBaseOkHttpClient())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(clazz);
+
+    }
+    /***************************************通用的okhttp*************************************/
+    public static OkHttpClient getBaseOkHttpClient(){
+        if (BaseHttpClient == null) {
+            synchronized (RetrofitManager.class) {
+                if (BaseHttpClient == null) {
+                    //DEBUG模式下配Log参数拦截拦截器
+                    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                    builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
+                    builder.readTimeout(READ_TIMEOUT, TimeUnit.SECONDS);
+                    builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);
+                    if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLogging());
+                        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+                        builder.addInterceptor(loggingInterceptor);
+                    }
+                    BaseHttpClient = builder.build();
+                }
+            }
+        }
+        return BaseHttpClient;
+    }
+
+    /**************************************身份认证下载图片的请求**********************************/
     /**
      * 下载的
      * @return
@@ -138,6 +173,7 @@ public class RetrofitManager {
             public void subscribe(ObservableEmitter<ResponseBody> emitter) {
                 Request request=new Request.Builder().url(url).get().build();
                 OkHttpClient okHttpClient=getDownLoadOkHttpClient();
+                Call call = okHttpClient.newCall(request);
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {

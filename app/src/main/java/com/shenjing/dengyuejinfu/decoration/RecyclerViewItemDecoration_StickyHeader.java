@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
@@ -37,14 +38,22 @@ public class RecyclerViewItemDecoration_StickyHeader extends RecyclerView.ItemDe
         resources = context.getResources();
         dimension = context.getResources().getDimensionPixelOffset(R.dimen.dp_10);
         paint = new Paint();
-        paint.setColor(context.getResources().getColor(R.color.material_blue_700,null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            paint.setColor(context.getResources().getColor(R.color.material_blue_700,null));
+        } else {
+            paint.setColor(context.getResources().getColor(R.color.material_blue_700));
+        }
 
         textPaint = new TextPaint();
         fontMetrics = new Paint.FontMetrics();
 
         textPaint.setTypeface(Typeface.DEFAULT_BOLD); //加粗
         textPaint.setTextSize(60); //大小
-        textPaint.setColor(resources.getColor(R.color.black,null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            textPaint.setColor(resources.getColor(R.color.black,null));
+        } else {
+            textPaint.setColor(resources.getColor(R.color.black));
+        }
         textPaint.getFontMetrics(fontMetrics); //字体风格
         textPaint.setTextAlign(Paint.Align.LEFT); //文字位置
         textPaint.setAntiAlias(true);  //抗锯齿

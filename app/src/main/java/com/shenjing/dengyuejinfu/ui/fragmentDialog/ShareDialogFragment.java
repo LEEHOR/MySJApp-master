@@ -48,8 +48,8 @@ public class ShareDialogFragment extends BaseDialogFragment<ShareDialogFragmentP
     TextView shareQqSpace;
     @BindView(R.id.share_dismiss)
     View shareDismiss;
-    //private String imageUrl = "https://upload-images.jianshu.io/upload_images/6282067-44c21d511d89c9d4";
-   // private String webUrl = "https://blog.csdn.net/change987654321/article/details/53199139";
+    private shareListener shareListener;
+
 
     @Override
     protected int getLayoutId() {
@@ -136,16 +136,25 @@ public class ShareDialogFragment extends BaseDialogFragment<ShareDialogFragmentP
     @Override
     public void onShareSuccess(int sharePlatForm, int shareType) {
         ToastUtils.showLong("分享成功");
+        if (shareListener != null) {
+            shareListener.shareSuccess(sharePlatForm,shareType);
+        }
     }
 
     @Override
     public void onShareFailed(int sharePlatForm, int shareType, String failedMessage) {
         ToastUtils.showLong("分享失败");
+        if (shareListener != null) {
+            shareListener.shareFailure(sharePlatForm, shareType, failedMessage);
+        }
     }
 
     @Override
     public void onCancelShare(int sharePlatForm, int shareType, String message) {
         ToastUtils.showLong("分享失败");
+        if (shareListener != null) {
+            shareListener.shareCancel(sharePlatForm, shareType, message);
+        }
     }
 
     @Override
@@ -153,4 +162,10 @@ public class ShareDialogFragment extends BaseDialogFragment<ShareDialogFragmentP
         ShareKeeper.getInstance().onDestroy();
         super.onDestroy();
     }
+
+    public void setShareListener(shareListener listener){
+        this.shareListener=listener;
+    }
+
+
 }

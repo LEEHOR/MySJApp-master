@@ -397,8 +397,14 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
         MaterialDialog.Builder mBuilder = new MaterialDialog.Builder(getActivity());
         String format = getResources().getString(R.string.dialog_3);
         String title = String.format(format, visionId);
-        mBuilder.titleColor(getResources().getColor(R.color.colorPrimary, null));
-        mBuilder.widgetColor(getResources().getColor(R.color.colorPrimary, null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mBuilder.titleColor(getResources().getColor(R.color.colorPrimary, null));
+            mBuilder.widgetColor(getResources().getColor(R.color.colorPrimary, null));
+        } else {
+            mBuilder.titleColor(getResources().getColor(R.color.colorPrimary));
+            mBuilder.widgetColor(getResources().getColor(R.color.colorPrimary));
+        }
+
         mBuilder.titleGravity(GravityEnum.CENTER);
         mBuilder.title(title);
         mBuilder.content(describe);

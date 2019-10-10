@@ -61,14 +61,17 @@ public  class  ARouterUrl {
 
     public static final String IncreaseQuotaInformationActivityUrl="/activity/IncreaseQuotaInformationActivity";
 
-    public static final String CertificationFaceActivityUrl="/activity/CertificationFaceActivityUrl";
+    public static final String CertificationFaceActivityUrl="/activity/CertificationFaceActivity";
 
-    public static final String BankListActivityUrl="/activity/BankListActivityUrl";
+    public static final String BankListActivityUrl="/activity/BankListActivity";
 
-    public static final String CardListActivityUrl="/activity/CardListActivityUrl";
+    public static final String CardListActivityUrl="/activity/CardListActivity";
 
-    public static final String LoanListActivityUrl="/activity/LoanListActivityUrl";
+    public static final String LoanListActivityUrl="/activity/LoanListActivity";
+
     /*dialog*/
     public static final String ShareDialogFragmentUrl="/fragment/ShareDialogFragment";
+
+    public static final String SelectBankDialogFragmentUrl="/fragment/SelectBankDialogFragment";
 
 }

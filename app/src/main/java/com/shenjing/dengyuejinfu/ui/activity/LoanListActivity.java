@@ -81,6 +81,7 @@ public class LoanListActivity extends BaseActivity<LoanListActivityPresenter>
         GridLayoutManager gridLayoutManager = new GridLayoutManager(LoanListActivity.this, 3, RecyclerView.VERTICAL, false);
         loanListRecycler.setLayoutManager(gridLayoutManager);
         loanListRecycler.setAdapter(loanListAdapter);
+        loanListAdapter.setEmptyView(R.layout.view_empty, loanListRecycler);
         loanListRecycler.addItemDecoration(new SpacesItemDecoration(ConvertUtils.dp2px(8f)
                 , ConvertUtils.dp2px(8f)));
 

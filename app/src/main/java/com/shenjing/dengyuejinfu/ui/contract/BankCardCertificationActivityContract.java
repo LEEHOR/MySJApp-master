@@ -22,9 +22,9 @@ public class BankCardCertificationActivityContract {
 
         void getBankInfoSuccess(BankInfoBean model);
         void getBankInfoFailure();
-
         void upLoadSuccess();
         void upLoadFailure();
+
         /**
          * 是否可以跳转
          * @param isCanNext
@@ -53,7 +53,7 @@ public class BankCardCertificationActivityContract {
 
         void  getBankInfo(String userId);
 
-        void upLoadBankCardInfo(Map<String,Object> map);
+        void upLoadBankCardInfo(Map<String,String> map);
 
 
     }

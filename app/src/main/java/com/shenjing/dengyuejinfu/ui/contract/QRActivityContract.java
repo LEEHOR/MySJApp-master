@@ -30,7 +30,6 @@ public class QRActivityContract {
      */
    public interface Presenter extends BaseContract.BasePresenter<View>{
 
-
         void getQRCode(String userId);
     }
 }

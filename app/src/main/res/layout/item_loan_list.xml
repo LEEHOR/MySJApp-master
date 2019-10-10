@@ -17,6 +17,7 @@
           <TextView
               android:padding="5dp"
               android:id="@+id/loanList_name"
+              android:drawablePadding="5dp"
               android:textColor="@color/textColor"
               android:textSize="14dp"
               android:layout_width="match_parent"

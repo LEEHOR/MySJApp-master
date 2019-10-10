@@ -24,10 +24,10 @@ public class CommonParametersInterceptor implements Interceptor {
                 .newBuilder()
                 .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                 .addHeader("Accept-Charset","utf-8")
-                //.addHeader("Transfer-Encoding","chunked")
-                //.addHeader("Accept-Encoding", "gzip, deflate")
+                .addHeader("Transfer-Encoding","chunked")
+                .addHeader("Accept-Encoding", "gzip, deflate")
                 .addHeader("Connection", "keep-alive")
-               // .addHeader("Accept", "*/*")
+                .addHeader("Accept", "*/*")
                 .addHeader("Token", BaseParams.userToken)
                 .addHeader("user-agent","Android")
                 .build();

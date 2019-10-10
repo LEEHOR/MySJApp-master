@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.FileProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -28,6 +29,7 @@ import com.blankj.utilcode.constant.PermissionConstants;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ImageUtils;
 import com.blankj.utilcode.util.IntentUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.StringUtils;
@@ -41,14 +43,18 @@ import com.shenjing.dengyuejinfu.common.Constant;
 import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
 import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 import com.shenjing.dengyuejinfu.ui.contract.BankCardCertificationActivityContract;
+import com.shenjing.dengyuejinfu.ui.fragmentDialog.SelectBankDialogFragment;
+import com.shenjing.dengyuejinfu.ui.fragmentDialog.selectBankListener;
 import com.shenjing.dengyuejinfu.ui.presenter.BankCardCertificationActivityPresenter;
 import com.shenjing.dengyuejinfu.utils.GlideUtils;
 import com.shenjing.dengyuejinfu.widgte.OnOnceClickListener;
 import com.shenjing.dengyuejinfu.widgte.TitleBar;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -61,7 +67,7 @@ import butterknife.OnClick;
  */
 @Route(path = ARouterUrl.BankCardCertificationActivityUrl)
 public class BankCardCertificationActivity extends BaseActivity<BankCardCertificationActivityPresenter>
-        implements BankCardCertificationActivityContract.View {
+        implements BankCardCertificationActivityContract.View , selectBankListener {
     @BindView(R.id.card_certification_mStatusBar)
     View cardCertificationMStatusBar;
     @BindView(R.id.card_certification_titleBar)
@@ -75,14 +81,16 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     @BindView(R.id.bank_phone)
     EditText bankPhone;
     @BindView(R.id.bank_name)
-    EditText bankName;
+    AppCompatTextView bankName;
     @BindView(R.id.bank_submit)
     TextView bankSubmit;
+    protected final String TAG = this.getClass().getSimpleName();
     /**
      * submit状态控制
      */
     private boolean isCanNext_s = false;
     private boolean isCanUpload_s = false;
+    private boolean selectBankSuccess=false;
     private final static int MSG1 = 1;
     private final static int MSG2 = 2;
     private final static int MSG3 = 3;
@@ -90,6 +98,10 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     private File fileBank;
     private File fileBankZip;
     private static final int TAKE_PHOTO_REQUEST_CODE_BANK = 1;
+    private String selectBankName;
+    private String selectProvinceName;
+    private String selectCityName;
+    private String selectBranchBankName;
     @SuppressLint("HandlerLeak")
     private Handler mhandler = new Handler() {
         @Override
@@ -101,7 +113,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                     getSaveImagePath((Bitmap) msg.obj, MSG2);
                     break;
                 case MSG2:
-                    isBankOrcSuccess = true;
+                    isBankOrcSuccess = (int)(msg.obj)==1;
                     break;
                 case MSG3:
 
@@ -155,7 +167,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                 GlideUtils.initImageWithFileCache(this, model.getData().getBank_card_img(), bankImage);
             }
             bankPhone.setText(model.getData().getPhone_number());
-            bankName.setText(model.getData().getBank());
+            bankName.setText(model.getData().getBank_branch_name());
             bankIdNo.setText(model.getData().getBank_card_no());
         }
     }
@@ -196,11 +208,11 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
     }
 
     @Override
-    public TextView  submit() {
-        return  bankSubmit;
+    public TextView submit() {
+        return bankSubmit;
     }
 
-    @OnClick({R.id.bank_image, R.id.bank_take_photo, R.id.bank_submit})
+    @OnClick({R.id.bank_image, R.id.bank_take_photo, R.id.bank_submit,R.id.bank_name})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bank_image:
@@ -208,50 +220,52 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                 isBankOrcSuccess = false;
                 getPermissions();
                 break;
+            case R.id.bank_name:
+                selectBankSuccess=false;
+               SelectBankDialogFragment selectBankDialogFragment = (SelectBankDialogFragment)ARouter.getInstance().build(ARouterUrl.SelectBankDialogFragmentUrl)
+                        .navigation(BankCardCertificationActivity.this, new LoginNavigationCallback());
+               selectBankDialogFragment.setDialogSelectBankListener(this);
+               selectBankDialogFragment.show(getSupportFragmentManager(),TAG);
+                break;
             case R.id.bank_submit:
                 if (isCanUpload_s) {
                     if (isBankOrcSuccess) {
-                        if (!FileUtils.isFileExists(fileBankZip)){
-                            ToastUtils.showLong("图片未就绪，请稍后再试");
+                        if (!FileUtils.isFileExists(fileBankZip)) {
+                            ToastUtils.showLong(R.string.toast_10);
                             return;
                         }
-
                         if (StringUtils.isSpace(bankIdNo.getText().toString())) {
-                            ToastUtils.showLong("填写银行卡号");
+                            ToastUtils.showLong(R.string.toast_4);
                             return;
                         }
-                        if (bankIdNo.getText().toString().trim().length()!=18) {
-                            ToastUtils.showLong("填写正确的银行卡号");
+                        if (bankIdNo.getText().toString().trim().length() < 16) {
+                            ToastUtils.showLong(R.string.toast_32);
                             return;
                         }
-                        if (StringUtils.isSpace(bankName.getText().toString())) {
-                            ToastUtils.showLong("填写银行名称");
+                        if (!selectBankSuccess) {
+                            ToastUtils.showLong(R.string.toast_33);
                             return;
                         }
                         if (StringUtils.isSpace(bankPhone.getText().toString())) {
-                            ToastUtils.showLong("填写手机号");
+                            ToastUtils.showLong(R.string.toast_5);
                             return;
                         }
                         if (!RegexUtils.isMobileSimple(bankPhone.getText().toString())) {
-                            ToastUtils.showLong("填写正确的手机号");
+                            ToastUtils.showLong(R.string.toast_6);
                             return;
                         }
-                        Map map = new HashMap();
-                        map.put("userId", BaseParams.userId);
-                        map.put("phoneNumber",bankPhone.getText().toString().trim());
-                        map.put("bank",bankName.getText().toString().trim());
-                        map.put("bankCardNo",bankIdNo.getText().toString().trim());
-                        map.put("bankCardImg",fileBankZip.getAbsolutePath());
+                        Map<String,String> map = new HashMap<>();
+                        map.put("userId", String.valueOf(BaseParams.userId));
+                        map.put("phoneNumber", bankPhone.getText().toString().trim());
+                        map.put("bankName", selectBankName);
+                        map.put("bankCardNo", bankIdNo.getText().toString().trim());
+                        map.put("bankCardImg", fileBankZip.getAbsolutePath());
+                        map.put("bankBranchName",selectBranchBankName);
+                        map.put("address",selectProvinceName+selectCityName);
                         mPresenter.upLoadBankCardInfo(map);
                     } else {
                         ToastUtils.showLong(R.string.toast_10);
                     }
-                } else {
-
-//                    if (isCanNext_s) {
-//                        ARouter.getInstance().build(ARouterUrl.PaymentVerificationActivityUrl)
-//                                .navigation(this, new LoginNavigationCallback());
-//                    }
                 }
                 break;
         }
@@ -293,19 +307,20 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
      *
      * @param tag
      */
-    public void getZipBitmap(File fileBank,int tag) {
+    public void getZipBitmap(File fileBank, int tag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Bitmap bank_zip_image = ImageUtils.getBitmap(fileBank);
-                Bitmap bitmaps = ImageUtils.compressByQuality(bank_zip_image, 60);
+                Bitmap bitmaps = ImageUtils.compressByScale(bank_zip_image, 0.5f, 0.5f);
+                // Bitmap bitmaps = ImageUtils.compressByQuality(bank_zip_image, 60);
                 if (bitmaps != null) {
                     Message message = Message.obtain();
                     message.what = tag;
                     message.obj = bitmaps;
                     mhandler.sendMessage(message);
                 } else {
-                    isBankOrcSuccess=false;
+                    isBankOrcSuccess = false;
                 }
             }
         }).start();
@@ -321,19 +336,23 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (!FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
-                    return;
-                }
-                fileBankZip = new File(Constant.SAVE_DIR_YOUDUN, "image_bank_zip" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
-                if (FileUtils.createFileByDeleteOldFile(fileBankZip)) {
+                Message message = Message.obtain();
+                message.what = tag;
+                if (FileUtils.createOrExistsDir(Constant.SAVE_DIR_YOUDUN)) {
+                    fileBankZip = new File(Constant.SAVE_DIR_YOUDUN, "image_bank_zip_" + System.currentTimeMillis() + "_.jpeg");
                     if (FileUtils.createFileByDeleteOldFile(fileBankZip)) {
                         if (ImageUtils.save(zipBitmap, fileBankZip, Bitmap.CompressFormat.JPEG, false)) {
-                            Message message = Message.obtain();
-                            message.what = tag;
-                            message.obj = fileBankZip;
+                            FileUtils.delete(fileBank);
+                            message.obj = 1;
                             mhandler.sendMessage(message);
                         }
+                    } else {
+                        message.obj = 2;
+                        mhandler.sendMessage(message);
                     }
+                } else {
+                    message.obj = 2;
+                    mhandler.sendMessage(message);
                 }
             }
         }).start();
@@ -356,7 +375,7 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
             ToastUtils.showLong(R.string.toast_12);
             return;
         }
-        fileBank = new File(picture_bank, "image_bank_" + TimeUtils.millis2String(System.currentTimeMillis()) + ".jpeg");
+        fileBank = new File(picture_bank, "image_bank_" + System.currentTimeMillis() + "_.jpeg");
         if (!FileUtils.createFileByDeleteOldFile(fileBank)) {
             ToastUtils.showLong(R.string.toast_13);
             return;
@@ -383,5 +402,16 @@ public class BankCardCertificationActivity extends BaseActivity<BankCardCertific
                 isBankOrcSuccess = false;
             }
         }
+    }
+
+    @Override
+    public void selectSuccess(String bankNames, String bankCode, String branchBankName, String branchBankCode, String province, String provinceCode, String city, String cityCode) {
+        bankName.setText(branchBankName);
+        this.selectBankName=bankNames;
+        this.selectProvinceName=province;
+        this.selectCityName=city;
+        this.selectBranchBankName=branchBankName;
+        selectBankSuccess=true;
+        LogUtils.d(bankNames,bankCode,province,provinceCode,city,cityCode,branchBankName,branchBankCode);
     }
 }

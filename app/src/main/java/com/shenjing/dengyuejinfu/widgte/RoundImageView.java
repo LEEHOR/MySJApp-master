@@ -149,8 +149,8 @@ public class RoundImageView extends AppCompatImageView {
 
     private void drawImage(Canvas canvas) {
         Bitmap src = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_4444);
-        super.onDraw(new Canvas(src));
-
+    //    super.onDraw(new Canvas(src));
+        super.draw(new Canvas(src));
         Bitmap port = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_4444);
         Canvas portCanvas = new Canvas(port);
 

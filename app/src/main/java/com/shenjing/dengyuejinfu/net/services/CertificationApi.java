@@ -17,7 +17,10 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 /**
@@ -80,9 +83,8 @@ public interface CertificationApi {
      * @return
      * getTakeImg
      */
-    @POST("/upLoadBankCardInfo")
+   @POST("/upload/BankCardInfo")
     Observable<BaseBean> upLoadBankCardInfo(@Body RequestBody requestBody);
-
 
     /**
      * 获取手持身份证
@@ -100,7 +102,7 @@ public interface CertificationApi {
      * @return
      */
     @POST("/upLoadTakeImg")
-    Observable<BaseBean> upLoadTakeImag(@Body RequestBody requestBody);
+    Observable<BaseBean> upLoadTakeImg(@Body RequestBody requestBody);
 
 
 }

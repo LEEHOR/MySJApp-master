@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 
@@ -39,7 +40,11 @@ public class TimingButton extends AppCompatButton {
         arrayDrawable = typedArray.getDrawable(R.styleable.TimingButton_tb_background);
         beforeText = typedArray.getString(R.styleable.TimingButton_tb_before_text);
         afterText = typedArray.getString(R.styleable.TimingButton_tb_after_text);
-        arrayColor = typedArray.getColor(R.styleable.TimingButton_tb_text_color, getResources().getColor(R.color.white, null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            arrayColor = typedArray.getColor(R.styleable.TimingButton_tb_text_color, getResources().getColor(R.color.white, null));
+        } else {
+            arrayColor = typedArray.getColor(R.styleable.TimingButton_tb_text_color, getResources().getColor(R.color.white));
+        }
         arrayFloat = typedArray.getFloat(R.styleable.TimingButton_tb_text_size, 14);
         // setBackgroundResource(R.drawable.timing_button); //设置默认样式
         setBackground(arrayDrawable);

@@ -36,7 +36,7 @@
     <string name="bank_card_3">请输入银行卡号</string>
     <!--银行卡和信用卡通用字段-->
     <string name="card_1">所属银行</string>
-    <string name="card_2">请填写所属银行</string>
+    <string name="card_2">请选择所属银行</string>
     <string name="card_3">收款人姓名</string>
     <string name="card_4">收款人身份证</string>
     <string name="card_5">银行预留手机</string>
@@ -78,6 +78,11 @@
     <string name="card_37">人脸识别</string>
     <string name="card_38">卡片种类</string>
     <string name="card_39">身份证地址</string>
+    <string name="card_40">请选择所属银行</string>
+    <string name="card_41">银行总行</string>
+    <string name="card_42">省份</string>
+    <string name="card_43">城市(区)</string>
+    <string name="card_44">银行支行</string>
     <!--关于账户类字段（注册、登录、修改密码、找回密码）-->
     <string name="account_1">原始登录密码</string>
     <string name="account_2">请输入新密码</string>
@@ -174,6 +179,9 @@
     <string name="toast_29">请输入用户名</string>
     <string name="toast_30">实名认证失败</string>
     <string name="toast_31">人脸比对失败</string>
+    <string name="toast_32">填写正确的银行卡号</string>
+    <string name="toast_33">请选择银行名称</string>
+    <string name="toast_34">请先进行身份认证</string>
     <!--关于dialog弹窗字段-->
     <string name="dialog_1">去更新</string>
     <string name="dialog_2">下次再说</string>
@@ -201,6 +209,7 @@
     <string name="submit_8">安全退出</string>
     <string name="submit_9">开始认证</string>
     <string name="submit_10">立即申请</string>
+    <string name="submit_11">取消</string>
     <!--其他协议或声明-->
     <string name="other_1">查询须知：\n
         1.两个月内银卡请勿查询，否则查询无结果；\n

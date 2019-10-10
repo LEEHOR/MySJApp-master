@@ -49,4 +49,14 @@
         <item name="android:windowExitAnimation">@anim/push_center_out</item>
     </style>
 
+    <array name="autosize_text_sizes">
+        <item>6dp</item>
+        <item>8dp</item>
+        <item>10dp</item>
+        <item>12dp</item>
+        <item>14dp</item>
+        <item>16dp</item>
+        <item>18dp</item>
+    </array>
+
 </resources>

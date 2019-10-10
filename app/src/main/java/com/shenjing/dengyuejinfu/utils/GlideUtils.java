@@ -12,7 +12,7 @@ import java.io.File;
  * author : Leehor
  * date   : 2019/9/1816:42
  * version: 1.0
- * desc   :Glid加载图片
+ * desc   :Glide加载图片
  */
 public class GlideUtils {
 

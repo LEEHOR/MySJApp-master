@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,11 @@ public class RecyclerSimplePadding_color extends RecyclerView.ItemDecoration {
     public RecyclerSimplePadding_color(Context context) {
          dimension = context.getResources().getDimensionPixelOffset(R.dimen.dp_1);
          paint =new Paint();
-         paint.setColor(context.getResources().getColor(R.color.material_grey_400,null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            paint.setColor(context.getResources().getColor(R.color.material_grey_400,null));
+        } else {
+            paint.setColor(context.getResources().getColor(R.color.material_grey_400));
+        }
     }
 
     /**

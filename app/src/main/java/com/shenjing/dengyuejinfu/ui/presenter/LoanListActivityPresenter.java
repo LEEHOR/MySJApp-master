@@ -43,14 +43,11 @@ public class LoanListActivityPresenter extends BasePresenter<LoanListActivityCon
                         mView.hideLoading();
                         if (loanListBean.getCode() != null && loanListBean.getCode().equals("0000")) {
                             mView.showSuccess(loanListBean.getMsg());
-                            mView.getLoanListSuccess(loanListBean.getData().getImg());
                             mView.isCanRefresh(false);
-                            if (loanListBean.getData() != null && loanListBean.getData().getLoadList() != null && loanListBean.getData().getLoadList().size() > 0) {
-                                mView.getAdapter().setNewData(loanListBean.getData().getLoadList());
-                            } else {
-                                mView.getAdapter().setEmptyView(R.layout.view_empty, mView.getRecycler());
+                            mView.getAdapter().setNewData(loanListBean.getData() != null?loanListBean.getData().getLoadList():null);
+                            if (loanListBean.getData() != null) {
+                                mView.getLoanListSuccess(loanListBean.getData().getImg());
                             }
-
                         } else {
                             mView.showFail(loanListBean.getMsg());
                             mView.isCanRefresh(false);

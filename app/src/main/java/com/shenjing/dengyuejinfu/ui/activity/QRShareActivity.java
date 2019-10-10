@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+
+import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.blankj.utilcode.util.StringUtils;
 import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BaseActivity;
 import com.shenjing.dengyuejinfu.common.ARouterUrl;
@@ -18,6 +21,8 @@ import com.shenjing.dengyuejinfu.common.LoginNavigationCallback;
 import com.shenjing.dengyuejinfu.entity.QRBean;
 import com.shenjing.dengyuejinfu.ui.contract.QRActivityContract;
 
+import com.shenjing.dengyuejinfu.ui.fragmentDialog.ShareDialogFragment;
+import com.shenjing.dengyuejinfu.ui.fragmentDialog.shareListener;
 import com.shenjing.dengyuejinfu.ui.presenter.QRActivityPresenter;
 import com.shenjing.dengyuejinfu.utils.GlideUtils;
 import com.shenjing.dengyuejinfu.utils.QRCodeUtils;
@@ -35,7 +40,15 @@ import butterknife.OnClick;
  * desc   :第三方分享
  */
 @Route(path = ARouterUrl.QRShareActivityUrl)
-public class QRShareActivity extends BaseActivity<QRActivityPresenter> implements QRActivityContract.View {
+public class QRShareActivity extends BaseActivity<QRActivityPresenter> implements QRActivityContract.View, shareListener {
+    @Autowired(name = "shareTitle")
+    String shareTitle;
+    @Autowired(name = "shareUrl")
+    String shareUrl;
+    @Autowired(name = "thumbnail")
+    String thumbnail;
+    @Autowired(name = "describe")
+    String describe;
     @BindView(R.id.QR_mStatusBar)
     View QRMStatusBar;
     @BindView(R.id.QR_titleBar)
@@ -47,10 +60,6 @@ public class QRShareActivity extends BaseActivity<QRActivityPresenter> implement
     @BindView(R.id.QR_share)
     TextView QRShare;
     protected final String TAG = this.getClass().getSimpleName();
-    private String title;
-    private String thumbnail;
-    private String describe;
-    private String webUrl;
     private static final int MSG1=1;
     @SuppressLint("HandlerLeak")
     private Handler mhandler = new Handler() {
@@ -92,42 +101,37 @@ public class QRShareActivity extends BaseActivity<QRActivityPresenter> implement
 
     @Override
     protected void initFunc() {
-        QRShare.setEnabled(false);
-        mPresenter.getQRCode(BaseParams.userId);
+
+        //mPresenter.getQRCode(BaseParams.userId);
+        if (StringUtils.isSpace(shareTitle) && StringUtils.isSpace(shareUrl)){
+            QRShare.setEnabled(false);
+        } else {
+            startMakeQr(shareUrl);
+            QRShare.setEnabled(true);
+
+        }
     }
 
     @OnClick(R.id.QR_share)
     public void onClick() {
-        RxAppCompatDialogFragment fragment = (RxAppCompatDialogFragment)ARouter.getInstance()
+        ShareDialogFragment shareDialogFragment = (ShareDialogFragment)ARouter.getInstance()
                 .build(ARouterUrl.ShareDialogFragmentUrl)
-                .withString(BaseParams.share_title,title)
+                .withString(BaseParams.share_title,shareTitle)
                 .withString(BaseParams.share_describe,describe)
                 .withString(BaseParams.share_thumbnail,thumbnail)
-                .withString(BaseParams.share_url,webUrl)
+                .withString(BaseParams.share_url,shareUrl)
                 .navigation(this,new LoginNavigationCallback());
-        fragment.show(getSupportFragmentManager(),TAG);
+        shareDialogFragment.setShareListener(this);
+        shareDialogFragment.show(getSupportFragmentManager(),TAG);
     }
 
     @Override
     public void getSuccess(QRBean qrBean) {
         if (qrBean.getData() != null) {
             if (qrBean.getData().getUrl() != null) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap qrImage = QRCodeUtils.createQRImage(qrBean.getData().getUrl(), 300, 300);
-                        Message message=new Message();
-                        message.what=MSG1;
-                        message.obj=qrImage;
-                        mhandler.sendMessage(message);
-                    }
-                }).start();
+                startMakeQr(qrBean.getData().getUrl());
 
             }
-            this.webUrl= qrBean.getData().getUrl();
-            this.title= qrBean.getData().getTitle();
-            this.describe= qrBean.getData().getDescribe();
-            this.thumbnail= qrBean.getData().getThumbnail();
         }
 
     }
@@ -142,4 +146,34 @@ public class QRShareActivity extends BaseActivity<QRActivityPresenter> implement
         QRShare.setEnabled(isCanShare);
     }
 
+    @Override
+    public void shareSuccess(int sharePlatForm, int shareType) {
+
+    }
+
+    @Override
+    public void shareFailure(int sharePlatForm, int shareType, String failedMessage) {
+
+    }
+
+    @Override
+    public void shareCancel(int sharePlatForm, int shareType, String message) {
+
+    }
+
+    /**
+     * 开始制作二维码
+     */
+    private void startMakeQr(String url){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap qrImage = QRCodeUtils.createQRImage(url, 300, 300);
+                Message message=new Message();
+                message.what=MSG1;
+                message.obj=qrImage;
+                mhandler.sendMessage(message);
+            }
+        }).start();
+    }
 }

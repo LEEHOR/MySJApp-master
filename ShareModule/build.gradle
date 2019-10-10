@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         // applicationId "com.example.lightshare"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -23,13 +23,13 @@ android {
             // 移除无用的resource文件
            // shrinkResources true
             //consumerProguardFile 'proguard-rules.pro'
-           // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug{
             minifyEnabled true
             zipAlignEnabled true
            // consumerProguardFile 'proguard-rules.pro'
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
     }

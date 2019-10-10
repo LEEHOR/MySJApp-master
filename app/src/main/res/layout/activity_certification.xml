@@ -283,6 +283,7 @@
                     android:layout_marginRight="20dp"
                     android:background="@color/linaColor1" />
                 <LinearLayout
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -293,24 +294,27 @@
                     <TextView
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:gravity="left"
+                        android:gravity="start|center_vertical"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:text="@string/card_39"
                         android:textColor="@color/textColor"
                         android:textSize="14dp" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:gravity="center"
                         android:id="@+id/certification_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:paddingTop="10dp"
-                        android:maxLines="3"
+                        android:textColor="@color/textColor"
+                        android:lines="1"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizePresetSizes="@array/autosize_text_sizes"
                         android:ellipsize="end"
-                        android:paddingBottom="10dp"
-                        android:textSize="14dp" />
+                        android:paddingBottom="10dp" />
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -339,6 +343,7 @@
                         android:textSize="14dp" />
 
                     <TextView
+                        android:textColor="@color/textColor"
                         android:id="@+id/certification_status"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

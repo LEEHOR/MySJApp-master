@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/dialog_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:text="@string/submit_1"
+                android:textColor="@color/textColor"
+                android:textSize="14dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/card_40"
+                android:textColor="@color/textColor"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/dialog_dismiss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:text="@string/submit_11"
+                android:textColor="@color/textColor"
+                android:textSize="14dp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/linaColor1"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:gravity="center_vertical"
+                android:id="@+id/dialog_bank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/blue3"
+                android:textSize="12dp" />
+
+            <TextView
+                android:gravity="center_vertical"
+                android:id="@+id/dialog_select_province"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:textColor="@color/blue3"
+                android:textSize="12dp" />
+
+            <TextView
+                android:gravity="center_vertical"
+                android:id="@+id/dialog_select_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:ellipsize="marquee"
+                android:textColor="@color/blue3"
+                android:textSize="12dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:gravity="center_vertical"
+                android:id="@+id/dialog_select_bank_branch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:lines="1"
+                app:autoSizeMinTextSize="8dp"
+                app:autoSizeMaxTextSize="12dp"
+                app:autoSizeTextType="uniform"
+                android:textColor="@color/blue3" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/linaColor1"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center"
+                android:text="@string/card_41"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="12dp" />
+            <TextView
+                android:gravity="center"
+                android:text="@string/card_42"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="12dp" />
+            <TextView
+                android:gravity="center"
+                android:text="@string/card_43"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="12dp" />
+            <TextView
+                android:gravity="center"
+                android:text="@string/card_44"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="12dp" />
+        </LinearLayout>
+            <LinearLayout
+                android:paddingBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dialog_recycler_bank"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+                <View
+                    android:background="@color/linaColor1"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dialog_recycler_province"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+                <View
+                    android:background="@color/linaColor1"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dialog_recycler_city"
+                    android:scrollbars="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+                <View
+                    android:background="@color/linaColor1"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dialog_recycler_bank_branch"
+                    android:scrollbars="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

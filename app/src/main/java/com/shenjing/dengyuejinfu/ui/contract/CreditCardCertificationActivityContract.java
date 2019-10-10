@@ -1,5 +1,7 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.shenjing.dengyuejinfu.base.BaseContract;
 import com.shenjing.dengyuejinfu.entity.CreditCardListBean;
 import com.shenjing.dengyuejinfu.ui.activity.adapter.CreditficationCardListAdapter;
@@ -27,6 +29,8 @@ public class CreditCardCertificationActivityContract {
         void Refresh(boolean Refresh);
 
         CreditficationCardListAdapter getViewListAdapter();
+
+        RecyclerView getRecycler();
     }
 
     /**

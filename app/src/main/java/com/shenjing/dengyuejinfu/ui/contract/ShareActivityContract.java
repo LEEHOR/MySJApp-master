@@ -1,6 +1,7 @@
 package com.shenjing.dengyuejinfu.ui.contract;
 
 import com.shenjing.dengyuejinfu.base.BaseContract;
+import com.shenjing.dengyuejinfu.entity.QRBean;
 
 /**
  * author : Leehor
@@ -13,7 +14,14 @@ public class ShareActivityContract {
      * view类 操作Ui
      */
     public interface View extends BaseContract.BaseView {
+        void getSuccess(QRBean qrBean);
+        void getFailure();
 
+        /**
+         * 是否可以分享
+         * @param isCanShare
+         */
+        void isCanShare(boolean isCanShare);
     }
 
     /**
@@ -21,6 +29,6 @@ public class ShareActivityContract {
      */
    public interface Presenter extends BaseContract.BasePresenter<View>{
 
-       void  getWebShare();
+        void getShareInfo(String userId);
     }
 }

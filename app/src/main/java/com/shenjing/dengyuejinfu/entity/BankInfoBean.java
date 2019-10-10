@@ -49,6 +49,7 @@ public class BankInfoBean implements Serializable {
         /**
          * feasibility : 3
          * bank : 天地银行
+         * bank_branch_name : 北冥神洲支行
          * phone_number : 18571512117
          * bank_card_no : 6217002020031489313
          * state : 9003
@@ -57,6 +58,7 @@ public class BankInfoBean implements Serializable {
 
         private String feasibility;
         private String bank;
+        private String bank_branch_name;
         private String phone_number;
         private String bank_card_no;
         private String state;
@@ -108,6 +110,14 @@ public class BankInfoBean implements Serializable {
 
         public void setBank_card_img(String bank_card_img) {
             this.bank_card_img = bank_card_img;
+        }
+
+        public String getBank_branch_name() {
+            return bank_branch_name;
+        }
+
+        public void setBank_branch_name(String bank_branch_name) {
+            this.bank_branch_name = bank_branch_name;
         }
     }
 }

@@ -76,6 +76,7 @@ public class CreditCardCertificationActivity extends BaseActivity<CreditCardCert
         cardListAdapter = new CreditficationCardListAdapter(this);
         creditCardRecycler.setLayoutManager(linearLayoutManager);
         creditCardRecycler.setAdapter(cardListAdapter);
+        cardListAdapter.setEmptyView(R.layout.view_empty,creditCardRecycler);
         creditCardRecycler.addItemDecoration(new SpacesItemDecoration(ConvertUtils.dp2px(5f)
                 , ConvertUtils.dp2px(8f)));
 
@@ -133,5 +134,10 @@ public class CreditCardCertificationActivity extends BaseActivity<CreditCardCert
     @Override
     public CreditficationCardListAdapter getViewListAdapter() {
         return cardListAdapter;
+    }
+
+    @Override
+    public RecyclerView getRecycler() {
+        return creditCardRecycler;
     }
 }

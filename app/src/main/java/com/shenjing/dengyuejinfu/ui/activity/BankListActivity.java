@@ -78,6 +78,7 @@ public class BankListActivity extends BaseActivity<BankListActivityPresenter>
        GridLayoutManager gridLayoutManager = new GridLayoutManager(BankListActivity.this, 3, RecyclerView.VERTICAL, false);
         bankListRecycler.setLayoutManager(gridLayoutManager);
         bankListRecycler.setAdapter(bankListAdapter);
+        bankListAdapter.setEmptyView(R.layout.view_empty, bankListRecycler);
         bankListRecycler.addItemDecoration(new SpacesItemDecoration(ConvertUtils.dp2px(8f)
                 , ConvertUtils.dp2px(8f)));
 

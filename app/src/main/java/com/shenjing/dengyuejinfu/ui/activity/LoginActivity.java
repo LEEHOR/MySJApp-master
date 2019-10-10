@@ -149,6 +149,11 @@ public class LoginActivity extends BaseActivity<LoginActivityPresenter> implemen
                             }
                         }).request();
             }
+        } else {
+            imei = PhoneUtils.getIMEI();
+            mPresenter.startLocation();
+            deviceId = PhoneUtils.getDeviceId();;
+            product_model = DeviceUtils.getManufacturer() + DeviceUtils.getModel();
         }
     }
 

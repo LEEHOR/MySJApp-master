@@ -2,8 +2,10 @@ package com.shenjing.dengyuejinfu;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Process;
 import android.view.Gravity;
 
 import androidx.multidex.MultiDex;
@@ -39,11 +41,17 @@ public class App extends Application {
         //配置ToastUtils的相关的属性
         Utils.init(this);
         ToastUtils.setGravity(Gravity.TOP, 0, (int) (80 * Utils.getApp().getResources().getDisplayMetrics().density + 0.5));
-        ToastUtils.setBgColor(getResources().getColor(R.color.white, null));
-        ToastUtils.setMsgColor(getResources().getColor(R.color.colorAccent, null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ToastUtils.setBgColor(getResources().getColor(R.color.black, null));
+            ToastUtils.setMsgColor(getResources().getColor(R.color.white, null));
+        } else {
+            ToastUtils.setBgColor(getResources().getColor(R.color.black));
+            ToastUtils.setMsgColor(getResources().getColor(R.color.white));
+        }
+
 
         handler = new Handler(Looper.getMainLooper());
-        mainThreadId = android.os.Process.myTid();//获取当前线程的id
+        mainThreadId = Process.myTid();//获取当前线程的id
         initUserParams();
         GaodeMapLocationHelper.init(this);
     }

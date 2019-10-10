@@ -44,12 +44,7 @@ public class CardListActivityPresenter extends BasePresenter<CardListActivityCon
                             mView.showSuccess(cardListBean.getMsg());
                             mView.getCardListSuccess();
                             mView.isCanRefresh(false);
-                            if (cardListBean.getData() != null && cardListBean.getData().getCardList() != null && cardListBean.getData().getCardList().size() > 0) {
-                                mView.getAdapter().setNewData(cardListBean.getData().getCardList());
-                            } else {
-                                mView.getAdapter().setEmptyView(R.layout.view_empty, mView.getRecycler());
-                            }
-
+                            mView.getAdapter().setNewData(cardListBean.getData() != null?cardListBean.getData().getCardList():null);
                         } else {
                             mView.showFail(cardListBean.getMsg());
                             mView.isCanRefresh(false);

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -74,7 +75,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     @BindView(R.id.certification_submit)
     TextView certificationSubmit;
     @BindView(R.id.certification_address)
-    TextView certificationAddress;
+    AppCompatTextView certificationAddress;
     /**
      * submit状态控制
      */
@@ -133,10 +134,10 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
     protected void initFunc() {
         pcb = new PeopleCertificationBean();
         YunDunHelper.getInstance().setYunDunListener(this);
-        certificationIdCardFront.setEnabled(false);
-        certificationIdCardBack.setEnabled(false);
-        takePhotoIdFront.setEnabled(false);
-        takePhotoIdBack.setEnabled(false);
+        certificationIdCardFront.setEnabled(true);
+        certificationIdCardBack.setEnabled(true);
+        takePhotoIdFront.setEnabled(true);
+        takePhotoIdBack.setEnabled(true);
         mPresenter.getPeopleStatus(BaseParams.userId);
     }
 
@@ -153,7 +154,7 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
                 if (isCanNext_s) {
                     ARouter.getInstance().build(ARouterUrl.BankCardCertificationActivityUrl).navigation(this, new LoginNavigationCallback());
                 } else {
-                    ToastUtils.showLong("请进行实名认证");
+                    ToastUtils.showLong(R.string.toast_34);
                 }
 
                 break;
@@ -225,10 +226,10 @@ public class CertificationActivity extends BaseActivity<CertificationActivityPre
 
     @Override
     public void isCanEditor(boolean isCanEditor) {
-        certificationIdCardFront.setEnabled(isCanEditor);
-        certificationIdCardBack.setEnabled(isCanEditor);
-        takePhotoIdFront.setEnabled(isCanEditor);
-        takePhotoIdBack.setEnabled(isCanEditor);
+        certificationIdCardFront.setEnabled(true);
+        certificationIdCardBack.setEnabled(true);
+        takePhotoIdFront.setEnabled(true);
+        takePhotoIdBack.setEnabled(true);
     }
 
     /**

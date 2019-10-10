@@ -3,6 +3,7 @@ package com.shenjing.dengyuejinfu.ui.presenter;
 import android.annotation.SuppressLint;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.shenjing.dengyuejinfu.R;
 import com.shenjing.dengyuejinfu.base.BasePresenter;
 import com.shenjing.dengyuejinfu.net.RetrofitManager;
 import com.shenjing.dengyuejinfu.net.RxSchedulers;
@@ -79,6 +80,7 @@ public class CreditCardCertificationActivityPresenter extends BasePresenter<Cred
         mView.hideLoading();
         ToastUtils.showShort("加载错误");
         mView.Refresh(false);
+        mView.getViewListAdapter().setEmptyView(R.layout.view_error, mView.getRecycler());
     }
 
     private void setStatusError(Throwable throwable) {

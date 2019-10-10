@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -95,7 +96,11 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
      * @param color
      */
     protected void setStatusBarTextColor(int color) {
-        BarUtils.setStatusBarColor(this, getResources().getColor(color, null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            BarUtils.setStatusBarColor(this, getResources().getColor(color, null));
+        } else {
+            BarUtils.setStatusBarColor(this, getResources().getColor(color));
+        }
     }
 
     protected void setStatusBarTextAlpha(int alpha) {
@@ -123,34 +128,61 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     /*** 设置左侧页面返回 ***/
     protected void setPageBack(TitleBar titleBar, int color) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setLeftMenu(R.mipmap.icon_common_back_white, null, getResources().getColor(color, null), new OnOnceClickListener() {
-            @Override
-            public void onOnceClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setLeftMenu(R.mipmap.icon_common_back_white, null, getResources().getColor(color, null), new OnOnceClickListener() {
+                @Override
+                public void onOnceClick(View v) {
+                    onBackPressed();
+                }
+            });
+        } else {
+            titleBar.setLeftMenu(R.mipmap.icon_common_back_white, null, getResources().getColor(color), new OnOnceClickListener() {
+                @Override
+                public void onOnceClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     //=========================自定义tittle 按钮设置======================================\\
     protected void setPageBack(TitleBar titleBar, int res, int color) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setLeftMenu(res, null, getResources().getColor(color, null), new OnOnceClickListener() {
-            @Override
-            public void onOnceClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setLeftMenu(res, null, getResources().getColor(color, null), new OnOnceClickListener() {
+                @Override
+                public void onOnceClick(View v) {
+                    onBackPressed();
+                }
+            });
+        } else {
+            titleBar.setLeftMenu(res, null, getResources().getColor(color), new OnOnceClickListener() {
+                @Override
+                public void onOnceClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     /*** 设置页面标题以及左返回 ***/
     protected void setPageTitleBack(TitleBar titleBar, String title, int color) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setLeftMenu(R.mipmap.icon_common_back_white, title, getResources().getColor(color, null), new OnOnceClickListener() {
-            @Override
-            public void onOnceClick(View v) {
-                onBackPressed();
-            }
-        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setLeftMenu(R.mipmap.icon_common_back_white, title, getResources().getColor(color, null), new OnOnceClickListener() {
+                @Override
+                public void onOnceClick(View v) {
+                    onBackPressed();
+                }
+            });
+        } else {
+            titleBar.setLeftMenu(R.mipmap.icon_common_back_white, title, getResources().getColor(color), new OnOnceClickListener() {
+                @Override
+                public void onOnceClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 
     /**
@@ -162,7 +194,11 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
      */
     protected void setPageLeftText(TitleBar titleBar, String title, int color, OnOnceClickListener onceClickListener) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setLeftText(title, getResources().getColor(color, null), onceClickListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setLeftText(title, getResources().getColor(color, null), onceClickListener);
+        } else {
+            titleBar.setLeftText(title, getResources().getColor(color), onceClickListener);
+        }
     }
 
     /**
@@ -184,7 +220,11 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
      */
     protected void setPageTitle(TitleBar titleBar, String title, int Color) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setTitleText(title, getResources().getColor(Color, null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setTitleText(title, getResources().getColor(Color, null));
+        } else {
+            titleBar.setTitleText(title, getResources().getColor(Color));
+        }
     }
 
     /**
@@ -194,7 +234,11 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
      */
     protected void setTittleBarBackground(TitleBar titleBar, int color) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setTitleBarBackground(getResources().getColor(color, null));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setTitleBarBackground(getResources().getColor(color, null));
+        } else {
+            titleBar.setTitleBarBackground(getResources().getColor(color));
+        }
 
     }
 
@@ -225,7 +269,11 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
      */
     protected void setTitleRight(TitleBar titleBar, String title, int color, OnOnceClickListener onceClickListener) {
         titleBar.setVisibility(View.VISIBLE);
-        titleBar.setRightText(title, getResources().getColor(color, null), onceClickListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            titleBar.setRightText(title, getResources().getColor(color, null), onceClickListener);
+        } else {
+            titleBar.setRightText(title, getResources().getColor(color), onceClickListener);
+        }
     }
 
     @Override

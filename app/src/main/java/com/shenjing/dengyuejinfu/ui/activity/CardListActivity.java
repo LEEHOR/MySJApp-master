@@ -80,6 +80,7 @@ public class CardListActivity extends BaseActivity<CardListActivityPresenter>
         GridLayoutManager gridLayoutManager = new GridLayoutManager(CardListActivity.this, 2, RecyclerView.VERTICAL, false);
         currencyRecycler.setLayoutManager(gridLayoutManager);
         currencyRecycler.setAdapter(cardListAdapter);
+        cardListAdapter.setEmptyView(R.layout.view_empty, currencyRecycler);
         currencyRecycler.addItemDecoration(new SpacesItemDecoration(ConvertUtils.dp2px(8f)
                 , ConvertUtils.dp2px(8f)));
 

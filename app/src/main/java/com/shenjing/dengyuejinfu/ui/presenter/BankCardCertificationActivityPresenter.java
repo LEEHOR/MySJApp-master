@@ -15,8 +15,10 @@ import com.shenjing.dengyuejinfu.net.services.CertificationApi;
 import com.shenjing.dengyuejinfu.entity.BankInfoBean;
 import com.shenjing.dengyuejinfu.entity.BaseBean;
 import com.shenjing.dengyuejinfu.ui.contract.BankCardCertificationActivityContract;
+
 import java.io.File;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -48,26 +50,26 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                 .compose(RxSchedulers.<BankInfoBean>applySchedulers())
                 .subscribe(new Consumer<BankInfoBean>() {
                     @Override
-                    public void accept(BankInfoBean bankInfoBean)  {
+                    public void accept(BankInfoBean bankInfoBean) {
                         mView.hideLoading();
                         if (bankInfoBean.getCode() != null && bankInfoBean.getCode().equals("0000")) {
                             mView.showSuccess(bankInfoBean.getMsg());
-                            if (bankInfoBean.getData().getState().equals("9001")){
+                            if (bankInfoBean.getData().getState().equals("9001")) {
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
                                 mView.submit().setText("完成");
-                            } else if (bankInfoBean.getData().getState().equals("9002")){
+                            } else if (bankInfoBean.getData().getState().equals("9002")) {
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
                                 mView.submit().setText("上传");
-                            } else if (bankInfoBean.getData().getState().equals("9003")){
+                            } else if (bankInfoBean.getData().getState().equals("9003")) {
                                 mView.isCanUpLoad(false);
                                 mView.isCanNext(true);
                                 mView.isCanEditor(false);
                                 mView.submit().setText("完成");
-                            }else if (bankInfoBean.getData().getState().equals("9004")){
+                            } else if (bankInfoBean.getData().getState().equals("9004")) {
                                 mView.isCanUpLoad(true);
                                 mView.isCanNext(false);
                                 mView.isCanEditor(true);
@@ -88,21 +90,23 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                             mView.submit().setText("返回");
                         }
                     }
-                },this::loadStatusError);
+                }, this::loadStatusError);
     }
 
     @SuppressLint("CheckResult")
     @Override
-    public void upLoadBankCardInfo(Map<String, Object> map) {
+    public void upLoadBankCardInfo(Map<String, String> map) {
         mView.showLoading("正在上传..");
-        File bankCardFile=new File(map.get("bankCardImg").toString());
-        RequestBody requestBody_bankCardFile  =RequestBody.create(bankCardFile, MediaType.parse("multipart/form-data"));
-        RequestBody body=new MultipartBody.Builder()
-                .addFormDataPart("phoneNumber",map.get("phoneNumber").toString())
-                .addFormDataPart("bank",map.get("bankName").toString())
-                .addFormDataPart("bankCardNo",map.get("bankCardNo").toString())
-                .addFormDataPart("userId",map.get("userId").toString())
-               .addFormDataPart("bankCardImg",bankCardFile.getName(),requestBody_bankCardFile)
+        File bankCardFile = new File(Objects.requireNonNull(map.get("bankCardImg")));
+        RequestBody requestBody_bankCardFile = RequestBody.create(bankCardFile, MediaType.parse("multipart/form-data"));
+        RequestBody body = new MultipartBody.Builder()
+                .addFormDataPart("phoneNumber", Objects.requireNonNull(map.get("phoneNumber")))
+                .addFormDataPart("bank", Objects.requireNonNull(map.get("bankName")))
+                .addFormDataPart("bankCardNo", Objects.requireNonNull(map.get("bankCardNo")))
+                .addFormDataPart("userId", Objects.requireNonNull(map.get("userId")))
+                .addFormDataPart("bankBranchName", Objects.requireNonNull(map.get("bankBranchName")))
+                .addFormDataPart("address", Objects.requireNonNull(map.get("address")))
+                .addFormDataPart("bankCardImgFile", bankCardFile.getName(), requestBody_bankCardFile)
                 .build();
 
         RetrofitManager.create(CertificationApi.class).upLoadBankCardInfo(body)
@@ -110,7 +114,7 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                 .compose(RxSchedulers.<BaseBean>applySchedulers())
                 .subscribe(new Consumer<BaseBean>() {
                     @Override
-                    public void accept(BaseBean baseBean)  {
+                    public void accept(BaseBean baseBean) {
                         mView.hideLoading();
                         if (baseBean.getCode() != null && baseBean.getCode().equals("0000")) {
                             mView.showSuccess(baseBean.getMsg());
@@ -126,7 +130,7 @@ public class BankCardCertificationActivityPresenter extends BasePresenter<BankCa
                             mView.isCanEditor(true);
                         }
                     }
-                },this::loadUploadError);
+                }, this::loadUploadError);
     }
 
     private void loadUploadError(Throwable throwable) {
