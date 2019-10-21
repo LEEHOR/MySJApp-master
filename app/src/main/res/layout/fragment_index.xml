@@ -113,7 +113,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                     android:layout_width="55dp"
                                     android:layout_height="55dp"
                                     android:src="@drawable/icon_transaction_details"
@@ -137,7 +137,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                     android:layout_width="55dp"
                                     android:layout_height="55dp"
                                     android:src="@drawable/icon_transaction_details"
@@ -162,7 +162,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                     android:layout_width="55dp"
                                     android:layout_height="55dp"
                                     android:src="@drawable/icon_transaction_details"
@@ -188,7 +188,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                     android:layout_width="55dp"
                                     android:layout_height="55dp"
                                     android:src="@drawable/icon_transaction_details"
@@ -219,7 +219,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                     android:layout_width="55dp"
                                     android:layout_height="55dp"
                                     android:src="@drawable/icon_transaction_details"
@@ -242,7 +242,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                     android:layout_width="55dp"
                                     android:layout_height="55dp"
                                     android:src="@drawable/icon_transaction_details"
@@ -266,7 +266,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                            <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                 android:layout_width="55dp"
                                 android:layout_height="55dp"
                                 android:src="@drawable/icon_transaction_details"
@@ -291,7 +291,7 @@
                                 android:gravity="center"
                                 android:orientation="vertical">
 
-                                <com.shenjing.dengyuejinfu.widgte.CircularImageView
+                                <com.shenjing.dengyuejinfu.widgte.ImageView.CircularImageView
                                     android:layout_width="55dp"
                                     android:layout_height="55dp"
                                     android:src="@drawable/icon_transaction_details"

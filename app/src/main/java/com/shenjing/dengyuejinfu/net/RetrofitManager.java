@@ -15,8 +15,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -173,7 +175,6 @@ public class RetrofitManager {
             public void subscribe(ObservableEmitter<ResponseBody> emitter) {
                 Request request=new Request.Builder().url(url).get().build();
                 OkHttpClient okHttpClient=getDownLoadOkHttpClient();
-                Call call = okHttpClient.newCall(request);
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {

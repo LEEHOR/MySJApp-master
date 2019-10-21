@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">My腾云App</string>
-    <string name="download_apk">正在下载My腾云App安装包</string>
+    <!--My腾云App-->
+    <string name="app_name">登月支付</string>
+    <string name="download_apk">正在下载登月支付安装包</string>
     <string name="no_network_connection">请检查网络</string>
     <string name="load_error">加载错误</string>
     <string name="loading_text">加载中&#8230;</string>
