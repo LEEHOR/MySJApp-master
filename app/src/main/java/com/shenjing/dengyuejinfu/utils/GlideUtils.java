@@ -6,7 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.io.File;
 /**
  * author : Leehor
@@ -30,6 +33,26 @@ public class GlideUtils {
         GlideApp.with(context)
                 .load(url)
                 .skipMemoryCache(true)
+                .dontAnimate()
+                .centerCrop()
+                .into(imageView);
+    }
+
+    public static void initCircleImage(Context context, String url, ImageView imageView){
+        GlideApp.with(context)
+                .load(url)
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .dontAnimate()
+                .centerCrop()
+                .into(imageView);
+    }
+
+    public static void initCircleImage(Context context, int drawableId, ImageView imageView){
+        GlideApp.with(context)
+                .load(drawableId)
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .dontAnimate()
                 .centerCrop()
                 .into(imageView);

@@ -88,7 +88,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()  {
         return R.layout.fragment_index;
     }
 
@@ -149,7 +149,7 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
                 ARouter.getInstance().build(ARouterUrl.BankListActivityUrl)
                         .navigation(getActivity(), new LoginNavigationCallback());
                 break;
-            case R.id.index_loanList:  //申请信用卡
+            case R.id.index_loanList:  //申请贷款
                 ARouter.getInstance().build(ARouterUrl.LoanListActivityUrl)
                         .navigation(getActivity(), new LoginNavigationCallback());
                 break;
@@ -213,13 +213,16 @@ public class IndexFragment extends BaseFragment<IndexFragmentPresenter> implemen
                 versionId = versionBean.getData().getVersionId();
                 apkDownLoadUrl = versionBean.getData().getPath();
                 String appVersionName = AppUtils.getAppVersionName();
-                int i = CompareVersion.compareVersionNumber(appVersionName, versionId);
-                LogUtils.d("版本", i);
-                if (i == 1) {
-                    ForcedUpdateDialog(versionBean.getData().getDescription(), versionId
-                            , versionBean.getData().getForceUpdate()
-                            , apkDownLoadUrl);
+                if(versionBean.getData().getState().equals("1")){  //判断是否跟新
+                    int i = CompareVersion.compareVersionNumber(appVersionName, versionId);
+                    LogUtils.d("版本", i);
+                    if (i == 1) {
+                        ForcedUpdateDialog(versionBean.getData().getDescription(), versionId
+                                , versionBean.getData().getForceUpdate()
+                                , apkDownLoadUrl);
+                    }
                 }
+
             }
         }
     }

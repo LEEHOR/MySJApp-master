@@ -9,6 +9,7 @@ import com.shenjing.dengyuejinfu.ui.fragment.MemberFragment;
 import com.shenjing.dengyuejinfu.ui.fragment.MineFragment;
 import com.shenjing.dengyuejinfu.ui.fragment.ReceiptFragment;
 import com.shenjing.dengyuejinfu.ui.fragment.ReplacementFragment;
+import com.shenjing.dengyuejinfu.ui.fragment.ViewPagerCustomerDetail;
 import com.shenjing.dengyuejinfu.ui.fragment.ViewPagerTransaction;
 
 import dagger.Component;
@@ -17,11 +18,6 @@ import dagger.Component;
 @FragmentScope
 @Component(dependencies = ApplicationComponent.class, modules = FragmentModule.class)
 public interface FragmentComponent {
-//    @ContextLife("Activity")
-//    Context getAcitivtyContext();
-//
-//    @ContextLife("Application")
-//    Context getApplicationContext();
 
     Activity getAcitivty();
 
@@ -36,5 +32,7 @@ public interface FragmentComponent {
     void inject(MineFragment mineFragment);
 
     void inject(ViewPagerTransaction viewPagerTransaction);
+
+    void inject(ViewPagerCustomerDetail viewPagerCustomerDetail);
 
 }

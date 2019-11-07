@@ -125,6 +125,6 @@ public class BankListActivity extends BaseActivity<BankListActivityPresenter>
 
     @Override
     public void isCanRefresh(boolean refresh) {
-
+        bankListSwipe.setRefreshing(refresh);
     }
 }

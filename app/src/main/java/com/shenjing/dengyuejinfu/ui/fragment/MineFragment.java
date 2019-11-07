@@ -108,6 +108,7 @@ public class MineFragment extends BaseFragment<MineFragmentPresenter> implements
                 ARouter.getInstance().build(ARouterUrl.CreditCardCertificationActivityUrl).navigation(getActivity(),new LoginNavigationCallback());
                 break;
             case R.id.mine_operation_manual:  //操作手册
+
                 break;
             case R.id.mine_cash_withdrawal:  //立即提现
                 ARouter.getInstance().build(ARouterUrl.CashWithdrawalActivityUrl).navigation(getActivity(),new LoginNavigationCallback());

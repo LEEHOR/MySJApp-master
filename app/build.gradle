@@ -78,6 +78,15 @@ android {
         targetCompatibility 1.8
     }
 
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include 'x86', 'armeabi-v7a'
+//            universalApk true
+//        }
+//    }
+
 }
 
 
@@ -142,7 +151,7 @@ dependencies {
   //  implementation 'com.bigkoo:pickerview:2.0.8'
 
     //仿支付宝密码
-   // implementation 'com.jungly:gridPasswordView:0.3'
+    implementation 'com.jungly:gridPasswordView:0.3'
 
     // URL路由
     implementation 'com.alibaba:arouter-api:1.5.0'

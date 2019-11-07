@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:cardCornerRadius="5dp"
+    app:contentPadding="10dp"
+    app:cardElevation="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/textColor"
+            android:text="李浩"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/customerDetailName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="@color/textColor"
+            android:layout_marginTop="20dp"
+           android:layout_alignLeft="@id/customerDetailName"
+            android:layout_below="@id/customerDetailName"
+            android:text="18571512117"
+            android:id="@+id/customerDetailPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="@color/textColor"
+            android:text="未审核"
+            android:id="@+id/customerDetailStatus"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

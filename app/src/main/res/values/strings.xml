@@ -1,6 +1,6 @@
 <resources>
     <!--My腾云App-->
-    <string name="app_name">登月支付</string>
+    <string name="app_name">登月金服</string>
     <string name="download_apk">正在下载登月支付安装包</string>
     <string name="no_network_connection">请检查网络</string>
     <string name="load_error">加载错误</string>
@@ -149,6 +149,13 @@
     <string name="mine_12">操作手册</string>
     <string name="mine_13">我的花呗收银码</string>
     <string name="mine_14">立即提现</string>
+    <!--关于我的客户页面-->
+    <string-array name="customer_detail_title">
+        <item>全部</item>
+        <item>审核通过</item>
+        <item>审核中</item>
+        <item>审核失败</item>
+    </string-array>
     <!--关于Toast提示字段-->
     <string name="toast_1">请输入收款人姓名</string>
     <string name="toast_2">请输入身份证号</string>

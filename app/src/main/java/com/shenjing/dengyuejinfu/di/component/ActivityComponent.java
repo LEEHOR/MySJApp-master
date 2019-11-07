@@ -24,6 +24,7 @@ import com.shenjing.dengyuejinfu.ui.activity.LoanListActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LoanPageActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LoginActivity;
 import com.shenjing.dengyuejinfu.ui.activity.LostPassActivity;
+import com.shenjing.dengyuejinfu.ui.activity.MyCustomerDetailActivity;
 import com.shenjing.dengyuejinfu.ui.activity.PaymentVerificationActivity;
 import com.shenjing.dengyuejinfu.ui.activity.QRShareActivity;
 import com.shenjing.dengyuejinfu.ui.activity.RegisterActivity;
@@ -95,4 +96,6 @@ public interface ActivityComponent {
     void inject(CardListActivity cardListActivity);
 
     void inject(LoanListActivity loanListActivity);
+
+    void inject(MyCustomerDetailActivity myCustomerDetailActivity);
 }

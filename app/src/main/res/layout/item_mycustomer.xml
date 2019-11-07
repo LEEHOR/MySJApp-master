@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="5dp"
+    app:contentPadding="5dp"
+    app:cardElevation="2dp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/customer_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/customer_logo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:id="@+id/customer_title"
+            android:layout_marginLeft="10dp"
+            android:lines="1"
+            android:layout_alignTop="@id/customer_logo"
+            android:layout_toRightOf="@+id/customer_logo"
+            android:textSize="14dp"
+            android:textColor="@color/textColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/customer_count"
+            android:layout_marginLeft="10dp"
+            android:textSize="12dp"
+            android:lines="1"
+            android:layout_toRightOf="@id/customer_logo"
+            android:layout_alignBottom="@id/customer_logo"
+            android:textColor="@color/textColor2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

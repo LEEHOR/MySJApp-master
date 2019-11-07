@@ -69,6 +69,8 @@ public  class  ARouterUrl {
 
     public static final String LoanListActivityUrl="/activity/LoanListActivity";
 
+    public static final String MyCustomerDetailActivityUrl="/activity/MyCustomerDetailActivity";
+
     /*dialog*/
     public static final String ShareDialogFragmentUrl="/fragment/ShareDialogFragment";
 

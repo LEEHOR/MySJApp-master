@@ -30,8 +30,13 @@
             android:layout_height="1px"
             android:background="@color/bgColor_overlay" />
     </LinearLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/myCustomer_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -59,7 +64,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="10dp"
@@ -100,242 +105,12 @@
                 android:layout_marginTop="25dp"
                 android:background="@color/GhostWhite"
                 android:orientation="vertical">
-
-                <RelativeLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/MyCustomer_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/customer_1"
-                        android:textColor="@color/textColor"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="120dp"
-                        android:text="0"
-                        android:textColor="@color/blue1"
-                        android:textSize="14dp" />
-
-                    <ImageView
-                        android:id="@+id/customer_iv1"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/right_gray" />
-
-                    <TextView
-                        android:id="@+id/customer_tv_zt_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@+id/customer_iv1"
-                        android:background="@drawable/shape_text_circle"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/customer_tv_zt_add"
-                        android:letterSpacing="1"
-                        android:text="@string/customer_5"
-                        android:textColor="@color/textColor"
-                        android:textSize="10dp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/white"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/customer_2"
-                        android:textColor="@color/textColor"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="120dp"
-                        android:text="0"
-                        android:textColor="@color/blue1"
-                        android:textSize="14dp" />
-
-                    <ImageView
-                        android:id="@+id/customer_iv3"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/right_gray" />
-
-                    <TextView
-                        android:id="@+id/customer_tv_jt_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@+id/customer_iv3"
-                        android:background="@drawable/shape_text_circle"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/customer_tv_jt_add"
-                        android:letterSpacing="1"
-                        android:text="@string/customer_5"
-                        android:textColor="@color/textColor"
-                        android:textSize="10dp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/white"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/customer_3"
-                        android:textColor="@color/textColor"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="120dp"
-                        android:text="0"
-                        android:textColor="@color/blue1"
-                        android:textSize="14dp" />
-
-                    <ImageView
-                        android:id="@+id/customer_iv2"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/right_gray" />
-
-                    <TextView
-                        android:id="@+id/customer_tv_zttg_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@+id/customer_iv2"
-                        android:background="@drawable/shape_text_circle"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/customer_tv_zttg_add"
-                        android:letterSpacing="1"
-                        android:text="@string/customer_5"
-                        android:textColor="@color/textColor"
-                        android:textSize="10dp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/white"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/customer_4"
-                        android:textColor="@color/textColor"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="120dp"
-                        android:text="0"
-                        android:textColor="@color/blue1"
-                        android:textSize="14dp" />
-
-                    <ImageView
-                        android:id="@+id/customer_iv4"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/right_gray" />
-
-                    <TextView
-                        android:id="@+id/customer_tv_jttg_add"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@+id/customer_iv4"
-                        android:background="@drawable/shape_text_circle"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="14dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/customer_tv_jttg_add"
-                        android:letterSpacing="1"
-                        android:text="@string/customer_5"
-                        android:textColor="@color/textColor"
-                        android:textSize="10dp" />
-                </RelativeLayout>
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

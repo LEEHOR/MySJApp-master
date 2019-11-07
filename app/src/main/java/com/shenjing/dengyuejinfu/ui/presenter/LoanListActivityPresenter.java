@@ -62,7 +62,7 @@ public class LoanListActivityPresenter extends BasePresenter<LoanListActivityCon
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
         mView.hideLoading();
-        ToastUtils.showShort("加载错误..");
+        ToastUtils.showShort("加载错误...");
         mView.isCanRefresh(false);
         mView.getAdapter().setEmptyView(R.layout.view_error, mView.getRecycler());
     }

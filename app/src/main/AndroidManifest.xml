@@ -89,6 +89,7 @@
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.BankListActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.CardListActivity"/>
         <activity android:name="com.shenjing.dengyuejinfu.ui.activity.LoanListActivity"/>
+        <activity android:name="com.shenjing.dengyuejinfu.ui.activity.MyCustomerDetailActivity"/>
 
 
         <!--高德定位-->
